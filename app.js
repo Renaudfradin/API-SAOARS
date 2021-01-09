@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
 
 const modelPersonage = require("./models/Personages.js");
+const Personages = require("./models/Personages.js");
 
 const app = express();
 
