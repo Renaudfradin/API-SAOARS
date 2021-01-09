@@ -34,14 +34,36 @@ app.post('/api/stuff', (req, res, next) => {
 
 app.get('/api/perso', (req, res, next) => {
     modelPersonage.find()
-        .then( personagess =>res.status(200).json({personagess}))
-        .catch(error=>res.status(400).json({error}));
+        .then(Personages=>res.status(200).json({
+          statusCode:200,
+          message: 'succcesful / OK',
+          Personages,
+        }))
+        .catch(error=>res.status(400).json({
+          error,
+          statusCode:400,
+          message:'Bad Request',
+          errors:[
+            error
+          ]
+        }));
 });
 
 app.get('/api/perso/:id', (req, res, next) => {
     modelPersonage.findOne({ _id: req.params.id })
-        .then( personagess =>res.status(200).json({personagess}))
-        .catch(error=>res.status(400).json({ error }));
+        .then( Personage =>res.status(200).json({
+          statusCode:200,
+          message: 'succcesful / OK', 
+          Personage,
+        }))
+        .catch(error=>res.status(400).json({ 
+          error,
+          statusCode:400,
+          message:'Bad Request',
+          errors:[
+            error
+          ]
+         }));
 });
 
 
