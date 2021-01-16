@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 //const mongoose = require('mongoose');
 
-const modelPersonage = require("./models/Personages.js");
+//const modelPersonage = require("./models/Personages.js");
 
 const app = express();
 
@@ -119,11 +119,22 @@ app.get('/api/perso/:id' , async (req,res,next)=>{
         });
   }
   console.log(perso);
-  return res.status(200).json({
-    statusCode: 200,
-    message: 'succcesful / OK',
-    Personage: perso,
-});
+  if (perso.length == 0) {
+    return res.status(404).json({
+      statusCode: 404,
+      message: 'Bad Request',
+      errors:[{
+        message:'failed to query database',
+      }],
+    });
+  }else{
+    return res.status(200).json({
+      statusCode: 200,
+      message: 'succcesful / OK',
+      Personage: perso,
+  });
+  }
+  
 
 });
 
