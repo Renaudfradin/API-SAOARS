@@ -80,17 +80,43 @@ exports.deleteperso = async (req, res, next) =>{
 }
 
 //create data
-/*exports.createperso = async (req, res, next)=>{
+exports.createperso = async (req, res, next)=>{
     try {
-      console.log(...req.body);
-      perso = await knex('personage').insert({...req.body});
-      console.log(perso);
+      perso = await knex('personage').insert({
+        id: req.body.id,
+        name: req.body.name,
+        description: req.body.description,
+        description1: req.body.description1,
+        attack1: req.body.attack1,
+        descriptionattack1: req.body.descriptionattack1,
+        mpattack1: req.body.mpattack1,
+        attack2: req.body.attack2,
+        descriptionattack2: req.body.descriptionattack2,
+        mpattack2: req.body.mpattack2,
+        attack3: req.body.attack3,
+        descriptionattack3: req.body.descriptionattack3,
+        mpattack3: req.body.mpattack3,
+        hp: req.body.hp,
+        mp: req.body.mp,
+        atk: req.body.atk,
+        matk: req.body.matk,
+        def: req.body.def,
+        mdef: req.body.mdef,
+        crit: req.body.crit,
+        spd: req.body.spd,
+        ultime: req.body.ultime,
+        descriptionultime: req.body.descriptionultime,
+        typeattack1: req.body.typeattack1,
+        typeattack2: req.body.typeattack2,
+        typeattack3: req.body.typeattack3
+      });
     } catch (error) {
       return res.status(400).json({
         statusCode: 400,
         message:error,
       });
     }
+    console.log(perso);
     return res.status(201).json({
       statusCode: 201,
       message:"objt creee !!!!!!!",
@@ -102,8 +128,33 @@ exports.deleteperso = async (req, res, next) =>{
 //update data
 exports.updateperso = async (req, res, next) => {
     try {
-      perso =  knex('personage').where('id',req.params.id).update({
-        id :"152"
+      perso = await knex('personage').where('id', req.params.id).update({
+        id: req.body.id,
+        name: req.body.name,
+        description: req.body.description,
+        description1: req.body.description1,
+        attack1: req.body.attack1,
+        descriptionattack1: req.body.descriptionattack1,
+        mpattack1: req.body.mpattack1,
+        attack2: req.body.attack2,
+        descriptionattack2: req.body.descriptionattack2,
+        mpattack2: req.body.mpattack2,
+        attack3: req.body.attack3,
+        descriptionattack3: req.body.descriptionattack3,
+        mpattack3: req.body.mpattack3,
+        hp: req.body.hp,
+        mp: req.body.mp,
+        atk: req.body.atk,
+        matk: req.body.matk,
+        def: req.body.def,
+        mdef: req.body.mdef,
+        crit: req.body.crit,
+        spd: req.body.spd,
+        ultime: req.body.ultime,
+        descriptionultime: req.body.descriptionultime,
+        typeattack1: req.body.typeattack1,
+        typeattack2: req.body.typeattack2,
+        typeattack3: req.body.typeattack3
       });
     } catch (error) {
       return res.status(400).json({
@@ -114,9 +165,10 @@ exports.updateperso = async (req, res, next) => {
         }],
       });
     }
-    console.log(req.body.id);
+    console.log(req.body);
     return res.status(200).json({
       statusCode: 200,
       message: 'succcesful / OK'
     });
-}*/
+   
+}
