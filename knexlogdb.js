@@ -1,7 +1,7 @@
 const knex = require("knex")({
     client :"pg",
     connection:{
-        connectionString: '####',
+        connectionString: '#####',
         ssl:{
             rejectUnauthorized: false,
         }

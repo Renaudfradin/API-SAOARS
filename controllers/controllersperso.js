@@ -116,10 +116,10 @@ exports.createperso = async (req, res, next)=>{
         message:error,
       });
     }
-    console.log(perso);
+    console.log(req.body);
     return res.status(201).json({
       statusCode: 201,
-      message:"objt creee !!!!!!!",
+      message:"Personege crée !!!!!!!",
       Personage:perso
     });
     
