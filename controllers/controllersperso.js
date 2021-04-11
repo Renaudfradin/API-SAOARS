@@ -42,7 +42,7 @@ exports.getoneperso = async (req,res,next)=>{
               }],
           });
     }
-    //console.log(perso);
+    console.log(perso);
     if (perso.length == 0) {
       return res.status(404).json({
         statusCode: 404,

@@ -8,4 +8,7 @@ router.post('/login', controlleur.login);
 //insert users
 router.post('/signup', controlleur.signup);
 
+//get all users
+router.get('/getusers', controlleur.getuser);
+
 module.exports = router;
