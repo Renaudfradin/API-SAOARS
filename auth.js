@@ -10,11 +10,12 @@ module.exports = (req, res, next) =>{
         }else{
             next();
         }
-
     } catch (error) {
         res.status(401).json({
             statusCode: 401,
-            error: error | "Non authentifié",
+            errors:[{
+                message:'utilisateur non valide ou token expirer',
+            }],
         })
     }
 };
