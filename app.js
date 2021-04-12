@@ -21,7 +21,7 @@ app.use(bodyParser.text({ type: 'text/plain' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 //router
-app.use('/api/perso', routerpersonage);
-app.use('/api/auth', routerusers);
+app.use('/perso', routerpersonage);
+app.use('/auth', routerusers);
 
 module.exports = app;
