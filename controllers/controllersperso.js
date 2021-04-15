@@ -60,6 +60,39 @@ exports.getoneperso = async (req,res,next)=>{
     }
 }
 
+exports.getonepersoname = async(req, res , next)=>{
+    let perso = [];
+    console.log(req.params.names);
+    try {
+      perso = await knex('personage').where('name', 'like', `%${req.params.names}%`);
+      console.log(perso);
+    } catch (error) {
+      console.log(perso);
+      return res.status(400).json({
+        statusCode: 400,
+        message: 'Bad Request',
+        errors:[{
+          message:'failed to query database',
+        }],
+      });
+    }
+    if (perso.length == 0) {
+      return res.status(404).json({
+        statusCode: 404,
+        message: 'Bad Request',
+        errors:[{
+          message:'failed to query database',
+        }],
+      });
+    }else{
+      return res.status(200).json({
+        statusCode: 200,
+        message: 'succcesful / OK',
+        Personage: perso,
+      });
+    }
+}
+
 //delete data
 exports.deleteperso = async (req, res, next) =>{
     try {

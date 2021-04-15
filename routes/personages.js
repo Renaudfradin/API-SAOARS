@@ -12,6 +12,9 @@ router.get('/', controlleur.getperso);
 //get one data for id 
 router.get('/:id', controlleur.getoneperso);
 
+//get one data for name
+router.get('/p/:names', controlleur.getonepersoname);
+
 //create data
 router.post('/insert',auth, controlleur.createperso);
 
