@@ -4,7 +4,22 @@ const knex = require('../knexlogdb.js');
 
 //add user
 exports.signup = async (req, res, next)=>{
+    let usermail = [];
     try {
+      usermail = await knex('utilisateurs').where({
+            email: req.body.email
+      });  
+    } catch (error) {
+        return res.status(500).json({
+            statusCode: 500,
+            message: 'Internal Server Error',
+            errors:[{
+              message:'Erreur interne du serveur.1ccc',
+            }],
+        });
+    }
+    if (usermail.length == 0) {
+      try {
         utilisateurs = await knex('utilisateurs').insert({
             id: req.body.id,
             pseudo: req.body.pseudo,
@@ -22,6 +37,12 @@ exports.signup = async (req, res, next)=>{
         statusCode: 201,
         message:"Compte crée !!!!!!!",
       });
+    }else{
+      return res.status(400).json({
+        statusCode: 400,
+        message:"email deja pris !!!!!!!",
+      });
+    }
 };
 
 //login
