@@ -24,4 +24,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/perso', routerpersonage);
 app.use('/auth', routerusers);
 
+app.get('/',(req, res, next)=>{
+    return res.status(200).json({
+        statusCode: 200,
+        message:"Bonjour bienvenue sur l'api saoars développer par Renaud Fradin https://github.com/Renaudfradin"
+    })
+})
+
 module.exports = app;
