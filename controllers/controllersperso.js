@@ -160,7 +160,6 @@ exports.createperso = async (req, res, next)=>{
 //update data
 exports.updateperso = async (req, res, next) => {
     try {
-      const {name, data} = req.files.img_personage_list;
       perso = await knex('personage').where('id', req.params.id).update({
         id: req.body.id,
         name: req.body.name,
@@ -187,9 +186,7 @@ exports.updateperso = async (req, res, next) => {
         descriptionultime: req.body.descriptionultime,
         typeattack1: req.body.typeattack1,
         typeattack2: req.body.typeattack2,
-        typeattack3: req.body.typeattack3,
-        img_personage_list: name,
-        img_peronage_detail: data
+        typeattack3: req.body.typeattack3
       });
     } catch (error) {
       return res.status(400).json({
