@@ -19,7 +19,7 @@ router.get('/p/:names', controlleur.getonepersoname);
 router.post('/insert',auth, controlleur.createperso);
 
 //update data
-router.put('/update/:id', controlleur.updateperso);
+router.put('/update/:id',auth, controlleur.updateperso);
 
 
 
