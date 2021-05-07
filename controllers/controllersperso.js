@@ -1,8 +1,4 @@
 const knex = require('../knexlogdb.js');
-const fileUpload = require('express-fileupload');
-const app = require('../app.js');
-
-app.use(fileUpload());
 
 //get full data
 exports.getperso = async (req, res, next) => {

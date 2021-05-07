@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const fileUpload = require('express-fileupload');
 const app = express();
 
 const routerpersonage = require('./routes/personages.js');
@@ -13,12 +14,16 @@ app.use((req, res, next) => {
 });
 
 
+
+
 app.use(bodyParser.json());
 app.use(bodyParser.json({ type: 'application/*+json' }));
 app.use(bodyParser.raw({ type: 'application/vnd.custom-type' }));
 app.use(bodyParser.text({ type: 'text/html' }));
 app.use(bodyParser.text({ type: 'text/plain' }));
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(fileUpload());
 
 //router
 app.use('/perso', routerpersonage);
