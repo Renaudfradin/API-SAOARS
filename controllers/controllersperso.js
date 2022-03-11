@@ -6,7 +6,6 @@ exports.getcharacters = async (req, res, next) => {
     try {
       persos = await knex.select().from('characters').orderBy('id','desc');
     } catch (error) {
-        //console.log('An error occured: ', error);
       return res.status(400).json({
         statusCode: 400,
         message: 'Bad Request',
@@ -24,13 +23,12 @@ exports.getcharacters = async (req, res, next) => {
 
 //get one data for id 
 exports.getoneperso = async (req,res,next)=>{
-    let perso = [];
+      let perso = [];
     try {
       perso = await knex('characters').where({
         id: req.params.id
       })
     } catch (error) {
-      //console.log('An error occured: ', error);
       return res.status(400).json({
         statusCode: 400,
         message: 'Bad Request',
@@ -39,13 +37,12 @@ exports.getoneperso = async (req,res,next)=>{
         }],
       });
     }
-    //console.log(perso);
     if (perso.length == 0) {
       return res.status(404).json({
         statusCode: 404,
         message: 'Bad Request',
         errors:[{
-          message:'failed to query database',
+          message:'failed to query database / 404',
         }],
       });
     }else{
@@ -57,14 +54,13 @@ exports.getoneperso = async (req,res,next)=>{
     }
 }
 
-exports.getonepersoname = async(req, res , next)=>{
-    let perso = [];
-    console.log(req.params.names);
+//get datas for name
+exports.getonepersoname = async (req, res , next)=>{
+    let persos = [];
+      console.log(req.params.names);
     try {
-      perso = await knex('characters').where('name', 'like', `%${req.params.names}%`);
-      console.log(perso);
+      persos = await knex('characters').where('name','ILIKE',`%${req.params.names}%`);
     } catch (error) {
-      console.log(perso);
       return res.status(400).json({
         statusCode: 400,
         message: 'Bad Request',
@@ -73,7 +69,7 @@ exports.getonepersoname = async(req, res , next)=>{
         }],
       });
     }
-    if (perso.length == 0) {
+    if (persos.length == 0) {
       return res.status(404).json({
         statusCode: 404,
         message: 'Bad Request',
@@ -85,7 +81,7 @@ exports.getonepersoname = async(req, res , next)=>{
       return res.status(200).json({
         statusCode: 200,
         message: 'succcesful / OK',
-        Characters: perso,
+        Characters: persos,
       });
     }
 }
