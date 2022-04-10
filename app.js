@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const app = express();
 
 const routerpersonage = require('./routes/personages.js');
-const routerusers = require('./routes/users.js');
+//const routerusers = require('./routes/users.js');
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 //router
 app.use('/perso', routerpersonage);
-app.use('/auth', routerusers);
+//app.use('/auth', routerusers);
 
 app.get('/',(req, res, next)=>{
     return res.status(200).json({
