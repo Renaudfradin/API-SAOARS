@@ -1,6 +1,6 @@
 const knex = require('../knexlogdb.js');
 
-//get full data
+//get full perso
 exports.getCharacters = async (req, res, next) => {
     let Characters = [];
     try {
@@ -21,7 +21,7 @@ exports.getCharacters = async (req, res, next) => {
     });
 }
 
-//get one data for id 
+//get one perso for id
 exports.getOneCharacter = async (req,res,next) => {
     let OneCharacter = [];
     try {
@@ -54,7 +54,7 @@ exports.getOneCharacter = async (req,res,next) => {
     }
 }
 
-//get datas for name
+//get one perso for name
 exports.getOneCharacterName = async (req, res , next) => {
     let CharacterName = [];
     try {
@@ -85,16 +85,12 @@ exports.getOneCharacterName = async (req, res , next) => {
     }
 }
 
-//get lasted perso
+//get last perso
 exports.getLastCharacter = async (req, res , next) => {
-  let persos = [];
+  let LastCharacter = [];
   try {
-    persos = await knex('characters').where({ 
-      id: 1 
-    });
-    console.log(persos);
+    LastCharacter = await knex('characters').where({ id: knex('characters').max('id') })
   } catch (error) {
-    console.log(persos);
     return res.status(400).json({
       statusCode: 400,
       message: 'Bad Request',
@@ -106,7 +102,7 @@ exports.getLastCharacter = async (req, res , next) => {
   return res.status(200).json({
       statusCode: 200,
       message: 'succcesful / OK',
-      Characters: persos,
+      Characters: LastCharacter,
   });
 }
 

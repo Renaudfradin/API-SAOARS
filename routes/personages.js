@@ -6,17 +6,17 @@ const controlleur = require('../controllers/controllersperso.js');
 // //delete data
 // router.delete('/delete/:id',auth, controlleur.deleteperso);
   
-//get full data
+//get full perso
 router.get('/', controlleur.getCharacters);
   
-//get one data for id
+//get one perso for id
 router.get('/:id', controlleur.getOneCharacter);
 
-//get one data for name
+//get one perso for name
 router.get('/search/:names', controlleur.getOneCharacterName);
 
-//get last perso ppost
-router.get('/last', controlleur.getLastCharacter);
+//get last perso 
+router.get('/last/character', controlleur.getLastCharacter);
 
 // //create data
 // router.post('/insert',auth, controlleur.createperso);
