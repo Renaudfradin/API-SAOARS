@@ -1,10 +1,10 @@
 const knex = require('../knexlogdb.js');
 
-//get full data
-exports.getcharacters = async (req, res, next) => {
-      let persos = [];
+//get full perso
+exports.getCharacters = async (req, res, next) => {
+    let Characters = [];
     try {
-      persos = await knex.select().from('characters').orderBy('id','desc');
+      Characters = await knex.select().from('characters').orderBy('id','desc');
     } catch (error) {
       return res.status(400).json({
         statusCode: 400,
@@ -17,15 +17,15 @@ exports.getcharacters = async (req, res, next) => {
     return res.status(200).json({
         statusCode: 200,
         message: 'succcesful / OK',
-        Characters: persos,
+        Characters: Characters,
     });
 }
 
-//get one data for id 
-exports.getoneperso = async (req,res,next)=>{
-      let perso = [];
+//get one perso for id
+exports.getOneCharacter = async (req,res,next) => {
+    let OneCharacter = [];
     try {
-      perso = await knex('characters').where({
+      OneCharacter = await knex('characters').where({
         id: req.params.id
       })
     } catch (error) {
@@ -37,7 +37,7 @@ exports.getoneperso = async (req,res,next)=>{
         }],
       });
     }
-    if (perso.length == 0) {
+    if (OneCharacter.length == 0) {
       return res.status(404).json({
         statusCode: 404,
         message: 'Bad Request',
@@ -49,17 +49,16 @@ exports.getoneperso = async (req,res,next)=>{
       return res.status(200).json({
         statusCode: 200,
         message: 'succcesful / OK',
-        Character: perso,
+        Character: OneCharacter,
       });
     }
 }
 
-//get datas for name
-exports.getonepersoname = async (req, res , next)=>{
-    let persos = [];
-      console.log(req.params.names);
+//get one perso for name
+exports.getOneCharacterName = async (req, res , next) => {
+    let CharacterName = [];
     try {
-      persos = await knex('characters').where('name','ILIKE',`%${req.params.names}%`);
+      CharacterName = await knex('characters').where('name','ILIKE',`%${req.params.names}%`);
     } catch (error) {
       return res.status(400).json({
         statusCode: 400,
@@ -69,7 +68,7 @@ exports.getonepersoname = async (req, res , next)=>{
         }],
       });
     }
-    if (persos.length == 0) {
+    if (CharacterName.length == 0) {
       return res.status(404).json({
         statusCode: 404,
         message: 'Bad Request',
@@ -81,9 +80,30 @@ exports.getonepersoname = async (req, res , next)=>{
       return res.status(200).json({
         statusCode: 200,
         message: 'succcesful / OK',
-        Characters: persos,
+        Characters: CharacterName,
       });
     }
+}
+
+//get last perso
+exports.getLastCharacter = async (req, res , next) => {
+  let LastCharacter = [];
+  try {
+    LastCharacter = await knex('characters').where({ id: knex('characters').max('id') })
+  } catch (error) {
+    return res.status(400).json({
+      statusCode: 400,
+      message: 'Bad Request',
+      errors:[{
+        message:'failed to query database 1',
+      }],
+    });
+  }
+  return res.status(200).json({
+      statusCode: 200,
+      message: 'succcesful / OK',
+      Characters: LastCharacter,
+  });
 }
 
 // //delete data

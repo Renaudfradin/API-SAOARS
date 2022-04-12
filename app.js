@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const app = express();
 
 const routerpersonage = require('./routes/personages.js');
-const routerusers = require('./routes/users.js');
+//const routerusers = require('./routes/users.js');
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -21,12 +21,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 //router
 app.use('/perso', routerpersonage);
-app.use('/auth', routerusers);
+//app.use('/auth', routerusers);
 
 app.get('/',(req, res, next)=>{
     return res.status(200).json({
         statusCode: 200,
-        message:"Bonjour bienvenue sur l'api SAOARS développer par Renaud Fradin https://github.com/Renaudfradin , Crédits des données/images relatives au jeu Sword Art Online Alicization Rising Steel à Bandai Namco Entertainment Inc. et autres auteurs respectifs."
+        message:"Bonjour bienvenue sur l'api SAOARS/UB développer par Renaud Fradin https://github.com/Renaudfradin , Crédits des données/images relatives au jeu Sword Art Online Alicization Rising Steel/Unleash Blading à Bandai Namco Entertainment Inc. et autres auteurs respectifs."
     })
 })
 module.exports = app;
