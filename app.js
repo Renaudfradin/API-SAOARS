@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const app = express();
 
 const routerpersonage = require('./routes/personages.js');
+const routerweapon = require('./routes/weapon.js');
 //const routerusers = require('./routes/users.js');
 
 app.use((req, res, next) => {
@@ -21,6 +22,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 //router
 app.use('/perso', routerpersonage);
+app.use('/weapon', routerweapon);
 //app.use('/auth', routerusers);
 
 app.get('/',(req, res, next)=>{

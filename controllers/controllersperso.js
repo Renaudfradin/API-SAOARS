@@ -25,9 +25,7 @@ exports.getCharacters = async (req, res, next) => {
 exports.getOneCharacter = async (req,res,next) => {
     let OneCharacter = [];
     try {
-      OneCharacter = await knex('characters').where({
-        id: req.params.id
-      })
+      OneCharacter = await knex('characters').where({ id: req.params.id })
     } catch (error) {
       return res.status(400).json({
         statusCode: 400,
