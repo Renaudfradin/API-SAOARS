@@ -1,4 +1,4 @@
-// export const databaseurl = process.env['DATABASE_URL'];
+require('dotenv').config()
 const knex = require("knex")({
     client : "pg",
     connection:{
@@ -8,8 +8,4 @@ const knex = require("knex")({
         }
     },
 });
-
-console.log(process.env);
-console.log(process.env.USERTEST);
-console.log(process.env.DATABASE_URL);
 module.exports = knex;
