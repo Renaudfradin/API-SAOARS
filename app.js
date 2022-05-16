@@ -2,8 +2,11 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 
-const routerpersonage = require('./routes/personages.js');
-const routerweapon = require('./routes/weapon.js');
+const routerCharacter = require('./routes/characters.js');
+const routerWeapon = require('./routes/weapon.js');
+const routerEquipment = require('./routes/equipment.js');
+const routerAbility = require('./routes/ability.js');
+const routerBanner = require('./routes/banner.js')
 //const routerusers = require('./routes/users.js');
 
 app.use((req, res, next) => {
@@ -21,8 +24,11 @@ app.use(bodyParser.text({ type: 'text/plain' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 //router
-app.use('/perso', routerpersonage);
-app.use('/weapon', routerweapon);
+app.use('/perso', routerCharacter);
+app.use('/weapon', routerWeapon);
+app.use('/equipment', routerEquipment);
+app.use('/ability', routerAbility);
+app.use('/banner', routerBanner);
 //app.use('/auth', routerusers);
 
 app.get('/',(req, res, next)=>{
