@@ -1,10 +1,20 @@
 const knex = require('../knexlogdb.js');
+const NodeCache = require("node-cache");
+const cache = new NodeCache({ stdTTL:5 });
 
 //get full perso
 exports.getCharacters = async (req, res, next) => {
-    let Characters = [];
+  let Characters = [];
+  if (cache.has("characters")) {
+    return res.status(200).json({
+      statusCode: 200,
+      message: 'succcesful / OK',
+      Characters: cache.get("characters"),
+    });
+  } else {
     try {
       Characters = await knex.select().from('characters').orderBy('id','desc');
+      cache.set("characters",Characters)
     } catch (error) {
       return res.status(400).json({
         statusCode: 400,
@@ -14,18 +24,32 @@ exports.getCharacters = async (req, res, next) => {
         }],
       });
     }
+
+    mykeys = cache.keys();
+    console.log(mykeys);
+
     return res.status(200).json({
         statusCode: 200,
         message: 'succcesful / OK',
         Characters: Characters,
     });
+
+  }
 }
 
 //get one perso for id
 exports.getOneCharacter = async (req,res,next) => {
-    let OneCharacter = [];
+  let OneCharacter = [];
+  if (cache.has("OneCharacter")) {
+    return res.status(200).json({
+      statusCode: 200,
+      message: 'succcesful / OK',
+      Character: cache.get("OneCharacter"),
+    });
+  } else {
     try {
       OneCharacter = await knex('characters').where({ id: req.params.id });
+      cache.set("OneCharacter",OneCharacter);
     } catch (error) {
       return res.status(400).json({
         statusCode: 400,
@@ -50,13 +74,22 @@ exports.getOneCharacter = async (req,res,next) => {
         Character: OneCharacter,
       });
     }
+  }    
 }
 
 //get one perso for name
 exports.getOneCharacterName = async (req, res , next) => {
-    let CharacterName = [];
+  let CharacterName = [];
+  if (cache.has("CharacterName")) {
+    return res.status(200).json({
+      statusCode: 200,
+      message: 'succcesful / OK',
+      Characters: cache.get("CharacterName"),
+    });
+  } else {
     try {
-      CharacterName = await knex('characters').where('name','ILIKE',`%${req.params.names}%`);
+      CharacterName = await knex('characters').where('name-characters','ILIKE',`%${req.params.names}%`);
+      cache.set("CharacterName",CharacterName);
     } catch (error) {
       return res.status(400).json({
         statusCode: 400,
@@ -81,27 +114,37 @@ exports.getOneCharacterName = async (req, res , next) => {
         Characters: CharacterName,
       });
     }
+  }
 }
 
 //get last perso
 exports.getLastCharacter = async (req, res , next) => {
   let LastCharacter = [];
-  try {
-    LastCharacter = await knex('characters').where({ id: knex('characters').max('id') })
-  } catch (error) {
-    return res.status(400).json({
-      statusCode: 400,
-      message: 'Bad Request',
-      errors:[{
-        message:'failed to query database 1',
-      }],
-    });
-  }
-  return res.status(200).json({
+  if (cache.has("LastCharacter")) {
+    return res.status(200).json({
       statusCode: 200,
       message: 'succcesful / OK',
-      Characters: LastCharacter,
-  });
+      Characters: cache.get("LastCharacter"),
+    });
+  } else {
+    try {
+      LastCharacter = await knex('characters').where({ id: knex('characters').max('id') });
+      cache.get("LastCharacter",LastCharacter);
+    } catch (error) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: 'Bad Request',
+        errors:[{
+          message:'failed to query database 1',
+        }],
+      });
+    }
+    return res.status(200).json({
+        statusCode: 200,
+        message: 'succcesful / OK',
+        Characters: LastCharacter,
+    });
+  }
 }
 
 // //delete data

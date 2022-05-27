@@ -1,29 +1,48 @@
 const knex = require('../knexlogdb.js');
+const NodeCache = require("node-cache");
+const cache = new NodeCache({ stdTTL:5 });
 
 exports.getEquipment = async (req,res,next) => {
-    let equipments = [];
+  let equipments = [];
+  if (cache.has("equipments")) {
+    return res.status(200).json({
+      statusCode: 200,
+      message: 'succesful / OK',
+      Equipments: cache.get("equipments")
+    });
+  } else {
     try {
-        equipments = await knex.select().from('equipment').orderBy('id','desc');
+      equipments = await knex.select().from('equipment').orderBy('id','desc');
+      cache.set("equipments",equipments);
     } catch (error) {
-        return res.status(400).json({
-            statusCode: 400,
-            message: 'Bad request',
-            errors:[{
-                message: 'failed to query database'
-            }],   
-        });
+      return res.status(400).json({
+        statusCode: 400,
+        message: 'Bad request',
+        errors:[{
+          message: 'failed to query database'
+        }],   
+      });
     }
     return res.status(200).json({
-        statusCode: 200,
-        message: 'succesful / OK',
-        Equipments: equipments
+      statusCode: 200,
+      message: 'succesful / OK',
+      Equipments: equipments
     });
+  }
 }
 
 exports.getEquipmentId = async (req,res,next) => {
-    let equipment = [];
+  let equipment = [];
+  if (cache.has("equipment")) {
+    return res.status(200).json({
+      statusCode: 200,
+      message: 'succcesful / OK',
+      Equipment: cache.get("equipment"),
+    });
+  } else {
     try {
-      equipment = await knex('equipment').where({ id: req.params.id })
+      equipment = await knex('equipment').where({ id: req.params.id });
+      cache.set("equipment",equipment);
     } catch (error) {
       return res.status(400).json({
         statusCode: 400,
@@ -48,4 +67,5 @@ exports.getEquipmentId = async (req,res,next) => {
         Equipment: equipment,
       });
     }
+  }
 }
