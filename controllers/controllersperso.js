@@ -89,6 +89,7 @@ exports.getOneCharacterName = async (req, res , next) => {
   } else {
     try {
       CharacterName = await knex('characters').where('name-characters','ILIKE',`%${req.params.names}%`);
+      
       cache.set("CharacterName",CharacterName);
     } catch (error) {
       return res.status(400).json({
