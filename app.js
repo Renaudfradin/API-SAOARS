@@ -1,5 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const swaggerUi = require('swagger-ui-express')
+const swaggerFile = require('./swagger-output.json')
 const app = express();
 
 const routerCharacter = require('./routes/characters.js');
@@ -30,6 +32,8 @@ app.use('/equipment', routerEquipment);
 app.use('/ability', routerAbility);
 app.use('/banner', routerBanner);
 //app.use('/auth', routerusers);
+
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 app.get('/',(req, res, next)=>{
   return res.status(200).json({

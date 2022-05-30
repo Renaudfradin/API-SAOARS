@@ -3,7 +3,8 @@
   "version": "1.1.0",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server"
+    "start": "nodemon server",
+    "swagger-autogen": "node ./swagger.js"
   },
   "author": "Renaud Fradin",
   "license": "ISC",
@@ -19,6 +20,7 @@
     "node-cache": "^5.1.2",
     "nodemon": "^2.0.7",
     "pg": "^8.5.1",
-    "swagger-autogen": "^2.21.1"
+    "swagger-autogen": "^2.21.2",
+    "swagger-ui-express": "^4.4.0"
   }
 }
