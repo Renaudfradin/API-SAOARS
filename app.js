@@ -1,5 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const swaggerUi = require('swagger-ui-express')
+const swaggerFile = require('./swagger-output.json')
 const app = express();
 
 const routerCharacter = require('./routes/characters.js');
@@ -31,10 +33,12 @@ app.use('/ability', routerAbility);
 app.use('/banner', routerBanner);
 //app.use('/auth', routerusers);
 
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+
 app.get('/',(req, res, next)=>{
   return res.status(200).json({
     statusCode: 200,
-    message:"Bonjour bienvenue sur l'api SAOARS/UB développer par Renaud Fradin https://github.com/Renaudfradin , Crédits des données/images relatives au jeu Sword Art Online Alicization Rising Steel/Unleash Blading à Bandai Namco Entertainment Inc. et autres auteurs respectifs."
+    message:"Bonjour bienvenue sur l'api SAOARS/UB développer par Renaud Fradin https://github.com/Renaudfradin ,Documentations : https://api-saoars.herokuapp.com/doc/ , Crédits des données/images relatives au jeu Sword Art Online Alicization Rising Steel/Unleash Blading à Bandai Namco Entertainment Inc. et autres auteurs respectifs."
   })
 })
 
