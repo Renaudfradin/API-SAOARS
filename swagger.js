@@ -6,7 +6,7 @@ const doc = {
       title: 'Api Saoars/UB',
       description: 'API qui regroupe les personnages du jeux mobile Sword Art Online Alicization Rising Steel / Unleash Blading',
     },
-    host: 'localhost:3001',
+    host: 'https://api-saoars.herokuapp.com',
     basePath: '/',
     schemes: ['http'],
     consumes: ['application/json'],
