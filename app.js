@@ -11,9 +11,13 @@ const routerAbility = require('./routes/ability.js');
 const routerBanner = require('./routes/banner.js')
 //const routerusers = require('./routes/users.js');
 
+var options = {
+  explorer: true
+};
+
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   next();
 });
@@ -33,7 +37,7 @@ app.use('/ability', routerAbility);
 app.use('/banner', routerBanner);
 //app.use('/auth', routerusers);
 
-app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile,options));
 
 app.get('/',(req, res, next)=>{
   return res.status(200).json({
