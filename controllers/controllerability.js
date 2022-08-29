@@ -4,16 +4,23 @@ const cache = new NodeCache({ stdTTL:5 });
 
 exports.getAbility = async (req,res,next) => {
   let abilitys = [];
-  if (cache.has("abilitys")) {
+  let CountAbilitys = {};
+
+  if (cache.has("abilitys") && cache.has("countAbilitys")) {
     return res.status(200).json({
       statusCode: 200,
       message: 'succesful / OK',
-      Abilitys: cache.get("abilitys")
+      countAbilitys: cache.get("countAbilitys"),
+      abilitys: cache.get("abilitys")
   });
   } else {
     try {
       abilitys = await knex.select().from('ability').orderBy('id','desc');
+      CountAbilitys = await knex.select().from('ability').count();
+      CountAbilitys = CountAbilitys[0].count;
+
       cache.set("abilitys",abilitys);
+      cache.set("countAbilitys",CountAbilitys);
     } catch (error) {
       return res.status(400).json({
         statusCode: 400,
@@ -26,7 +33,8 @@ exports.getAbility = async (req,res,next) => {
     return res.status(200).json({
       statusCode: 200,
       message: 'succesful / OK',
-      Abilitys: abilitys
+      countAbilitys: CountAbilitys,
+      abilitys: abilitys
     });
   }
 }

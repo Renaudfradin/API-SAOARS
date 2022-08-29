@@ -5,16 +5,23 @@ const cache = new NodeCache({ stdTTL:5 });
 //get full perso
 exports.getCharacters = async (req, res, next) => {
   let Characters = [];
-  if (cache.has("characters")) {
+  let CountCharacters = {};
+
+  if (cache.has("characters") && cache.has("count")) {
     return res.status(200).json({
       statusCode: 200,
       message: 'succcesful / OK',
-      Characters: cache.get("characters"),
+      countCharacters: cache.get("count"),
+      characters: cache.get("characters"),
     });
   } else {
     try {
       Characters = await knex.select().from('characters').orderBy('id','desc');
-      cache.set("characters",Characters)
+      CountCharacters = await knex.select().from('characters').count();
+      CountCharacters = CountCharacters[0].count;
+      
+      cache.set("characters",Characters);
+      cache.set("count",CountCharacters)
     } catch (error) {
       return res.status(400).json({
         statusCode: 400,
@@ -24,14 +31,11 @@ exports.getCharacters = async (req, res, next) => {
         }],
       });
     }
-
-    mykeys = cache.keys();
-    console.log(mykeys);
-
     return res.status(200).json({
-        statusCode: 200,
-        message: 'succcesful / OK',
-        Characters: Characters,
+      statusCode: 200,
+      message: 'succcesful / OK',
+      countCharacters: CountCharacters,
+      characters: Characters,
     });
 
   }
@@ -44,7 +48,7 @@ exports.getOneCharacter = async (req,res,next) => {
     return res.status(200).json({
       statusCode: 200,
       message: 'succcesful / OK',
-      Character: cache.get("OneCharacter"),
+      character: cache.get("OneCharacter"),
     });
   } else {
     try {
@@ -71,7 +75,7 @@ exports.getOneCharacter = async (req,res,next) => {
       return res.status(200).json({
         statusCode: 200,
         message: 'succcesful / OK',
-        Character: OneCharacter,
+        character: OneCharacter,
       });
     }
   }    
@@ -84,12 +88,11 @@ exports.getOneCharacterName = async (req, res , next) => {
     return res.status(200).json({
       statusCode: 200,
       message: 'succcesful / OK',
-      Characters: cache.get("CharacterName"),
+      characters: cache.get("CharacterName"),
     });
   } else {
     try {
       CharacterName = await knex('characters').where('name-characters','ILIKE',`%${req.params.names}%`);
-      
       cache.set("CharacterName",CharacterName);
     } catch (error) {
       return res.status(400).json({
@@ -112,7 +115,7 @@ exports.getOneCharacterName = async (req, res , next) => {
       return res.status(200).json({
         statusCode: 200,
         message: 'succcesful / OK',
-        Characters: CharacterName,
+        characters: CharacterName,
       });
     }
   }
@@ -125,7 +128,7 @@ exports.getLastCharacter = async (req, res , next) => {
     return res.status(200).json({
       statusCode: 200,
       message: 'succcesful / OK',
-      Characters: cache.get("LastCharacter"),
+      characters: cache.get("LastCharacter"),
     });
   } else {
     try {
@@ -143,7 +146,7 @@ exports.getLastCharacter = async (req, res , next) => {
     return res.status(200).json({
         statusCode: 200,
         message: 'succcesful / OK',
-        Characters: LastCharacter,
+        characters: LastCharacter,
     });
   }
 }

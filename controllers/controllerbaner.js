@@ -4,16 +4,21 @@ const cache = new NodeCache({ stdTTL:5 });
 
 exports.getBanner = async (req,res,next) => {
   let banners = [];
-  if (cache.has("banners")) {
+  if (cache.has("banners") && cache.has("countBanners")) {
     return res.status(200).json({
       statusCode: 200,
       message: 'succesful / OK',
-      Banners: cache.get("banners")
+      countBanners: cache.get("countBanners"),
+      banners: cache.get("banners")
     });
   } else {
     try {
       banners = await knex.select().from('banner').orderBy('idb','desc');
+      CountBanners = await knex.select().from('banner').count();
+      CountBanners = CountBanners[0].count;
+
       cache.set("banners",banners);
+      cache.set("countBanners",CountBanners)
     } catch (error) {
       return res.status(400).json({
         statusCode: 400,
@@ -26,7 +31,8 @@ exports.getBanner = async (req,res,next) => {
     return res.status(200).json({
       statusCode: 200,
       message: 'succesful / OK',
-      Banners: banners
+      countBanners: CountBanners,
+      banners: banners
     });
   } 
 }
@@ -36,7 +42,7 @@ exports.getBannerId = async (req,res,next) => {
     return res.status(200).json({
       statusCode: 200,
       message: 'succcesful / OK',
-      Banner: cache.get("banner"),
+      banner: cache.get("banner"),
     });
   } else {
     let banner = [];
@@ -64,7 +70,7 @@ exports.getBannerId = async (req,res,next) => {
       return res.status(200).json({
         statusCode: 200,
         message: 'succcesful / OK',
-        Banner: banner,
+        banner: banner,
       });
     }
   }

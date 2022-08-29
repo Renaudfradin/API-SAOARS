@@ -4,16 +4,23 @@ const cache = new NodeCache({ stdTTL: 5});
 
 exports.getWeapons = async (req,res,next) => {
   let weapons = [];
-  if (cache.has("weapons")) {
+  let Countweapons = {};
+  
+  if (cache.has("weapons") && cache.has("countweapons")) {
     return res.status(200).json({
       statusCode: 200,
       message: 'succesful / OK',
-      Weapons: cache.get("weapons")
+      countWeapons: cache.get("countweapons"),
+      weapons: cache.get("weapons")
     });
   } else {
     try {
       weapons = await knex.select().from('weapon').orderBy('idw','desc');
+      Countweapons = await knex.select().from('weapon').count();
+      Countweapons = Countweapons[0].count;
+
       cache.set("weapons",weapons);
+      cache.set("countweapons",Countweapons);
     } catch (error) {
       return res.status(400).json({
         statusCode: 400,
@@ -26,7 +33,8 @@ exports.getWeapons = async (req,res,next) => {
     return res.status(200).json({
       statusCode: 200,
       message: 'succesful / OK',
-      Weapons: weapons
+      countWeapons: Countweapons,
+      weapons: weapons
     });
   }
 }
@@ -37,7 +45,7 @@ exports.getWeaponsId = async (req,res,next) => {
     return res.status(200).json({
       statusCode: 200,
       message: 'succesful / OK',
-      Weapon: cache.get("weapon")
+      weapon: cache.get("weapon")
     });
   } else {
     try {
@@ -64,7 +72,7 @@ exports.getWeaponsId = async (req,res,next) => {
       return res.status(200).json({
         statusCode: 200,
         message: 'succesful / OK',
-        Weapon: weapon
+        weapon: weapon
       });
     }
   }

@@ -4,16 +4,23 @@ const cache = new NodeCache({ stdTTL:5 });
 
 exports.getEquipment = async (req,res,next) => {
   let equipments = [];
-  if (cache.has("equipments")) {
+  let CountEquipments = {};
+
+  if (cache.has("equipments") && cache.has("countequipments")) {
     return res.status(200).json({
       statusCode: 200,
       message: 'succesful / OK',
-      Equipments: cache.get("equipments")
+      countEquipments: cache.get("countequipments"),
+      equipments: cache.get("equipments")
     });
   } else {
     try {
       equipments = await knex.select().from('equipment').orderBy('id','desc');
+      CountEquipments = await knex.select().from('equipment').count();
+      CountEquipments =CountEquipments[0].count;
+
       cache.set("equipments",equipments);
+      cache.set("countequipments",CountEquipments);
     } catch (error) {
       return res.status(400).json({
         statusCode: 400,
@@ -26,7 +33,8 @@ exports.getEquipment = async (req,res,next) => {
     return res.status(200).json({
       statusCode: 200,
       message: 'succesful / OK',
-      Equipments: equipments
+      countEquipments: CountEquipments,
+      equipments: equipments
     });
   }
 }
@@ -37,7 +45,7 @@ exports.getEquipmentId = async (req,res,next) => {
     return res.status(200).json({
       statusCode: 200,
       message: 'succcesful / OK',
-      Equipment: cache.get("equipment"),
+      equipment: cache.get("equipment"),
     });
   } else {
     try {
@@ -64,7 +72,7 @@ exports.getEquipmentId = async (req,res,next) => {
       return res.status(200).json({
         statusCode: 200,
         message: 'succcesful / OK',
-        Equipment: equipment,
+        equipment: equipment,
       });
     }
   }
