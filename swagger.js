@@ -6,14 +6,11 @@ const doc = {
       title: 'Api Saoars/UB',
       description: 'API qui regroupe les personnages du jeux mobile Sword Art Online Alicization Rising Steel / Unleash Blading',
     },
-    host: 'https://api-saoars.herokuapp.com',
+    host: 'api-saoars.herokuapp.com',
     basePath: '/',
-    schemes: ['http'],
+    schemes: ['https'],
     consumes: ['application/json'],
     produces: ['application/json'],
-    securityDefinitions: {},  // by default: empty object
-    definitions: {},          // by default: empty object (Swagger 2.0)
-    components: {}            // by default: empty object (OpenAPI 3.x)
   };
 
   const outputFile = './swagger-output.json';
