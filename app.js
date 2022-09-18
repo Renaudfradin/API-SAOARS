@@ -8,7 +8,8 @@ const routerCharacter = require('./routes/characters.js');
 const routerWeapon = require('./routes/weapon.js');
 const routerEquipment = require('./routes/equipment.js');
 const routerAbility = require('./routes/ability.js');
-const routerBanner = require('./routes/banner.js')
+const routerBanner = require('./routes/banner.js');
+const routerImagination = require('./routes/imagination.js');
 //const routerusers = require('./routes/users.js');
 
 var options = {
@@ -35,6 +36,7 @@ app.use('/weapon', routerWeapon);
 app.use('/equipment', routerEquipment);
 app.use('/ability', routerAbility);
 app.use('/banner', routerBanner);
+app.use('/imagination', routerImagination);
 //app.use('/auth', routerusers);
 
 app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile,options));
