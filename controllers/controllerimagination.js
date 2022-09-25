@@ -6,7 +6,6 @@ exports.getImaginations = async (req, res, next) => {
     let Imaginations = {};
     try {
         Imaginations = await knex.select().from('imagination').orderBy('idconst','desc');
-        console.log(Imaginations);
     } catch (error) {
     return res.status(400).json({
         statusCode: 400,
