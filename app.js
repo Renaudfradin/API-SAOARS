@@ -4,6 +4,7 @@ const swaggerUi = require('swagger-ui-express')
 const swaggerFile = require('./swagger-output.json')
 const app = express();
 
+//import route
 const routerCharacter = require('./routes/characters.js');
 const routerWeapon = require('./routes/weapon.js');
 const routerEquipment = require('./routes/equipment.js');
@@ -23,6 +24,7 @@ app.use((req, res, next) => {
   next();
 });
 
+//header
 app.use(bodyParser.json());
 app.use(bodyParser.json({ type: 'application/*+json' }));
 app.use(bodyParser.raw({ type: 'application/vnd.custom-type' }));
@@ -41,6 +43,7 @@ app.use('/imagination', routerImagination);
 
 app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile,options));
 
+//base route
 app.get('/',(req, res, next)=>{
   return res.status(200).json({
     statusCode: 200,
