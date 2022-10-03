@@ -52,7 +52,7 @@ exports.getOneCharacter = async (req,res,next) => {
     });
   } else {
     try {
-      OneCharacter = await knex('characters').where({ id: req.params.id });
+      OneCharacter = await knex('characters').where({ id: req.params.id }).leftJoin('imagination', 'characters.idImaginaion', 'imagination.idconst');
       cache.set("OneCharacter",OneCharacter);
     } catch (error) {
       return res.status(400).json({
