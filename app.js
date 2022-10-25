@@ -13,10 +13,9 @@ const routerBanner = require('./routes/banner.js');
 const routerImagination = require('./routes/imagination.js');
 //const routerusers = require('./routes/users.js');
 
+//options swagger ui
 var options = {
   explorer: true,
-  // customCssUrl: '/public/css/swagger-ui.css', 
-  // customSiteTitle: "The Words That I Know API - Swagger"
 };
 
 app.use((req, res, next) => {
