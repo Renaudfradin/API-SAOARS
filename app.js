@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const swaggerUi = require('swagger-ui-express')
 const swaggerFile = require('./swagger-output.json')
+const option = { customCssUrl: '/public/swagger-ui.css', customSiteTitle: "The Words That I Know API - Swagger" };
 const app = express();
 
 //import route
@@ -41,7 +42,7 @@ app.use('/banner', routerBanner);
 app.use('/imagination', routerImagination);
 //app.use('/auth', routerusers);
 
-app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile,options));
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile,option));
 
 //base route
 app.get('/',(req, res, next)=>{
