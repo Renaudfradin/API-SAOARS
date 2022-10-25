@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const swaggerUi = require('swagger-ui-express')
 const swaggerFile = require('./swagger-output.json')
-const option = { customCssUrl: '/public/swagger-ui.css', customSiteTitle: "The Words That I Know API - Swagger" };
+//const option = { customCssUrl: '/public/swagger-ui.css', customSiteTitle: "The Words That I Know API - Swagger" };
 const app = express();
 
 //import route
@@ -15,7 +15,9 @@ const routerImagination = require('./routes/imagination.js');
 //const routerusers = require('./routes/users.js');
 
 var options = {
-  explorer: true
+  explorer: true,
+  customCssUrl: '/public/swagger-ui.css', 
+  customSiteTitle: "The Words That I Know API - Swagger"
 };
 
 app.use((req, res, next) => {
@@ -42,7 +44,7 @@ app.use('/banner', routerBanner);
 app.use('/imagination', routerImagination);
 //app.use('/auth', routerusers);
 
-app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile,option));
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile,options));
 
 //base route
 app.get('/',(req, res, next)=>{
