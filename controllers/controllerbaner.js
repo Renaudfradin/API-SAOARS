@@ -13,7 +13,7 @@ exports.getBanner = async (req,res,next) => {
     });
   } else {
     try {
-      banners = await knex.select().from('banner').orderBy('idb','desc');
+      banners = await knex.select("*").from('banner').orderBy('idb','desc');
       CountBanners = await knex.select().from('banner').count();
       CountBanners = CountBanners[0].count;
 
@@ -47,7 +47,7 @@ exports.getBannerId = async (req,res,next) => {
   } else {
     let banner = [];
     try {
-        banner = await knex('banner').where({ idb: req.params.idb });
+        banner = await knex.select('*').from('banner').where({ idb: req.params.idb });
         cache.set("banner",banner);
     } catch (error) {
       return res.status(400).json({

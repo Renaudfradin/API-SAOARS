@@ -15,7 +15,7 @@ exports.getWeapons = async (req,res,next) => {
     });
   } else {
     try {
-      weapons = await knex.select().from('weapon').orderBy('idw','desc');
+      weapons = await knex.select('*').from('weapon').orderBy('idw','desc');
       Countweapons = await knex.select().from('weapon').count();
       Countweapons = Countweapons[0].count;
 
@@ -49,7 +49,7 @@ exports.getWeaponsId = async (req,res,next) => {
     });
   } else {
     try {
-      weapon = await knex.select().from('weapon').where({ idw: req.params.idw }).leftJoin('characters', 'weapon.signature-weapon', 'characters.id');
+      weapon = await knex.select('*').from('weapon').where({ idw: req.params.idw }).leftJoin('characters', 'weapon.signature-weapon', 'characters.id');
       cache.set("weapon",weapon)
     } catch (error) {
       return res.status(400).json({

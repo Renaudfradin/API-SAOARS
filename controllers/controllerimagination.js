@@ -12,7 +12,7 @@ exports.getImaginations = async (req, res, next) => {
     });
   }else{
     try {
-      Imaginations = await knex.select().from('imagination').orderBy('idconst','desc');
+      Imaginations = await knex.select("*").from('imagination').orderBy('idconst','desc');
       cache.set("imagiation",Imaginations);
     } catch (error) {
     return res.status(400).json({

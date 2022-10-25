@@ -15,7 +15,7 @@ exports.getAbility = async (req,res,next) => {
   });
   } else {
     try {
-      abilitys = await knex.select().from('ability').orderBy('id','desc');
+      abilitys = await knex.select("*").from('ability').orderBy('id','desc');
       CountAbilitys = await knex.select().from('ability').count();
       CountAbilitys = CountAbilitys[0].count;
 
@@ -49,7 +49,7 @@ exports.getAbilityId = async (req,res,next) => {
     });
   } else {
     try {
-      ability = await knex('ability').where({ id: req.params.id });
+      ability = await knex.select('*').from('ability').where({ id: req.params.id });
       cache.set("ability",ability);
     } catch (error) {
       return res.status(400).json({

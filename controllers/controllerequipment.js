@@ -15,8 +15,8 @@ exports.getEquipment = async (req,res,next) => {
     });
   } else {
     try {
-      equipments = await knex.select().from('equipment').orderBy('id','desc');
-      CountEquipments = await knex.select().from('equipment').count();
+      equipments = await knex.select("*").from('equipment').orderBy('id','desc');
+      CountEquipments = await knex.select('*').from('equipment').count();
       CountEquipments =CountEquipments[0].count;
 
       cache.set("equipments",equipments);
@@ -49,7 +49,7 @@ exports.getEquipmentId = async (req,res,next) => {
     });
   } else {
     try {
-      equipment = await knex('equipment').where({ id: req.params.id });
+      equipment = await knex.select('*').from('equipment').where({ id: req.params.id });
       cache.set("equipment",equipment);
     } catch (error) {
       return res.status(400).json({
