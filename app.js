@@ -13,8 +13,9 @@ const routerBanner = require('./routes/banner.js');
 const routerImagination = require('./routes/imagination.js');
 //const routerusers = require('./routes/users.js');
 
+//options swagger ui
 var options = {
-  explorer: true
+  explorer: true,
 };
 
 app.use((req, res, next) => {
