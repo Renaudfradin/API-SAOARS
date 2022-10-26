@@ -2,6 +2,7 @@ const knex = require('../knexlogdb.js');
 const NodeCache = require("node-cache");
 const cache = new NodeCache({ stdTTL:5 });
 
+//get all Ability
 exports.getAbility = async (req,res,next) => {
   let abilitys = [];
   let CountAbilitys = {};
@@ -39,6 +40,7 @@ exports.getAbility = async (req,res,next) => {
   }
 }
 
+//get One Ability for one Id 
 exports.getAbilityId = async (req,res,next) => {
   let ability = [];
   if (cache.has("ability")) {

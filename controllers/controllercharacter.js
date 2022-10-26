@@ -2,7 +2,7 @@ const knex = require('../knexlogdb.js');
 const NodeCache = require("node-cache");
 const cache = new NodeCache({ stdTTL:5 });
 
-//get full perso
+//get full characters
 exports.getCharacters = async (req, res, next) => {
   let Characters = [];
   let CountCharacters = {};
@@ -19,7 +19,6 @@ exports.getCharacters = async (req, res, next) => {
       Characters = await knex.select().from('characters').orderBy('id','desc');
       CountCharacters = await knex.select().from('characters').count();
       CountCharacters = CountCharacters[0].count;
-      
       cache.set("characters",Characters);
       cache.set("count",CountCharacters)
     } catch (error) {
@@ -41,7 +40,7 @@ exports.getCharacters = async (req, res, next) => {
   }
 }
 
-//get one perso for id
+//get one character for id
 exports.getOneCharacter = async (req,res,next) => {
   let OneCharacter = [];
   if (cache.has("OneCharacter")) {
@@ -52,7 +51,7 @@ exports.getOneCharacter = async (req,res,next) => {
     });
   } else {
     try {
-      OneCharacter = await knex('characters').where({ id: req.params.id }).leftJoin('imagination', 'characters.idImaginaion', 'imagination.idconst');
+      OneCharacter = await knex.select().from('characters').where({ id: req.params.id });
       cache.set("OneCharacter",OneCharacter);
     } catch (error) {
       return res.status(400).json({
@@ -81,7 +80,7 @@ exports.getOneCharacter = async (req,res,next) => {
   }    
 }
 
-//get one perso for name
+//get one character for name
 exports.getOneCharacterName = async (req, res , next) => {
   let CharacterName = [];
   if (cache.has("CharacterName")) {
@@ -121,7 +120,7 @@ exports.getOneCharacterName = async (req, res , next) => {
   }
 }
 
-//get last perso
+//get last character
 exports.getLastCharacter = async (req, res , next) => {
   let LastCharacter = [];
   if (cache.has("LastCharacter")) {

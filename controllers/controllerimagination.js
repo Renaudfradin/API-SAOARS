@@ -2,6 +2,7 @@ const knex = require('../knexlogdb.js');
 const NodeCache = require('node-cache');
 const cache = new NodeCache({ stdTTL:5 });
 
+//get all imagiantions
 exports.getImaginations = async (req, res, next) => {
   let Imaginations = {};
   if (cache.has("imagination")) {

@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const swaggerUi = require('swagger-ui-express')
 const swaggerFile = require('./swagger-output.json')
+const path = require('path');
 const app = express();
 
 //import route
@@ -40,6 +41,7 @@ app.use('/equipment', routerEquipment);
 app.use('/ability', routerAbility);
 app.use('/banner', routerBanner);
 app.use('/imagination', routerImagination);
+app.use('/img', express.static(path.join(__dirname, 'img')));
 //app.use('/auth', routerusers);
 
 app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile,options));

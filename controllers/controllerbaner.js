@@ -2,6 +2,7 @@ const knex = require('../knexlogdb.js');
 const NodeCache = require("node-cache");
 const cache = new NodeCache({ stdTTL:5 });
 
+//get all Banner
 exports.getBanner = async (req,res,next) => {
   let banners = [];
   if (cache.has("banners") && cache.has("countBanners")) {
@@ -37,6 +38,7 @@ exports.getBanner = async (req,res,next) => {
   } 
 }
 
+//get one banner on id 
 exports.getBannerId = async (req,res,next) => {
   if (cache.has("banner")) {
     return res.status(200).json({
