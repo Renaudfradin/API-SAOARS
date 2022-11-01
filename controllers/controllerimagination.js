@@ -16,8 +16,8 @@ exports.getImaginations = async (req, res, next) => {
       Imaginations = await knex.select("*").from('imagination').orderBy('idconst','desc');
       cache.set("imagiation",Imaginations);
     } catch (error) {
-    return res.status(400).json({
-      statusCode: 400,
+    return res.status(404).json({
+      statusCode: 404,
       message: 'Bad Request',
       errors:[{
       message:'failed to query database',

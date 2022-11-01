@@ -23,8 +23,8 @@ exports.getAbility = async (req,res,next) => {
       cache.set("abilitys",abilitys);
       cache.set("countAbilitys",CountAbilitys);
     } catch (error) {
-      return res.status(400).json({
-        statusCode: 400,
+      return res.status(404).json({
+        statusCode: 404,
         message: 'Bad request',
         errors:[{
           message: 'failed to query database'
@@ -54,8 +54,8 @@ exports.getAbilityId = async (req,res,next) => {
       ability = await knex.select('*').from('ability').where({ id: req.params.id });
       cache.set("ability",ability);
     } catch (error) {
-      return res.status(400).json({
-        statusCode: 400,
+      return res.status(404).json({
+        statusCode: 404,
         message: 'Bad Request',
         errors:[{
           message:'failed to query database',

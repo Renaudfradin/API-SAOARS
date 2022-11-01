@@ -22,11 +22,11 @@ exports.getCharacters = async (req, res, next) => {
       cache.set("characters",Characters);
       cache.set("count",CountCharacters)
     } catch (error) {
-      return res.status(400).json({
-        statusCode: 400,
+      return res.status(404).json({
+        statusCode: 404,
         message: 'Bad Request',
         errors:[{
-          message:'failed to query database',
+          message:'failed to query database / 404',
         }],
       });
     }
@@ -54,11 +54,11 @@ exports.getOneCharacter = async (req,res,next) => {
       OneCharacter = await knex.select().from('characters').where({ id: req.params.id });
       cache.set("OneCharacter",OneCharacter);
     } catch (error) {
-      return res.status(400).json({
-        statusCode: 400,
+      return res.status(404).json({
+        statusCode: 404,
         message: 'Bad Request',
         errors:[{
-          message:'failed to query database',
+          message:'failed to query database / 404',
         }],
       });
     }
@@ -91,11 +91,11 @@ exports.getOneCharacterName = async (req, res , next) => {
     });
   } else {
     try {
-      CharacterName = await knex('characters').where('name-characters','ILIKE',`%${req.params.names}%`);
+      CharacterName = await knex('characters').where('name_characters','ILIKE',`%${req.params.names}%`);
       cache.set("CharacterName",CharacterName);
     } catch (error) {
-      return res.status(400).json({
-        statusCode: 400,
+      return res.status(404).json({
+        statusCode: 404,
         message: 'Bad Request',
         errors:[{
           message:'failed to query database',
@@ -134,8 +134,8 @@ exports.getLastCharacter = async (req, res , next) => {
       LastCharacter = await knex('characters').where({ id: knex('characters').max('id') });
       cache.get("LastCharacter",LastCharacter);
     } catch (error) {
-      return res.status(400).json({
-        statusCode: 400,
+      return res.status(404).json({
+        statusCode: 404,
         message: 'Bad Request',
         errors:[{
           message:'failed to query database 1',

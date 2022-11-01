@@ -22,8 +22,8 @@ exports.getWeapons = async (req,res,next) => {
       cache.set("weapons",weapons);
       cache.set("countweapons",Countweapons);
     } catch (error) {
-      return res.status(400).json({
-        statusCode: 400,
+      return res.status(404).json({
+        statusCode: 404,
         message: 'Bad request',
         errors:[{
           message: 'failed to query database'
@@ -79,8 +79,8 @@ exports.getWeaponsId = async (req,res,next) => {
       
       cache.set("weapon",weapon)
     } catch (error) {
-      return res.status(400).json({
-        statusCode: 400,
+      return res.status(404).json({
+        statusCode: 404,
         message: 'Bad request',
         errors:[{
           message: 'failed to query database'
