@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const controlleur = require('../controllers/controllersperso.js');
+const controlleur = require('../controllers/controllercharacter.js');
 //const auth = require('../auth.js');
 
 // //delete data

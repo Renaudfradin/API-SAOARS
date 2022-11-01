@@ -2,6 +2,7 @@ const knex = require('../knexlogdb.js');
 const NodeCache = require('node-cache');
 const cache = new NodeCache({ stdTTL:5 });
 
+//get all imagiantions
 exports.getImaginations = async (req, res, next) => {
   let Imaginations = {};
   if (cache.has("imagination")) {
@@ -12,11 +13,11 @@ exports.getImaginations = async (req, res, next) => {
     });
   }else{
     try {
-      Imaginations = await knex.select().from('imagination').orderBy('idconst','desc');
+      Imaginations = await knex.select("*").from('imagination').orderBy('idconst','desc');
       cache.set("imagiation",Imaginations);
     } catch (error) {
-    return res.status(400).json({
-      statusCode: 400,
+    return res.status(404).json({
+      statusCode: 404,
       message: 'Bad Request',
       errors:[{
       message:'failed to query database',
