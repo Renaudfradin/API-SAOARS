@@ -7,7 +7,7 @@ exports.getEquipment = async (req,res,next) => {
   let equipments = [];
   let CountEquipments = {};
 
-  if (cache.has("equipments") && cache.has("countequipments")) {
+  if (cache.has("equipments")) {
     return res.status(200).json({
       statusCode: 200,
       message: 'succesful / OK',
@@ -16,9 +16,9 @@ exports.getEquipment = async (req,res,next) => {
     });
   } else {
     try {
-      equipments = await knex.select("*").from('equipment').orderBy('id','desc');
-      CountEquipments = await knex.select('*').from('equipment').count();
-      CountEquipments =CountEquipments[0].count;
+      equipments = await knex.select().from('equipment').orderBy('id','desc');
+      CountEquipments = await knex.select().from('equipment').count();
+      CountEquipments = CountEquipments[0].count;
 
       cache.set("equipments",equipments);
       cache.set("countequipments",CountEquipments);
