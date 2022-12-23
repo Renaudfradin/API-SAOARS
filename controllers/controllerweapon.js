@@ -1,6 +1,6 @@
 const knex = require('../knexlogdb.js');
 const NodeCache = require("node-cache");
-const cache = new NodeCache({ stdTTL: 5});
+const cache = new NodeCache({ stdTTL:100000 });
 
 //get full weapons
 exports.getWeapons = async (req,res,next) => {

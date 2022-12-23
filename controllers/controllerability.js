@@ -1,6 +1,6 @@
 const knex = require('../knexlogdb.js');
 const NodeCache = require("node-cache");
-const cache = new NodeCache({ stdTTL:5 });
+const cache = new NodeCache({ stdTTL:100000 });
 
 //get all Ability
 exports.getAbility = async (req,res,next) => {
