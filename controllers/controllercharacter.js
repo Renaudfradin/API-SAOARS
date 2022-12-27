@@ -1,6 +1,7 @@
 const knex = require('../knexlogdb.js');
 const NodeCache = require("node-cache");
-const cache = new NodeCache({ stdTTL:100000 });
+const cache = new NodeCache({ stdTTL:10000 });
+const cacheId = new NodeCache({ stdTTL:5 });
 
 //get full characters
 exports.getCharacters = async (req, res, next) => {
@@ -19,8 +20,8 @@ exports.getCharacters = async (req, res, next) => {
       Characters = await knex.select().from('characters').orderBy('id','desc');
       CountCharacters = await knex.select().from('characters').count();
       CountCharacters = CountCharacters[0].count;
-      cache.set("characters",Characters);
-      cache.set("count",CountCharacters)
+      cache.set("characters",Characters,10000);
+      cache.set("count",CountCharacters,10000)
     } catch (error) {
       return res.status(404).json({
         statusCode: 404,
@@ -43,16 +44,16 @@ exports.getCharacters = async (req, res, next) => {
 //get one character for id
 exports.getOneCharacter = async (req,res,next) => {
   let OneCharacter = [];
-  if (cache.has("OneCharacter")) {
+  if (cacheId.has("OneCharacter")) {
     return res.status(200).json({
       statusCode: 200,
       message: 'succcesful / OK',
-      character: cache.get("OneCharacter"),
+      character: cacheId.get("OneCharacter"),
     });
   } else {
     try {
       OneCharacter = await knex.select().from('characters').where({ id: req.params.id });
-      cache.set("OneCharacter",OneCharacter);
+      cacheId.set("OneCharacter",OneCharacter);
     } catch (error) {
       return res.status(404).json({
         statusCode: 404,

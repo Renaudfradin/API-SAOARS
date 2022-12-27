@@ -1,6 +1,6 @@
 const knex = require('../knexlogdb.js');
 const NodeCache = require('node-cache');
-const cache = new NodeCache({ stdTTL:100000 });
+const cache = new NodeCache({ stdTTL:10000 });
 
 //get all imagiantions
 exports.getImaginations = async (req, res, next) => {
@@ -14,7 +14,7 @@ exports.getImaginations = async (req, res, next) => {
   }else{
     try {
       Imaginations = await knex.select("*").from('imagination').orderBy('idconst','desc');
-      cache.set("imagiation",Imaginations);
+      cache.set("imagiation",Imaginations,10000);
     } catch (error) {
     return res.status(404).json({
       statusCode: 404,
