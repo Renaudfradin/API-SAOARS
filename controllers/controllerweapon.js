@@ -1,6 +1,7 @@
 const knex = require('../knexlogdb.js');
 const NodeCache = require("node-cache");
-const cache = new NodeCache({ stdTTL:100000 });
+const cache = new NodeCache({ stdTTL:10000 });
+const cacheId = new NodeCache({ stdTTL:5 });
 
 //get full weapons
 exports.getWeapons = async (req,res,next) => {
@@ -19,8 +20,8 @@ exports.getWeapons = async (req,res,next) => {
       weapons = await knex.select('*').from('weapon').orderBy('idw','desc');
       Countweapons = await knex.select().from('weapon').count();
       Countweapons = Countweapons[0].count;
-      cache.set("weapons",weapons);
-      cache.set("countweapons",Countweapons);
+      cache.set("weapons",weapons,10000);
+      cache.set("countweapons",Countweapons,10000);
     } catch (error) {
       return res.status(404).json({
         statusCode: 404,
@@ -42,11 +43,11 @@ exports.getWeapons = async (req,res,next) => {
 //get one weapon for id and get character info
 exports.getWeaponsId = async (req,res,next) => {
   let weapon = [];
-  if (cache.has("weapon")) {
+  if (cacheId.has("weapon")) {
     return res.status(200).json({
       statusCode: 200,
       message: 'succesful / OK',
-      weapon: cache.get("weapon")
+      weapon: cacheId.get("weapon")
     });
   } else {
     try {
@@ -77,7 +78,7 @@ exports.getWeaponsId = async (req,res,next) => {
         img: weapon[0].img,
       };
       
-      cache.set("weapon",weapon)
+      cacheId.set("weapon",weapon)
     } catch (error) {
       return res.status(404).json({
         statusCode: 404,
