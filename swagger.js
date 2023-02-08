@@ -2,7 +2,7 @@ const swaggerAutogen = require('swagger-autogen')();
 
 const doc = {
     info: {
-      version: '1.1.0',
+      version: '1.2.0',
       title: 'Api Saoars/UB',
       description: 'API qui regroupe les personnages du jeux mobile Sword Art Online Alicization Rising Steel / Unleash Blading',
     },

@@ -16,7 +16,7 @@ const routerImagination = require('./routes/imagination.js');
 
 //options swagger ui
 var options = {
-  explorer: true,
+  explorer: false,
 };
 
 app.use((req, res, next) => {
@@ -30,7 +30,6 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 app.use(bodyParser.json({ type: 'application/*+json' }));
 app.use(bodyParser.raw({ type: 'application/vnd.custom-type' }));
-app.use(bodyParser.text({ type: 'text/html' }));
 app.use(bodyParser.text({ type: 'text/plain' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 
