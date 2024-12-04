@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon'
+import { DateTime } from 'luxon/src/datetime.js'
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 
 export default class Weapon extends BaseModel {
