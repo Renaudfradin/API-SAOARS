@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon'
+import { DateTime } from 'luxon/src/datetime.js'
 import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
 import { BaseModel, column } from '@adonisjs/lucid/orm'
