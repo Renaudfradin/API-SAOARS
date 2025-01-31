@@ -9,11 +9,7 @@ export default class extends BaseSchema {
       table.string('name')
       table.text('description')
       table.integer('mp_cost')
-      table.enu('type', ['A', 'B', 'C', 'H', 'D', 'E', 'EM'], {
-        useNative: true,
-        enumName: 'element',
-        existingType: false,
-      })
+      table.integer('type_atk')
       table.timestamp('created_at')
       table.timestamp('updated_at')
     })

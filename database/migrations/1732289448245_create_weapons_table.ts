@@ -8,11 +8,7 @@ export default class extends BaseSchema {
       table.increments('id')
       table.string('name')
       table.string('type')
-      table.enu('element', ['neutre', 'eau', 'feu', 'vent', 'terre', 'lumiere', 'tenebre'], {
-        useNative: true,
-        enumName: 'element',
-        existingType: false,
-      })
+      table.integer('element_weapons')
       table.integer('hp')
       table.integer('mp')
       table.integer('atk')

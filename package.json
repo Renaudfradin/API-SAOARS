@@ -36,8 +36,8 @@
     "@adonisjs/eslint-config": "^2.0.0-beta.6",
     "@adonisjs/prettier-config": "^1.4.0",
     "@adonisjs/tsconfig": "^1.4.0",
-    "@japa/api-client": "^2.0.3",
-    "@japa/assert": "^3.0.0",
+    "@japa/api-client": "^3.0.3",
+    "@japa/assert": "^4.0.1",
     "@japa/plugin-adonisjs": "^3.0.1",
     "@japa/runner": "^3.1.4",
     "@swc/core": "1.7.26",
@@ -58,7 +58,7 @@
     "@adonisjs/session": "^7.5.0",
     "@vinejs/vine": "^2.1.0",
     "luxon": "^3.5.0",
-    "mysql2": "^3.11.4",
+    "pg": "^8.13.1",
     "reflect-metadata": "^0.2.2"
   },
   "hotHook": {

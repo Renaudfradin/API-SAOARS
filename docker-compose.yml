@@ -1,0 +1,35 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3334:3334"
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - postgres
+    environment:
+      - NODE_ENV=development
+    networks:
+      - app_network
+
+  postgres:
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=adonis
+      - POSTGRES_PASSWORD=adonis_password
+      - POSTGRES_DB=adonis_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+
+volumes:
+  postgres_data:
+
+networks:
+  app_network:

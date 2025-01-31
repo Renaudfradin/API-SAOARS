@@ -7,16 +7,8 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table.string('name')
-      table.enu('type', ['neutre', 'eau', 'feu', 'vent', 'terre', 'lumiere', 'tenebre'], {
-        useNative: true,
-        enumName: 'type',
-        existingType: false,
-      })
-      table.enu('type_equipment', ['armor', 'accessory'], {
-        useNative: true,
-        enumName: 'type_equipment',
-        existingType: false,
-      })
+      table.integer('type')
+      table.integer('type_equipment')
       table.integer('hp')
       table.integer('mp')
       table.integer('atk')

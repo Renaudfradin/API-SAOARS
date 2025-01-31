@@ -10,11 +10,7 @@ export default class extends BaseSchema {
       table.string('name')
       table.text('description')
       table.text('profile')
-      table.enu('type', ['neutre', 'eau', 'feu', 'vent', 'terre', 'lumiere', 'tenebre'], {
-        useNative: true,
-        enumName: 'type',
-        existingType: false,
-      })
+      table.integer('element')
       table.integer('atk1')
       table.integer('atk2').nullable()
       table.integer('atk3').nullable()
