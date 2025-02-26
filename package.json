@@ -1,26 +1,16 @@
 {
-  "name": "api_saoars",
-  "version": "1.2.0",
-  "main": "server.js",
-  "scripts": {
-    "start": "nodemon server",
-    "swagger-autogen": "node ./swagger.js"
-  },
-  "author": "Renaud Fradin",
-  "license": "ISC",
-  "description": "api_saoars",
-  "dependencies": {
-    "bcrypt": "^5.0.1",
-    "body-parser": "^1.19.0",
-    "dotenv": "^16.0.1",
-    "express": "^4.17.1",
-    "express-fileupload": "^1.2.1",
-    "jsonwebtoken": "^9.0.0",
-    "knex": "^2.4.2",
-    "node-cache": "^5.1.2",
-    "nodemon": "^2.0.7",
-    "pg": "^8.5.1",
-    "swagger-autogen": "^2.21.2",
-    "swagger-ui-express": "^4.6.0"
-  }
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "vite build",
+        "dev": "vite"
+    },
+    "devDependencies": {
+        "@tailwindcss/vite": "^4.0.0",
+        "axios": "^1.7.4",
+        "concurrently": "^9.0.1",
+        "laravel-vite-plugin": "^1.2.0",
+        "tailwindcss": "^4.0.0",
+        "vite": "^6.0.11"
+    }
 }
