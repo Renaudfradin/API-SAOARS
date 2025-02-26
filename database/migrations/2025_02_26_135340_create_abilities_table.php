@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('abilities', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->text('descripton');
+            $table->string('type');
+            $table->string('start');
             $table->timestamps();
         });
     }

@@ -7,6 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Attack extends Model
 {
-    /** @use HasFactory<\Database\Factories\AttackFactory> */
     use HasFactory;
 }

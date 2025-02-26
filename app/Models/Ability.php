@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ability extends Model
 {
-    /** @use HasFactory<\Database\Factories\AbilityFactory> */
     use HasFactory;
+
+    protected $fillable = ['name', 'descripton', 'type', 'start'];
+
 }

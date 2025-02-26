@@ -7,6 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Imagination extends Model
 {
-    /** @use HasFactory<\Database\Factories\ImaginationFactory> */
     use HasFactory;
 }

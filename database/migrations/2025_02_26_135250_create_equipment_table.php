@@ -13,6 +13,20 @@ return new class extends Migration
     {
         Schema::create('equipment', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->integer('type');
+            $table->integer('type_equipment');
+            $table->integer('hp');
+            $table->integer('mp');
+            $table->integer('atk');
+            $table->integer('matk');
+            $table->integer('def');
+            $table->integer('mdef');
+            $table->integer('crit');
+            $table->integer('spd');
+            $table->text('effect_1');
+            $table->text('effect_2');
+            $table->integer('start');
             $table->timestamps();
         });
     }
