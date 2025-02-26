@@ -9,7 +9,7 @@ export default class extends BaseSchema {
       table.string('name')
       table.text('description')
       table.integer('mp_cost')
-      table.integer('type_atk')
+      table.string('type_atk')
       table.timestamp('created_at')
       table.timestamp('updated_at')
     })

@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon/src/datetime.js'
+import { DateTime } from 'luxon'
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 
 export default class Weapon extends BaseModel {
@@ -12,7 +12,7 @@ export default class Weapon extends BaseModel {
   declare type: string
 
   @column()
-  declare element: string
+  declare elementWeapons: string
 
   @column()
   declare hp: number
@@ -48,7 +48,7 @@ export default class Weapon extends BaseModel {
   declare effect_3: string | null
 
   @column()
-  declare characters_id: number
+  declare characters_id: number | null
 
   @column()
   declare start: number

@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon/src/datetime.js'
+import { DateTime } from 'luxon'
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 
 export default class Attack extends BaseModel {
@@ -16,6 +16,9 @@ export default class Attack extends BaseModel {
 
   @column()
   declare mpCost: number
+
+  @column()
+  declare typeAtk: number
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

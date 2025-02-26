@@ -20,7 +20,7 @@ export default class extends BaseSchema {
       table.text('effect_1').nullable()
       table.text('effect_2').nullable()
       table.text('effect_3').nullable()
-      table.integer('characters_id')
+      table.integer('characters_id').nullable()
       table.integer('start')
       table.timestamp('created_at')
       table.timestamp('updated_at')
