@@ -25,7 +25,21 @@ class AbilityResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('name')
+                    ->maxLength(255)
+                    ->required(),
+
+                Forms\Components\TextInput::make('descripton')
+                    ->maxLength(255)
+                    ->required(),
+
+                Forms\Components\TextInput::make('type')
+                    ->maxLength(255)
+                    ->required(),
+
+                Forms\Components\TextInput::make('start')
+                    ->numeric()
+                    ->required(),
             ]);
     }
 
@@ -33,7 +47,20 @@ class AbilityResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('name')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('type')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('descripton')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
             ])
             ->filters([
                 //

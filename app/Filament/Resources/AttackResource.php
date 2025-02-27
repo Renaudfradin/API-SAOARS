@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\AttackType;
 use App\Filament\Resources\AttackResource\Pages;
 use App\Filament\Resources\AttackResource\RelationManagers;
 use App\Models\Attack;
@@ -25,7 +26,21 @@ class AttackResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('name')
+                    ->maxLength(255)
+                    ->required(),
+
+                Forms\Components\Textarea::make('description')
+                    ->maxLength(255)
+                    ->required(),
+
+                Forms\Components\TextInput::make('mp_cost')
+                    ->numeric()
+                    ->required(),
+
+                Forms\Components\Select::make('type_atk')
+                    ->options(AttackType::class)
+                    ->required(),
             ]);
     }
 
@@ -33,7 +48,25 @@ class AttackResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('name')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('description')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('mp_cost')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('type_atk')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
             ])
             ->filters([
                 //

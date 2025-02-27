@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
             $table->text('profile');
-            $table->integer('element');
+            $table->string('element');
             $table->integer('atk1');
             $table->integer('atk2')->nullable();
             $table->integer('atk3')->nullable();

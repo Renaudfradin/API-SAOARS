@@ -2,16 +2,14 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\Element;
 use App\Filament\Resources\CharacterResource\Pages;
-use App\Filament\Resources\CharacterResource\RelationManagers;
 use App\Models\Character;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CharacterResource extends Resource
 {
@@ -25,7 +23,98 @@ class CharacterResource extends Resource
     {
         return $form
             ->schema([
-                //
+            Forms\Components\TextInput::make('banner_id')
+                ->numeric()
+                ->required(),
+
+            Forms\Components\TextInput::make('name')
+                ->maxLength(255)
+                ->required(),
+
+            Forms\Components\Textarea::make('description')
+                ->required(),
+
+            Forms\Components\TextInput::make('profile')
+                ->maxLength(255)
+                ->required(),
+
+            Forms\Components\Select::make('element')
+                ->options(Element::class)
+                ->native(false)
+                ->searchable()
+                ->required(),
+
+            Forms\Components\Select::make('atk1')
+                ->label('Atk 1')
+                ->relationship('attack', 'name')
+                ->required(),
+
+            Forms\Components\Select::make('atk2')
+                ->label('Atk 2')
+                ->relationship('attack', 'name'),
+
+            Forms\Components\Select::make('atk3')
+                ->label('Atk 3')
+                ->relationship('attack', 'name'),
+
+            Forms\Components\TextInput::make('hp')
+                ->numeric()
+                ->required(),
+
+            Forms\Components\TextInput::make('mp')
+                ->numeric()
+                ->required(),
+
+            Forms\Components\TextInput::make('atk')
+                ->numeric()
+                ->required(),
+
+            Forms\Components\TextInput::make('matk')
+                ->numeric()
+                ->required(),
+
+            Forms\Components\TextInput::make('def')
+                ->numeric()
+                ->required(),
+
+            Forms\Components\TextInput::make('mdef')
+                ->numeric()
+                ->required(),
+
+            Forms\Components\TextInput::make('crit')
+                ->numeric()
+                ->required(),
+
+            Forms\Components\TextInput::make('spd')
+                ->numeric()
+                ->required(),
+
+            Forms\Components\TextInput::make('ultime')
+                ->required(),
+
+            Forms\Components\TextInput::make('ultime_description')
+                ->required(),
+
+            Forms\Components\TextInput::make('enhance'),
+
+            Forms\Components\Select::make('enhance_atk')
+                ->label('enhance_atk')
+                ->relationship('attack', 'name'),
+
+            Forms\Components\Select::make('enhance_atk2')
+                ->label('enhance_atk2')
+                ->relationship('attack', 'name'),
+
+            Forms\Components\TextInput::make('start')
+                ->numeric()
+                ->required(),
+
+            Forms\Components\TextInput::make('cost')
+                ->numeric()
+                ->required(),
+
+            Forms\Components\TextInput::make('image')
+                ->required(),
             ]);
     }
 
@@ -33,7 +122,20 @@ class CharacterResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('name')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('banner_id')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('start')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
             ])
             ->filters([
                 //

@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\Element;
+use App\Enums\EquipmentType;
 use App\Filament\Resources\EquipmentResource\Pages;
 use App\Filament\Resources\EquipmentResource\RelationManagers;
 use App\Models\Equipment;
@@ -25,7 +27,62 @@ class EquipmentResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('name')
+                    ->maxLength(255)
+                    ->required(),
+
+                Forms\Components\Select::make('type')
+                    ->options(EquipmentType::class)
+                    ->native(false)
+                    ->searchable()
+                    ->required(),
+
+                Forms\Components\Select::make('type_equipment')
+                    ->options(Element::class)
+                    ->native(false)
+                    ->required(),
+
+                Forms\Components\TextInput::make('hp')
+                    ->numeric()
+                    ->required(),
+
+                Forms\Components\TextInput::make('mp')
+                    ->numeric()
+                    ->required(),
+
+                Forms\Components\TextInput::make('atk')
+                    ->numeric()
+                    ->required(),
+
+                Forms\Components\TextInput::make('matk')
+                    ->numeric()
+                    ->required(),
+
+                Forms\Components\TextInput::make('def')
+                    ->numeric()
+                    ->required(),
+
+                Forms\Components\TextInput::make('mdef')
+                    ->numeric()
+                    ->required(),
+
+                Forms\Components\TextInput::make('crit')
+                    ->numeric()
+                    ->required(),
+
+                Forms\Components\TextInput::make('spd')
+                    ->numeric()
+                    ->required(),
+
+                Forms\Components\TextInput::make('effect_1')
+                    ->required(),
+
+                Forms\Components\TextInput::make('effect_2')
+                    ->required(),
+
+                Forms\Components\TextInput::make('start')
+                    ->numeric()
+                    ->required(),
             ]);
     }
 
@@ -33,7 +90,25 @@ class EquipmentResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('name')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('type')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('type_equipment')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('start')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
             ])
             ->filters([
                 //

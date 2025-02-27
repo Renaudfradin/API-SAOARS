@@ -42,7 +42,6 @@ class WeaponResource extends Resource
                     ->native(false)
                     ->required(),
 
-
                 Forms\Components\TextInput::make('hp')
                     ->numeric()
                     ->required(),
@@ -96,7 +95,20 @@ class WeaponResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('name')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('type')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('start')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
             ])
             ->filters([
                 //

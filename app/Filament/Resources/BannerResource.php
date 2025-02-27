@@ -25,7 +25,21 @@ class BannerResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('name')
+                    ->maxLength(255)
+                    ->required(),
+
+                Forms\Components\DatePicker::make('from')
+                    ->required(),
+
+                Forms\Components\DatePicker::make('to')
+                    ->required(),
+
+                Forms\Components\TextInput::make('characters')
+                    ->required(),
+
+                Forms\Components\TextInput::make('img')
+                    ->required(),
             ]);
     }
 
@@ -33,7 +47,25 @@ class BannerResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('name')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('from')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('to')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('characters')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
             ])
             ->filters([
                 //

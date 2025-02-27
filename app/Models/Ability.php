@@ -9,6 +9,11 @@ class Ability extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'descripton', 'type', 'start'];
+    protected $fillable = [
+        'name', 
+        'descripton', 
+        'type', 
+        'start'
+    ];
 
 }

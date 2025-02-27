@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('equipment', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('type');
-            $table->integer('type_equipment');
+            $table->string('type');
+            $table->string('type_equipment');
             $table->integer('hp');
             $table->integer('mp');
             $table->integer('atk');

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\Element;
 use App\Filament\Resources\ImaginationResource\Pages;
 use App\Filament\Resources\ImaginationResource\RelationManagers;
 use App\Models\Imagination;
@@ -25,7 +26,18 @@ class ImaginationResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('name')
+                    ->maxLength(255)
+                    ->required(),
+
+                Forms\Components\TextInput::make('description')
+                    ->maxLength(255)
+                    ->required(),
+
+                Forms\Components\Select::make('element')
+                    ->options(Element::class)
+                    ->native(false)
+                    ->required(),
             ]);
     }
 
@@ -33,7 +45,15 @@ class ImaginationResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('name')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('element')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
             ])
             ->filters([
                 //
