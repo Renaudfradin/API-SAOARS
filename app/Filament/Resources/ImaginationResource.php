@@ -81,6 +81,7 @@ class ImaginationResource extends Resource
             'index' => Pages\ListImaginations::route('/'),
             'create' => Pages\CreateImagination::route('/create'),
             'edit' => Pages\EditImagination::route('/{record}/edit'),
+            'view' => Pages\ViewImagination::route('/{record}'),
         ];
     }
 }

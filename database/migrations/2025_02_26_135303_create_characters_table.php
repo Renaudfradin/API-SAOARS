@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('characters', function (Blueprint $table) {
             $table->id();
-            $table->integer('banner_id');
             $table->string('name');
             $table->text('description');
             $table->text('profile');
@@ -36,6 +35,7 @@ return new class extends Migration
             $table->integer('enhance_atk2')->nullable();
             $table->integer('start');
             $table->integer('cost');
+            $table->integer('special_partner')->nullable();
             $table->text('image');
             $table->timestamps();
         });

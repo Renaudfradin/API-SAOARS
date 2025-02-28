@@ -94,6 +94,7 @@ class AttackResource extends Resource
             'index' => Pages\ListAttacks::route('/'),
             'create' => Pages\CreateAttack::route('/create'),
             'edit' => Pages\EditAttack::route('/{record}/edit'),
+            'view' => Pages\ViewAttack::route('/{record}'),
         ];
     }
 }

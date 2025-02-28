@@ -5,15 +5,12 @@ namespace App\Filament\Resources;
 use App\Enums\Element;
 use App\Enums\WeaponType;
 use App\Filament\Resources\WeaponResource\Pages;
-use App\Filament\Resources\WeaponResource\RelationManagers;
 use App\Models\Weapon;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class WeaponResource extends Resource
 {
@@ -22,6 +19,8 @@ class WeaponResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationGroup = 'API';
+
+    protected static ?string $recordTitleAttribute = 'name';
 
     public static function form(Form $form): Form
     {
@@ -81,12 +80,16 @@ class WeaponResource extends Resource
 
                 Forms\Components\TextInput::make('effect_3'),
 
-                Forms\Components\TextInput::make('characters_id')
-                    ->numeric()
-                    ->required(),
+                Forms\Components\Select::make('characters_id')
+                    ->label('Character')
+                    ->relationship('character', 'name')
+                    ->native(false)
+                    ->searchable()
+                    ->preload(),
 
                 Forms\Components\TextInput::make('start')
                     ->numeric()
+                    ->default(1)
                     ->required(),
             ]);
     }
@@ -136,6 +139,7 @@ class WeaponResource extends Resource
             'index' => Pages\ListWeapons::route('/'),
             'create' => Pages\CreateWeapon::route('/create'),
             'edit' => Pages\EditWeapon::route('/{record}/edit'),
+            'view' => Pages\ViewWeapon::route('/{record}'),
         ];
     }
 }

@@ -88,6 +88,7 @@ class AbilityResource extends Resource
             'index' => Pages\ListAbilities::route('/'),
             'create' => Pages\CreateAbility::route('/create'),
             'edit' => Pages\EditAbility::route('/{record}/edit'),
+            'view' => Pages\ViewAbility::route('/{record}'),
         ];
     }
 }

@@ -5,13 +5,12 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\BannerResource\Pages;
 use App\Filament\Resources\BannerResource\RelationManagers;
 use App\Models\Banner;
+use App\Models\Character;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class BannerResource extends Resource
 {
@@ -21,6 +20,8 @@ class BannerResource extends Resource
 
     protected static ?string $navigationGroup = 'API';
 
+    protected static ?string $recordTitleAttribute = 'name';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -29,16 +30,22 @@ class BannerResource extends Resource
                     ->maxLength(255)
                     ->required(),
 
+                Forms\Components\TextInput::make('img')
+                    ->required(),
+
                 Forms\Components\DatePicker::make('from')
                     ->required(),
 
                 Forms\Components\DatePicker::make('to')
                     ->required(),
 
-                Forms\Components\TextInput::make('characters')
-                    ->required(),
-
-                Forms\Components\TextInput::make('img')
+                Forms\Components\Select::make('characters')
+                    ->multiple()
+                    ->options(Character::all()->pluck('name', 'id'))
+                    ->searchable()
+                    ->preload()
+                    ->native(false)
+                    ->columnSpanFull()
                     ->required(),
             ]);
     }
@@ -61,11 +68,6 @@ class BannerResource extends Resource
                     ->translateLabel()
                     ->sortable()
                     ->searchable(),
-
-                Tables\Columns\TextColumn::make('characters')
-                    ->translateLabel()
-                    ->sortable()
-                    ->searchable(),
             ])
             ->filters([
                 //
@@ -80,19 +82,13 @@ class BannerResource extends Resource
             ]);
     }
 
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
-
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListBanners::route('/'),
             'create' => Pages\CreateBanner::route('/create'),
             'edit' => Pages\EditBanner::route('/{record}/edit'),
+            'view' => Pages\ViewBanner::route('/{record}'),
         ];
     }
 }

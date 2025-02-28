@@ -6,14 +6,13 @@ use App\Enums\Element;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Character extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'banner_id',
         'name',
         'description',
         'profile',
@@ -37,19 +36,30 @@ class Character extends Model
         'start',
         'cost',
         'image',
+        'special_partner'
     ];
 
     protected $casts = [
         'element' => Element::class,
     ];
 
-    public function attack(): HasMany
+    public function attack(): HasOne
     {
-        return $this->hasMany(Attack::class);
+        return $this->hasOne(Attack::class);
     }
 
     public function banner(): BelongsTo
     {
         return $this->belongsTo(Banner::class);
+    }
+
+    public function weapon(): BelongsTo
+    {
+        return $this->belongsTo(Weapon::class);
+    }
+
+    public function specialPartner(): HasOne
+    {
+        return $this->hasOne(Character::class, 'special_partner');
     }
 }
