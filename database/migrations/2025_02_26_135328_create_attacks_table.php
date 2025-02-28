@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('attacks', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->longText('description');
+            $table->integer('mp_cost');
+            $table->string('type_atk');
             $table->timestamps();
         });
     }
