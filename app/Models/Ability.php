@@ -10,10 +10,9 @@ class Ability extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 
-        'descripton', 
-        'type', 
-        'start'
+        'name',
+        'descripton',
+        'type',
+        'start',
     ];
-
 }

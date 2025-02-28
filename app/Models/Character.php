@@ -36,7 +36,7 @@ class Character extends Model
         'start',
         'cost',
         'image',
-        'special_partner'
+        'special_partner',
     ];
 
     protected $casts = [

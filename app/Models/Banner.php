@@ -15,7 +15,7 @@ class Banner extends Model
         'from',
         'to',
         'characters',
-        'img'
+        'img',
     ];
 
     protected $casts = [

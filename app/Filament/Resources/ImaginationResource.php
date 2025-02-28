@@ -4,15 +4,12 @@ namespace App\Filament\Resources;
 
 use App\Enums\Element;
 use App\Filament\Resources\ImaginationResource\Pages;
-use App\Filament\Resources\ImaginationResource\RelationManagers;
 use App\Models\Imagination;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ImaginationResource extends Resource
 {

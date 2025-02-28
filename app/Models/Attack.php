@@ -15,7 +15,7 @@ class Attack extends Model
         'name',
         'description',
         'mp_cost',
-        'type_atk'
+        'type_atk',
     ];
 
     protected $casts = [
