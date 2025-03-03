@@ -30,7 +30,7 @@ return new class extends Migration
             $table->integer('spd');
             $table->string('ultime');
             $table->string('ultime_description');
-            $table->integer('enhance')->nullable();
+            $table->string('enhance')->nullable();
             $table->integer('enhance_atk')->nullable();
             $table->integer('enhance_atk2')->nullable();
             $table->integer('start');
