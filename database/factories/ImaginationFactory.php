@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Enums\Element;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class ImaginationFactory extends Factory
 {
@@ -11,6 +12,7 @@ class ImaginationFactory extends Factory
     {
         return [
             'name' => fake()->name(),
+            'slug' => Str::slug(fake()->name()),
             'description' => fake()->test(),
             'element' => Element::Neutral,
         ];

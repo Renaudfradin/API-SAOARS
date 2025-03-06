@@ -6,6 +6,7 @@ use App\Enums\Element;
 use App\Models\Attack;
 use App\Models\Character;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class CharacterFactory extends Factory
 {
@@ -13,6 +14,7 @@ class CharacterFactory extends Factory
     {
         return [
             'name' => fake()->name(),
+            'slug' => Str::slug(fake()->name()),
             'description' => fake()->text(),
             'profile' => fake()->text(),
             'element' => Element::Earth,

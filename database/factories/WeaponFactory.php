@@ -6,6 +6,7 @@ use App\Enums\Element;
 use App\Enums\WeaponType;
 use App\Models\Character;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class WeaponFactory extends Factory
 {
@@ -13,6 +14,7 @@ class WeaponFactory extends Factory
     {
         return [
             'name' => fake()->name(),
+            'slug' => Str::slug(fake()->name()),
             'type' => WeaponType::Gauntlet,
             'element_weapons' => Element::Water,
             'hp' => fake()->randomDigit(),

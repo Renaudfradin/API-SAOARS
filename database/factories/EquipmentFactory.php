@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Enums\Element;
 use App\Enums\EquipmentType;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class EquipmentFactory extends Factory
 {
@@ -12,6 +13,7 @@ class EquipmentFactory extends Factory
     {
         return [
             'name' => fake()->name(),
+            'slug' => Str::slug(fake()->name()),
             'type' => Element::Earth,
             'type_equipment' => EquipmentType::Armour,
             'hp' => fake()->randomDigit(),

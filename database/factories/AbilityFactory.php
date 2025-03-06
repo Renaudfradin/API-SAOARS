@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class AbilityFactory extends Factory
@@ -14,6 +13,7 @@ class AbilityFactory extends Factory
     {
         return [
             'name' => fake()->name(),
+            'slug' => Str::slug(fake()->name()),
             'descripton' => fake()->text(),
             'type' => 'test',
             'start' => fake()->randomDigit(),
