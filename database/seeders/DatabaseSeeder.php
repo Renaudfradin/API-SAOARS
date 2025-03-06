@@ -58,10 +58,10 @@ class DatabaseSeeder extends Seeder
                 'characters' => $character,
             ]);
 
-        Attack::factory(80);
-        Ability::factory(60);
-        Imagination::factory(100);
-        Equipment::factory(120);
+        Attack::factory(80)->create();
+        Ability::factory(60)->create();
+        //Imagination::factory(100)->create();
+        Equipment::factory(120)->create();
     }
 
     protected function withProgressBar(int $amount, Closure $createCollectionOfOne): Collection

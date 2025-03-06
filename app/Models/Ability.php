@@ -11,6 +11,7 @@ class Ability extends Model
 
     protected $fillable = [
         'name',
+        'slug',
         'descripton',
         'type',
         'start',

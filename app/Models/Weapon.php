@@ -14,6 +14,7 @@ class Weapon extends Model
 
     protected $fillable = [
         'name',
+        'slug',
         'type',
         'element_weapons',
         'hp',

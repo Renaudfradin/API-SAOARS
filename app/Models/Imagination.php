@@ -12,6 +12,7 @@ class Imagination extends Model
 
     protected $fillable = [
         'name',
+        'slug',
         'description',
         'element',
     ];
