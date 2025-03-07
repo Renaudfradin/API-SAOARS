@@ -7,11 +7,12 @@ use App\Filament\Resources\AttackResource\Pages;
 use App\Models\Attack;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Forms\Set;
 use Illuminate\Support\Str;
+
 class AttackResource extends Resource
 {
     protected static ?string $model = Attack::class;

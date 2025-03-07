@@ -13,7 +13,6 @@ use App\Models\Weapon;
 use Closure;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Log;
 use Symfony\Component\Console\Helper\ProgressBar;
 
 class DatabaseSeeder extends Seeder
@@ -60,7 +59,7 @@ class DatabaseSeeder extends Seeder
 
         Attack::factory(80)->create();
         Ability::factory(60)->create();
-        //Imagination::factory(100)->create();
+        // Imagination::factory(100)->create();
         Equipment::factory(120)->create();
     }
 
@@ -70,7 +69,7 @@ class DatabaseSeeder extends Seeder
 
         $progressBar->start();
 
-        $items = new Collection();
+        $items = new Collection;
 
         foreach (range(1, $amount) as $i) {
             $items = $items->merge(

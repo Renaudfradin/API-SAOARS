@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Models\Attack;
 use Illuminate\Http\Resources\Json\JsonResource;
+
 class CharacterResource extends JsonResource
 {
     public function getAttack($attackId)

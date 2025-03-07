@@ -8,11 +8,12 @@ use App\Filament\Resources\WeaponResource\Pages;
 use App\Models\Weapon;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Forms\Set;
 use Illuminate\Support\Str;
+
 class WeaponResource extends Resource
 {
     protected static ?string $model = Weapon::class;

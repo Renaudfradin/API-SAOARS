@@ -8,11 +8,12 @@ use App\Filament\Resources\EquipmentResource\Pages;
 use App\Models\Equipment;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Forms\Set;
 use Illuminate\Support\Str;
+
 class EquipmentResource extends Resource
 {
     protected static ?string $model = Equipment::class;
@@ -31,9 +32,9 @@ class EquipmentResource extends Resource
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
 
                 Forms\Components\TextInput::make('slug')
-                        ->translateLabel()
-                        ->maxLength(255)
-                        ->required(),
+                    ->translateLabel()
+                    ->maxLength(255)
+                    ->required(),
 
                 Forms\Components\Select::make('type')
                     ->options(EquipmentType::class)

@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class EquipmentResource extends JsonResource
+class EquipmentDetailResource extends JsonResource
 {
     public function toArray($request)
     {
@@ -14,6 +14,16 @@ class EquipmentResource extends JsonResource
             'slug' => $this->slug,
             'type' => $this->type,
             'type_equipment' => $this->type_equipment,
+            'hp' => $this->hp,
+            'mp' => $this->mp,
+            'atk' => $this->atk,
+            'matk' => $this->matk,
+            'def' => $this->def,
+            'mdef' => $this->mdef,
+            'crit' => $this->crit,
+            'spd' => $this->spd,
+            'effect_1' => $this->effect_1,
+            'effect_2' => $this->effect_2,
             'start' => $this->start,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

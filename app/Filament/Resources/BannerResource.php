@@ -7,10 +7,10 @@ use App\Models\Banner;
 use App\Models\Character;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Forms\Set;
 use Illuminate\Support\Str;
 
 class BannerResource extends Resource
@@ -33,9 +33,9 @@ class BannerResource extends Resource
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
 
                 Forms\Components\TextInput::make('slug')
-                        ->translateLabel()
-                        ->maxLength(255)
-                        ->required(),
+                    ->translateLabel()
+                    ->maxLength(255)
+                    ->required(),
 
                 Forms\Components\TextInput::make('img')
                     ->required(),
