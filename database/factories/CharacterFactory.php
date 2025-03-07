@@ -2,22 +2,42 @@
 
 namespace Database\Factories;
 
+use App\Enums\Element;
+use App\Models\Attack;
+use App\Models\Character;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Character>
- */
 class CharacterFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->name(),
+            'slug' => Str::slug(fake()->name()),
+            'description' => fake()->text(),
+            'profile' => fake()->text(),
+            'element' => Element::Earth,
+            'atk1' => Attack::class,
+            'atk2' => Attack::class,
+            'atk3' => Attack::class,
+            'hp' => fake()->randomDigit(),
+            'mp' => fake()->randomDigit(),
+            'atk' => fake()->randomDigit(),
+            'matk' => fake()->randomDigit(),
+            'def' => fake()->randomDigit(),
+            'mdef' => fake()->randomDigit(),
+            'crit' => fake()->randomDigit(),
+            'spd' => fake()->randomDigit(),
+            'ultime' => fake()->text(),
+            'ultime_description' => fake()->text(),
+            'enhance' => fake()->text(),
+            'enhance_atk' => Attack::class,
+            'enhance_atk2' => Attack::class,
+            'start' => fake()->randomDigit(),
+            'cost' => fake()->randomDigit(),
+            'special_partner' => Character::class,
+            'image' => fake()->imageUrl(640, 480, 'animals', true),
         ];
     }
 }

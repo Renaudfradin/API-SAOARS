@@ -13,6 +13,7 @@ class Attack extends Model
 
     protected $fillable = [
         'name',
+        'slug',
         'description',
         'mp_cost',
         'type_atk',

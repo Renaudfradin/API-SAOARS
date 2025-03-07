@@ -2,22 +2,20 @@
 
 namespace Database\Factories;
 
+use App\Enums\AttackType;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Attack>
- */
 class AttackFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->name(),
+            'slug' => Str::slug(fake()->name()),
+            'description' => fake()->text(),
+            'mp_cost' => fake()->randomDigit(),
+            'type_atk' => AttackType::B,
         ];
     }
 }

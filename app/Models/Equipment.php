@@ -13,6 +13,7 @@ class Equipment extends Model
 
     protected $fillable = [
         'name',
+        'slug',
         'type',
         'type_equipment',
         'hp',
