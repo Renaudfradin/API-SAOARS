@@ -40,7 +40,7 @@ class ImportCsv implements ShouldQueue
      */
     public function __construct(
         protected Import $import,
-        protected array | string $rows,
+        protected array|string $rows,
         protected array $columnMap,
         protected array $options = [],
     ) {
@@ -91,8 +91,8 @@ class ImportCsv implements ShouldQueue
         $this->import::query()
             ->whereKey($this->import)
             ->update([
-                'processed_rows' => DB::raw('processed_rows + ' . $processedRows),
-                'successful_rows' => DB::raw('successful_rows + ' . $successfulRows),
+                'processed_rows' => DB::raw('processed_rows + '.$processedRows),
+                'successful_rows' => DB::raw('successful_rows + '.$successfulRows),
             ]);
 
         $this->import::query()
@@ -202,7 +202,7 @@ class ImportCsv implements ShouldQueue
         }
 
         if (count($exceptions) > 1) {
-            throw new Exception('Multiple types of exceptions occurred: [' . implode('], [', array_keys($exceptions)) . ']');
+            throw new Exception('Multiple types of exceptions occurred: ['.implode('], [', array_keys($exceptions)).']');
         }
 
         throw Arr::first($exceptions);

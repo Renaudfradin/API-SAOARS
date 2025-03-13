@@ -34,11 +34,6 @@ class AbilityImporter extends Importer
 
     public function resolveRecord(): ?Ability
     {
-        // return Ability::firstOrNew([
-        //     // Update existing records, matching them by `$this->data['column_name']`
-        //     'email' => $this->data['email'],
-        // ]);
-
         return new Ability();
     }
 
