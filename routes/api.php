@@ -14,6 +14,8 @@ Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/characters', [CharacterController::class, 'index']);
 
+Route::get('/character/random', [CharacterController::class, 'random']);
+
 Route::get('/character/{character:slug}', [CharacterController::class, 'show']);
 
 Route::get('/banners', [BannerController::class, 'index']);
