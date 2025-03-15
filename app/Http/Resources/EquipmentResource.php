@@ -15,6 +15,7 @@ class EquipmentResource extends JsonResource
             'type' => $this->type,
             'type_equipment' => $this->type_equipment,
             'start' => $this->start,
+            'image' => $this?->image,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
