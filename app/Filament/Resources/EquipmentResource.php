@@ -11,6 +11,7 @@ use Filament\Forms\Form;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 
@@ -45,6 +46,7 @@ class EquipmentResource extends Resource
                 Forms\Components\Select::make('type_equipment')
                     ->options(Element::class)
                     ->native(false)
+                    ->searchable()
                     ->required(),
 
                 Forms\Components\TextInput::make('hp')
@@ -79,11 +81,9 @@ class EquipmentResource extends Resource
                     ->numeric()
                     ->required(),
 
-                Forms\Components\TextInput::make('effect_1')
-                    ->required(),
+                Forms\Components\TextInput::make('effect_1'),
 
-                Forms\Components\TextInput::make('effect_2')
-                    ->required(),
+                Forms\Components\TextInput::make('effect_2'),
 
                 Forms\Components\TextInput::make('start')
                     ->numeric()
@@ -116,7 +116,21 @@ class EquipmentResource extends Resource
                     ->searchable(),
             ])
             ->filters([
-                //
+                SelectFilter::make('type')
+                    ->options(EquipmentType::class)
+                    ->native(false),
+
+                SelectFilter::make('type_equipment')
+                    ->options(Element::class)
+                    ->searchable()
+                    ->native(false),
+
+                SelectFilter::make('start')
+                    ->options([
+                        '2' => '2',
+                        '3' => '3',
+                        '4' => '4'
+                    ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -126,13 +140,6 @@ class EquipmentResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array
