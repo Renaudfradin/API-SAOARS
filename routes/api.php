@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index']);
 
+Route::get('/stats', [CharacterController::class, 'stats']);
+
 Route::get('/characters', [CharacterController::class, 'index']);
 
 Route::get('/character/random', [CharacterController::class, 'random']);
