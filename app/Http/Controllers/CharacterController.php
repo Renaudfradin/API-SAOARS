@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\CharacterDetailResource;
 use App\Http\Resources\CharacterResource;
+use App\Http\Resources\StatsResource;
 use App\Models\Character;
 use Illuminate\Support\Facades\Cache;
 
@@ -88,5 +89,21 @@ class CharacterController extends Controller
         }
         
         return CharacterResource::make($character);
+    }
+
+     /**
+     * @OA\Get(
+     *     path="/api/stats",
+     *     summary="Get stats",
+     *     tags={"Home"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Get stats"
+     *     )
+     * )
+     */
+    public function stats()
+    {
+        return StatsResource::make([]);
     }
 }
