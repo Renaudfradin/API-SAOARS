@@ -1,0 +1,541 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API SAOARS/UB",
+        "description": "Documentation de l'API API SAOARS/UB",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/abilities": {
+            "get": {
+                "tags": [
+                    "Ability"
+                ],
+                "summary": "Get all abilities",
+                "operationId": "8878dd9cc0d17f160a9e7b01390e12ff",
+                "responses": {
+                    "200": {
+                        "description": "Get all abilities"
+                    }
+                }
+            }
+        },
+        "/api/abilities/{ability}": {
+            "get": {
+                "tags": [
+                    "Ability"
+                ],
+                "summary": "Get a ability by slug",
+                "operationId": "edeacf1594406853fdb4ecc799fe6800",
+                "parameters": [
+                    {
+                        "name": "ability",
+                        "in": "path",
+                        "description": "Ability slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get a ability by slug",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Ability Name"
+                                        },
+                                        "slug": {
+                                            "type": "string",
+                                            "example": "ability-name"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "Ability description"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Ability not found"
+                    }
+                }
+            }
+        },
+        "/api/attacks": {
+            "get": {
+                "tags": [
+                    "Attack"
+                ],
+                "summary": "Get all attacks",
+                "operationId": "edcf6d64dd472bba5b57555c7bde4445",
+                "responses": {
+                    "200": {
+                        "description": "Get all attacks"
+                    }
+                }
+            }
+        },
+        "/api/attack/{attack}": {
+            "get": {
+                "tags": [
+                    "Attack"
+                ],
+                "summary": "Get a attack by slug",
+                "operationId": "9b42db3c638ad34e5a024c2d07f5b178",
+                "parameters": [
+                    {
+                        "name": "attack",
+                        "in": "path",
+                        "description": "Attack slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get a attack by slug",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Attack Name"
+                                        },
+                                        "slug": {
+                                            "type": "string",
+                                            "example": "attack-name"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "Attack description"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Attack not found"
+                    }
+                }
+            }
+        },
+        "/api/banners": {
+            "get": {
+                "tags": [
+                    "Banner"
+                ],
+                "summary": "Get all banners",
+                "operationId": "ef6e2a0694446d424bc4d5fa2458f5b1",
+                "responses": {
+                    "200": {
+                        "description": "Get all banners"
+                    }
+                }
+            }
+        },
+        "/api/banner/{banner}": {
+            "get": {
+                "tags": [
+                    "Banner"
+                ],
+                "summary": "Get a banner by slug",
+                "operationId": "081118b54dffbd42e118b9f9c18e4754",
+                "parameters": [
+                    {
+                        "name": "banner",
+                        "in": "path",
+                        "description": "Banner slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get a banner by slug",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Banner Name"
+                                        },
+                                        "slug": {
+                                            "type": "string",
+                                            "example": "banner-name"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "Banner description"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Banner not found"
+                    }
+                }
+            }
+        },
+        "/api/characters": {
+            "get": {
+                "tags": [
+                    "Character"
+                ],
+                "summary": "Get all characters",
+                "operationId": "1797cf6529aea596ae858da8b98f8eff",
+                "responses": {
+                    "200": {
+                        "description": "Get all characters"
+                    }
+                }
+            }
+        },
+        "/api/character/{character}": {
+            "get": {
+                "tags": [
+                    "Character"
+                ],
+                "summary": "Get a character by slug",
+                "operationId": "e23b2e2b993060276b5de9f5ce23e9be",
+                "parameters": [
+                    {
+                        "name": "character",
+                        "in": "path",
+                        "description": "Character slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get a character by slug",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Character Name"
+                                        },
+                                        "slug": {
+                                            "type": "string",
+                                            "example": "character-name"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "Character description"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Character not found"
+                    }
+                }
+            }
+        },
+        "/api/character/random": {
+            "get": {
+                "tags": [
+                    "Character"
+                ],
+                "summary": "Get a random character",
+                "operationId": "e3ab9efe8a9ab47a41cb30d111fd07d0",
+                "responses": {
+                    "200": {
+                        "description": "Get a random character"
+                    }
+                }
+            }
+        },
+        "/api/equipments": {
+            "get": {
+                "tags": [
+                    "Equipment"
+                ],
+                "summary": "Get all equipments",
+                "operationId": "6ef4946ec56ce0f0c3e613f7c57d37f2",
+                "responses": {
+                    "200": {
+                        "description": "Get all equipments"
+                    }
+                }
+            }
+        },
+        "/api/equipments/{equipment}": {
+            "get": {
+                "tags": [
+                    "Equipment"
+                ],
+                "summary": "Get a equipment by slug",
+                "operationId": "13e8839631921360d244c97e41952c59",
+                "parameters": [
+                    {
+                        "name": "equipment",
+                        "in": "path",
+                        "description": "Equipment slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get a equipment by slug",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Equipment Name"
+                                        },
+                                        "slug": {
+                                            "type": "string",
+                                            "example": "equipment-name"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "Equipment description"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Equipment not found"
+                    }
+                }
+            }
+        },
+        "/api/": {
+            "get": {
+                "tags": [
+                    "Home"
+                ],
+                "summary": "Default Home",
+                "operationId": "f34249f22f751d316311d36e56f78ade",
+                "responses": {
+                    "200": {
+                        "description": "Default Home"
+                    }
+                }
+            }
+        },
+        "/api/imaginations": {
+            "get": {
+                "tags": [
+                    "Imagination"
+                ],
+                "summary": "Get all imaginations",
+                "operationId": "b6d8fb4fdc97a366a6829e2ec2becfda",
+                "responses": {
+                    "200": {
+                        "description": "Get all imaginations"
+                    }
+                }
+            }
+        },
+        "/api/imaginations/{imagination}": {
+            "get": {
+                "tags": [
+                    "Imagination"
+                ],
+                "summary": "Get a imagination by slug",
+                "operationId": "3b4a40867139cab5a00ba70897280c51",
+                "parameters": [
+                    {
+                        "name": "imagination",
+                        "in": "path",
+                        "description": "Imagination slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get a imagination by slug",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Imagination Name"
+                                        },
+                                        "slug": {
+                                            "type": "string",
+                                            "example": "imagination-name"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "Imagination description"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Imagination not found"
+                    }
+                }
+            }
+        },
+        "/api/weapons": {
+            "get": {
+                "tags": [
+                    "Weapon"
+                ],
+                "summary": "Get all weapons",
+                "operationId": "d1b791c5b090d7d5f19e4171bab09848",
+                "responses": {
+                    "200": {
+                        "description": "Get all weapons"
+                    }
+                }
+            }
+        },
+        "/api/weapons/{weapon}": {
+            "get": {
+                "tags": [
+                    "Weapon"
+                ],
+                "summary": "Get a weapon by slug",
+                "operationId": "d847555e1b2011721df0d04a8fb3794b",
+                "parameters": [
+                    {
+                        "name": "weapon",
+                        "in": "path",
+                        "description": "Weapon slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get a weapon by slug",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Weapon Name"
+                                        },
+                                        "slug": {
+                                            "type": "string",
+                                            "example": "weapon-name"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "Weapon description"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Weapon not found"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Ability",
+            "description": "Ability"
+        },
+        {
+            "name": "Attack",
+            "description": "Attack"
+        },
+        {
+            "name": "Banner",
+            "description": "Banner"
+        },
+        {
+            "name": "Character",
+            "description": "Character"
+        },
+        {
+            "name": "Equipment",
+            "description": "Equipment"
+        },
+        {
+            "name": "Home",
+            "description": "Home"
+        },
+        {
+            "name": "Imagination",
+            "description": "Imagination"
+        },
+        {
+            "name": "Weapon",
+            "description": "Weapon"
+        }
+    ]
+}
