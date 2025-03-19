@@ -32,6 +32,7 @@ class WeaponResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->maxLength(255)
                     ->required()
+                    ->live(onBlur: true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
 
                 Forms\Components\TextInput::make('slug')

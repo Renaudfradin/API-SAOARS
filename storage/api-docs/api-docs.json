@@ -288,6 +288,20 @@
                 }
             }
         },
+        "/api/stats": {
+            "get": {
+                "tags": [
+                    "Home"
+                ],
+                "summary": "Get stats",
+                "operationId": "8bec52625f2df875831d65ade122134c",
+                "responses": {
+                    "200": {
+                        "description": "Get stats"
+                    }
+                }
+            }
+        },
         "/api/equipments": {
             "get": {
                 "tags": [
@@ -522,12 +536,12 @@
             "description": "Character"
         },
         {
-            "name": "Equipment",
-            "description": "Equipment"
-        },
-        {
             "name": "Home",
             "description": "Home"
+        },
+        {
+            "name": "Equipment",
+            "description": "Equipment"
         },
         {
             "name": "Imagination",
