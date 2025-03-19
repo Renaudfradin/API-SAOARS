@@ -11,6 +11,7 @@ use Filament\Forms\Form;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 
@@ -95,6 +96,8 @@ class WeaponResource extends Resource
                     ->searchable()
                     ->preload(),
 
+                Forms\Components\TextInput::make('image'),
+
                 Forms\Components\TextInput::make('start')
                     ->numeric()
                     ->default(1)
@@ -122,7 +125,22 @@ class WeaponResource extends Resource
                     ->searchable(),
             ])
             ->filters([
-                //
+                SelectFilter::make('element_weapons')
+                    ->options(Element::class)
+                    ->searchable()
+                    ->native(false),
+
+                SelectFilter::make('type')
+                    ->options(WeaponType::class)
+                    ->searchable()
+                    ->native(false),
+
+                SelectFilter::make('start')
+                    ->options([
+                        '2' => '2',
+                        '3' => '3',
+                        '4' => '4'
+                    ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -132,13 +150,6 @@ class WeaponResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array
