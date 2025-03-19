@@ -29,6 +29,7 @@ class Weapon extends Model
         'effect_2',
         'effect_3',
         'characters_id',
+        'image',
         'start',
     ];
 
