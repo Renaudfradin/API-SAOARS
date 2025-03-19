@@ -9,6 +9,17 @@ use Illuminate\Support\Facades\Cache;
 
 class CharacterController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/characters",
+     *     summary="Get all characters",
+     *     tags={"Character"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Get all characters"
+     *     )
+     * )
+     */
     public function index()
     {
         $page = request()->get('page', 1);
@@ -21,11 +32,53 @@ class CharacterController extends Controller
         });
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/character/{character}",
+     *     summary="Get a character by slug",
+     *     tags={"Character"},
+     *     @OA\Parameter(
+     *         name="character",
+     *         in="path",
+     *         required=true,
+     *         description="Character slug",
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Get a character by slug",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="id", type="integer", example=1),
+     *             @OA\Property(property="name", type="string", example="Character Name"),
+     *             @OA\Property(property="slug", type="string", example="character-name"),
+     *             @OA\Property(property="description", type="string", example="Character description")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Character not found"
+     *     )
+     * )
+     */
     public function show(Character $character)
     {
         return CharacterDetailResource::make($character);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/character/random",
+     *     summary="Get a random character",
+     *     tags={"Character"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Get a random character"
+     *     )
+     * )
+     */
     public function random()
     {
         $character = Character::inRandomOrder()->first();
