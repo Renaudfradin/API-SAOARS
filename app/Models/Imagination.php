@@ -15,9 +15,12 @@ class Imagination extends Model
         'slug',
         'description',
         'element',
+        'character',
+        'image',
     ];
 
     protected $casts = [
         'element' => Element::class,
+        'character' => 'string'
     ];
 }

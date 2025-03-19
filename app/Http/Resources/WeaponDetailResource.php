@@ -33,6 +33,7 @@ class WeaponDetailResource extends JsonResource
             'effect_3' => $this->effect_3,
             'characters_id' => $this->getCharacter($this->characters_id),
             'start' => $this->start,
+            'image' => $this?->image,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

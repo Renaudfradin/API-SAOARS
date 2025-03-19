@@ -17,56 +17,67 @@ class WeaponImporter extends Importer
             ImportColumn::make('name')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
+
             ImportColumn::make('slug')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
+
             ImportColumn::make('type')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
+
             ImportColumn::make('element_weapons')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
+
             ImportColumn::make('hp')
                 ->requiredMapping()
                 ->numeric()
                 ->rules(['required', 'integer']),
+
             ImportColumn::make('mp')
                 ->requiredMapping()
                 ->numeric()
                 ->rules(['required', 'integer']),
+
             ImportColumn::make('atk')
                 ->requiredMapping()
                 ->numeric()
                 ->rules(['required', 'integer']),
+
             ImportColumn::make('matk')
                 ->requiredMapping()
                 ->numeric()
                 ->rules(['required', 'integer']),
+
             ImportColumn::make('def')
                 ->requiredMapping()
                 ->numeric()
                 ->rules(['required', 'integer']),
+
             ImportColumn::make('mdef')
                 ->requiredMapping()
                 ->numeric()
                 ->rules(['required', 'integer']),
+
             ImportColumn::make('crit')
                 ->requiredMapping()
                 ->numeric()
                 ->rules(['required', 'integer']),
+
             ImportColumn::make('spd')
                 ->requiredMapping()
                 ->numeric()
                 ->rules(['required', 'integer']),
+
             ImportColumn::make('effect_1')
+                ->requiredMapping()
                 ->rules(['max:255']),
-            ImportColumn::make('effect_2')
-                ->rules(['max:255']),
-            ImportColumn::make('effect_3')
-                ->rules(['max:255']),
-            ImportColumn::make('characters_id')
-                ->numeric()
-                ->rules(['integer']),
+
+            ImportColumn::make('effect_2'),
+
+            ImportColumn::make('effect_3'),
+
             ImportColumn::make('start')
                 ->requiredMapping()
                 ->numeric()
@@ -76,11 +87,6 @@ class WeaponImporter extends Importer
 
     public function resolveRecord(): ?Weapon
     {
-        // return Weapon::firstOrNew([
-        //     // Update existing records, matching them by `$this->data['column_name']`
-        //     'email' => $this->data['email'],
-        // ]);
-
         return new Weapon;
     }
 

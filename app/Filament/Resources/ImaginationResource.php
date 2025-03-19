@@ -43,6 +43,14 @@ class ImaginationResource extends Resource
                     ->options(Element::class)
                     ->native(false)
                     ->required(),
+
+                Forms\Components\TextInput::make('character')
+                    ->maxLength(255)
+                    ->required(),
+
+                Forms\Components\TextInput::make('image')
+                    ->maxLength(255)
+                    ->required(),
             ]);
     }
 
@@ -59,9 +67,11 @@ class ImaginationResource extends Resource
                     ->translateLabel()
                     ->sortable()
                     ->searchable(),
-            ])
-            ->filters([
-                //
+
+                Tables\Columns\TextColumn::make('character')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -71,13 +81,6 @@ class ImaginationResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array

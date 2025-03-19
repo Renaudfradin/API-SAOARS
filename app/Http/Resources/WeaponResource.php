@@ -15,6 +15,7 @@ class WeaponResource extends JsonResource
             'type' => $this->type,
             'element_weapons' => $this->element_weapons,
             'start' => $this->start,
+            'image' => $this?->image,
             'created_at' => $this->created_at,
         ];
     }
