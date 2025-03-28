@@ -97,7 +97,11 @@ class WeaponResource extends Resource
                     ->searchable()
                     ->preload(),
 
-                Forms\Components\TextInput::make('image'),
+                Forms\Components\FileUpload::make('image')
+                    ->disk('scaleway')
+                    ->directory('weapon')
+                    ->image()
+                    ->required(),
 
                 Forms\Components\TextInput::make('start')
                     ->numeric()

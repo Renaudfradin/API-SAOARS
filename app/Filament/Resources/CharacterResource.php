@@ -133,7 +133,10 @@ class CharacterResource extends Resource
                     ->relationship('specialPartner', 'name')
                     ->native(false),
 
-                Forms\Components\TextInput::make('image')
+                Forms\Components\FileUpload::make('image')
+                    ->disk('scaleway')
+                    ->directory('character')
+                    ->image()
                     ->required(),
             ]);
     }

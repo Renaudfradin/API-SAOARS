@@ -86,7 +86,11 @@ class EquipmentResource extends Resource
 
                 Forms\Components\TextInput::make('effect_2'),
 
-                Forms\Components\TextInput::make('image'),
+                Forms\Components\FileUpload::make('image')
+                    ->disk('scaleway')
+                    ->directory('equipment')
+                    ->image()
+                    ->required(),
 
                 Forms\Components\TextInput::make('start')
                     ->numeric()

@@ -47,6 +47,17 @@ return [
             'report' => false,
         ],
 
+        'scaleway' => [
+            'driver' => 's3',
+            'key' => env('SCALEWAY_KEY'),
+            'secret' => env('SCALEWAY_SECRET'),
+            'region' => env('SCALEWAY_REGION'),
+            'bucket' => env('SCALEWAY_BUCKET'),
+            'url' => env('OBJECT_STORAGE_PUBLIC_URL'),
+            'endpoint' => env('SCALEWAY_ENDPOINT', 'https://s3.your-region.scw.cloud'),
+            'use_path_style_endpoint' => true,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

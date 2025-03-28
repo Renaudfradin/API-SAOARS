@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class EquipmentResource extends JsonResource
 {
@@ -15,7 +16,7 @@ class EquipmentResource extends JsonResource
             'type' => $this->type,
             'type_equipment' => $this->type_equipment,
             'start' => $this->start,
-            'image' => $this?->image,
+            'image' => Storage::disk('scaleway')->url($this->image),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

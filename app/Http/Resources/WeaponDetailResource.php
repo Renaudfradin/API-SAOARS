@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Models\Character;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class WeaponDetailResource extends JsonResource
 {
@@ -32,8 +33,7 @@ class WeaponDetailResource extends JsonResource
             'effect_2' => $this->effect_2,
             'effect_3' => $this->effect_3,
             'characters_id' => $this->getCharacter($this->characters_id),
-            'start' => $this->start,
-            'image' => $this?->image,
+            'image' => Storage::disk('scaleway')->url($this->image),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

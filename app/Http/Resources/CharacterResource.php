@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Models\Attack;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class CharacterResource extends JsonResource
 {
@@ -24,7 +25,7 @@ class CharacterResource extends JsonResource
             'atk2' => $this->getAttack($this->atk2)->type_atk,
             'atk3' => $this->getAttack($this->atk3)->type_atk,
             'start' => $this->start,
-            'image' => $this->image,
+            'image' => Storage::disk('scaleway')->url($this->image),
             'created_at' => $this->created_at,
         ];
     }
