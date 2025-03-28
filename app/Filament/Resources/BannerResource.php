@@ -42,6 +42,8 @@ class BannerResource extends Resource
                     ->disk('scaleway')
                     ->directory('banner')
                     ->image()
+                    ->downloadable()
+                    ->openable()
                     ->required(),
 
                 Forms\Components\DatePicker::make('from')

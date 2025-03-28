@@ -101,6 +101,8 @@ class WeaponResource extends Resource
                     ->disk('scaleway')
                     ->directory('weapon')
                     ->image()
+                    ->downloadable()
+                    ->openable()
                     ->required(),
 
                 Forms\Components\TextInput::make('start')

@@ -90,6 +90,8 @@ class EquipmentResource extends Resource
                     ->disk('scaleway')
                     ->directory('equipment')
                     ->image()
+                    ->downloadable()
+                    ->openable()
                     ->required(),
 
                 Forms\Components\TextInput::make('start')

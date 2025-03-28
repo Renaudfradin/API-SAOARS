@@ -137,6 +137,8 @@ class CharacterResource extends Resource
                     ->disk('scaleway')
                     ->directory('character')
                     ->image()
+                    ->downloadable()
+                    ->openable()
                     ->required(),
             ]);
     }
