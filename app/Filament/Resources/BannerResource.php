@@ -38,7 +38,12 @@ class BannerResource extends Resource
                     ->maxLength(255)
                     ->required(),
 
-                Forms\Components\TextInput::make('img')
+                Forms\Components\FileUpload::make('img')
+                    ->disk('scaleway')
+                    ->directory('banner')
+                    ->image()
+                    ->downloadable()
+                    ->openable()
                     ->required(),
 
                 Forms\Components\DatePicker::make('from')
@@ -77,11 +82,10 @@ class BannerResource extends Resource
                     ->sortable()
                     ->searchable(),
             ])
-            ->filters([
-                //
-            ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -10,6 +10,7 @@ use Filament\Forms\Form;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 
@@ -74,8 +75,16 @@ class ImaginationResource extends Resource
                     ->sortable()
                     ->searchable(),
             ])
+            ->filters([
+                SelectFilter::make('element')
+                    ->options(Element::class)
+                    ->searchable()
+                    ->native(false),
+            ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
