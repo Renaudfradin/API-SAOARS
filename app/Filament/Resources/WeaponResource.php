@@ -121,6 +121,11 @@ class WeaponResource extends Resource
                     ->sortable()
                     ->searchable(),
 
+                Tables\Columns\TextColumn::make('element_weapons')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
+
                 Tables\Columns\TextColumn::make('type')
                     ->translateLabel()
                     ->sortable()
@@ -146,11 +151,13 @@ class WeaponResource extends Resource
                     ->options([
                         '2' => '2',
                         '3' => '3',
-                        '4' => '4'
+                        '4' => '4',
                     ]),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

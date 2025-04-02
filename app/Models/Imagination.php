@@ -21,6 +21,6 @@ class Imagination extends Model
 
     protected $casts = [
         'element' => Element::class,
-        'character' => 'string'
+        'character' => 'string',
     ];
 }
