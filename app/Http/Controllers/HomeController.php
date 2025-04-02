@@ -9,13 +9,13 @@ class HomeController extends Controller
      *     path="/api/",
      *     summary="Default Home",
      *     tags={"Home"},
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Default Home"
      *     )
      * )
      */
-
     public function index()
     {
         return response()->json([

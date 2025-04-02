@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Models\Character;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class BannerDetailResource extends JsonResource
 {
@@ -21,7 +22,7 @@ class BannerDetailResource extends JsonResource
             'characters' => $this->getcharacters($this->characters),
             'from' => $this->from,
             'to' => $this->to,
-            'img' => $this->img,
+            'image' => Storage::disk('scaleway')->url($this->img),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

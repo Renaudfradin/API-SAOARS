@@ -10,6 +10,7 @@ use Filament\Forms\Form;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 
@@ -133,7 +134,13 @@ class CharacterResource extends Resource
                     ->relationship('specialPartner', 'name')
                     ->native(false),
 
-                Forms\Components\TextInput::make('image')
+                Forms\Components\FileUpload::make('image')
+                    ->disk('scaleway')
+                    ->directory('character')
+                    ->image()
+                    ->columnSpanFull()
+                    ->downloadable()
+                    ->openable()
                     ->required(),
             ]);
     }
@@ -152,16 +159,33 @@ class CharacterResource extends Resource
                     ->sortable()
                     ->searchable(),
 
+                Tables\Columns\TextColumn::make('element')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
+
                 Tables\Columns\TextColumn::make('start')
                     ->translateLabel()
                     ->sortable()
                     ->searchable(),
             ])
             ->filters([
-                //
+                SelectFilter::make('element')
+                    ->options(Element::class)
+                    ->searchable()
+                    ->native(false),
+
+                SelectFilter::make('start')
+                    ->options([
+                        '2' => '2',
+                        '3' => '3',
+                        '4' => '4',
+                    ]),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -170,19 +194,13 @@ class CharacterResource extends Resource
             ]);
     }
 
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
-
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListCharacters::route('/'),
             'create' => Pages\CreateCharacter::route('/create'),
             'edit' => Pages\EditCharacter::route('/{record}/edit'),
+            'view' => Pages\ViewCharacter::route('/{record}'),
         ];
     }
 }

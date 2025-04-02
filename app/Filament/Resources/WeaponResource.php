@@ -97,7 +97,13 @@ class WeaponResource extends Resource
                     ->searchable()
                     ->preload(),
 
-                Forms\Components\TextInput::make('image'),
+                Forms\Components\FileUpload::make('image')
+                    ->disk('scaleway')
+                    ->directory('weapon')
+                    ->image()
+                    ->downloadable()
+                    ->openable()
+                    ->required(),
 
                 Forms\Components\TextInput::make('start')
                     ->numeric()
@@ -111,6 +117,11 @@ class WeaponResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('element_weapons')
                     ->translateLabel()
                     ->sortable()
                     ->searchable(),
@@ -140,11 +151,13 @@ class WeaponResource extends Resource
                     ->options([
                         '2' => '2',
                         '3' => '3',
-                        '4' => '4'
+                        '4' => '4',
                     ]),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
