@@ -50,37 +50,46 @@ class EquipmentResource extends Resource
                     ->searchable()
                     ->required(),
 
-                Forms\Components\TextInput::make('hp')
-                    ->numeric()
-                    ->required(),
+                Forms\Components\Section::make()
+                    ->columns(3)
+                    ->schema([
+                        Forms\Components\TextInput::make('hp')
+                            ->numeric()
+                            ->required(),
 
-                Forms\Components\TextInput::make('mp')
-                    ->numeric()
-                    ->required(),
+                        Forms\Components\TextInput::make('mp')
+                            ->numeric()
+                            ->required(),
 
-                Forms\Components\TextInput::make('atk')
-                    ->numeric()
-                    ->required(),
+                        Forms\Components\TextInput::make('atk')
+                            ->numeric()
+                            ->required(),
 
-                Forms\Components\TextInput::make('matk')
-                    ->numeric()
-                    ->required(),
+                        Forms\Components\TextInput::make('matk')
+                            ->numeric()
+                            ->required(),
 
-                Forms\Components\TextInput::make('def')
-                    ->numeric()
-                    ->required(),
+                        Forms\Components\TextInput::make('def')
+                            ->numeric()
+                            ->required(),
 
-                Forms\Components\TextInput::make('mdef')
-                    ->numeric()
-                    ->required(),
+                        Forms\Components\TextInput::make('mdef')
+                            ->numeric()
+                            ->required(),
 
-                Forms\Components\TextInput::make('crit')
-                    ->numeric()
-                    ->required(),
+                        Forms\Components\TextInput::make('crit')
+                            ->numeric()
+                            ->required(),
 
-                Forms\Components\TextInput::make('spd')
-                    ->numeric()
-                    ->required(),
+                        Forms\Components\TextInput::make('spd')
+                            ->numeric()
+                            ->required(),
+
+                        Forms\Components\TextInput::make('start')
+                            ->numeric()
+                            ->default(1)
+                            ->required(),
+                    ]),
 
                 Forms\Components\TextInput::make('effect_1'),
 
@@ -92,10 +101,7 @@ class EquipmentResource extends Resource
                     ->image()
                     ->downloadable()
                     ->openable()
-                    ->required(),
-
-                Forms\Components\TextInput::make('start')
-                    ->numeric()
+                    ->columnSpan('full')
                     ->required(),
             ]);
     }
