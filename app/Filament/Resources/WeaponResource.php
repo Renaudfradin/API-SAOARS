@@ -52,7 +52,7 @@ class WeaponResource extends Resource
                     ->native(false)
                     ->required(),
 
-                Section::make()
+                Forms\Components\Section::make()
                     ->columns(3)
                     ->schema([
                         Forms\Components\TextInput::make('hp')
@@ -101,7 +101,7 @@ class WeaponResource extends Resource
                 Forms\Components\TextInput::make('effect_3'),
 
                 Forms\Components\Select::make('characters_id')
-                    ->label('Character')
+                    ->label('Character main')
                     ->relationship('character', 'name')
                     ->native(false)
                     ->searchable()
