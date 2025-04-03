@@ -36,6 +36,7 @@ class Weapon extends Model
     protected $casts = [
         'type' => WeaponType::class,
         'element_weapons' => Element::class,
+        'characters_id' => 'integer',
     ];
 
     public function character(): HasOne
