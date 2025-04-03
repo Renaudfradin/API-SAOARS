@@ -39,11 +39,16 @@ class CharacterResource extends Resource
                     ->maxLength(255)
                     ->required(),
 
-                Forms\Components\TextInput::make('profile')
+                Forms\Components\TextInput::make('description')
                     ->maxLength(255)
                     ->required(),
 
-                Forms\Components\Textarea::make('description')
+                Forms\Components\Select::make('special_partner')
+                    ->label('specialPartner')
+                    ->relationship('specialPartner', 'name')
+                    ->native(false),
+
+                Forms\Components\Textarea::make('profile')
                     ->autosize()
                     ->columnSpanFull()
                     ->required(),
@@ -70,37 +75,46 @@ class CharacterResource extends Resource
                     ->relationship('attack', 'name')
                     ->native(false),
 
-                Forms\Components\TextInput::make('hp')
-                    ->numeric()
-                    ->required(),
+                Forms\Components\Section::make()
+                    ->columns(3)
+                    ->schema([
+                        Forms\Components\TextInput::make('hp')
+                            ->numeric()
+                            ->required(),
 
-                Forms\Components\TextInput::make('mp')
-                    ->numeric()
-                    ->required(),
+                        Forms\Components\TextInput::make('mp')
+                            ->numeric()
+                            ->required(),
 
-                Forms\Components\TextInput::make('atk')
-                    ->numeric()
-                    ->required(),
+                        Forms\Components\TextInput::make('atk')
+                            ->numeric()
+                            ->required(),
 
-                Forms\Components\TextInput::make('matk')
-                    ->numeric()
-                    ->required(),
+                        Forms\Components\TextInput::make('matk')
+                            ->numeric()
+                            ->required(),
 
-                Forms\Components\TextInput::make('def')
-                    ->numeric()
-                    ->required(),
+                        Forms\Components\TextInput::make('def')
+                            ->numeric()
+                            ->required(),
 
-                Forms\Components\TextInput::make('mdef')
-                    ->numeric()
-                    ->required(),
+                        Forms\Components\TextInput::make('mdef')
+                            ->numeric()
+                            ->required(),
 
-                Forms\Components\TextInput::make('crit')
-                    ->numeric()
-                    ->required(),
+                        Forms\Components\TextInput::make('crit')
+                            ->numeric()
+                            ->required(),
 
-                Forms\Components\TextInput::make('spd')
-                    ->numeric()
-                    ->required(),
+                        Forms\Components\TextInput::make('spd')
+                            ->numeric()
+                            ->required(),
+
+                        Forms\Components\TextInput::make('start')
+                            ->numeric()
+                            ->default(1)
+                            ->required(),
+                    ]),
 
                 Forms\Components\TextInput::make('ultime')
                     ->required(),
@@ -120,19 +134,9 @@ class CharacterResource extends Resource
                     ->relationship('attack', 'name')
                     ->native(false),
 
-                Forms\Components\TextInput::make('start')
-                    ->numeric()
-                    ->default(1)
-                    ->required(),
-
                 Forms\Components\TextInput::make('cost')
                     ->numeric()
                     ->required(),
-
-                Forms\Components\Select::make('special_partner')
-                    ->label('specialPartner')
-                    ->relationship('specialPartner', 'name')
-                    ->native(false),
 
                 Forms\Components\FileUpload::make('image')
                     ->disk('scaleway')

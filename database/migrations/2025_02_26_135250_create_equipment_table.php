@@ -27,7 +27,6 @@ return new class extends Migration
             $table->integer('spd');
             $table->text('effect_1')->nullable();
             $table->text('effect_2')->nullable();
-            $table->string('image')->nullable();
             $table->integer('start');
             $table->timestamps();
         });
