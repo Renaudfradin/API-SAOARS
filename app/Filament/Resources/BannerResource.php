@@ -38,14 +38,6 @@ class BannerResource extends Resource
                     ->maxLength(255)
                     ->required(),
 
-                Forms\Components\FileUpload::make('img')
-                    ->disk('scaleway')
-                    ->directory('banner')
-                    ->image()
-                    ->downloadable()
-                    ->openable()
-                    ->required(),
-
                 Forms\Components\DatePicker::make('from')
                     ->required(),
 
@@ -58,6 +50,15 @@ class BannerResource extends Resource
                     ->searchable()
                     ->preload()
                     ->native(false)
+                    ->columnSpanFull()
+                    ->required(),
+
+                Forms\Components\FileUpload::make('img')
+                    ->disk('scaleway')
+                    ->directory('banner')
+                    ->image()
+                    ->downloadable()
+                    ->openable()
                     ->columnSpanFull()
                     ->required(),
             ]);

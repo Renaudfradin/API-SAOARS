@@ -29,7 +29,6 @@ return new class extends Migration
             $table->string('effect_2')->nullable();
             $table->string('effect_3')->nullable();
             $table->integer('characters_id')->nullable();
-            $table->string('image')->nullable();
             $table->integer('start');
             $table->timestamps();
         });

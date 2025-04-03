@@ -7,6 +7,7 @@ use App\Enums\WeaponType;
 use App\Filament\Resources\WeaponResource\Pages;
 use App\Models\Weapon;
 use Filament\Forms;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
@@ -51,37 +52,46 @@ class WeaponResource extends Resource
                     ->native(false)
                     ->required(),
 
-                Forms\Components\TextInput::make('hp')
-                    ->numeric()
-                    ->required(),
+                Section::make()
+                    ->columns(3)
+                    ->schema([
+                        Forms\Components\TextInput::make('hp')
+                            ->numeric()
+                            ->required(),
 
-                Forms\Components\TextInput::make('mp')
-                    ->numeric()
-                    ->required(),
+                        Forms\Components\TextInput::make('mp')
+                            ->numeric()
+                            ->required(),
 
-                Forms\Components\TextInput::make('atk')
-                    ->numeric()
-                    ->required(),
+                        Forms\Components\TextInput::make('atk')
+                            ->numeric()
+                            ->required(),
 
-                Forms\Components\TextInput::make('matk')
-                    ->numeric()
-                    ->required(),
+                        Forms\Components\TextInput::make('matk')
+                            ->numeric()
+                            ->required(),
 
-                Forms\Components\TextInput::make('def')
-                    ->numeric()
-                    ->required(),
+                        Forms\Components\TextInput::make('def')
+                            ->numeric()
+                            ->required(),
 
-                Forms\Components\TextInput::make('mdef')
-                    ->numeric()
-                    ->required(),
+                        Forms\Components\TextInput::make('mdef')
+                            ->numeric()
+                            ->required(),
 
-                Forms\Components\TextInput::make('crit')
-                    ->numeric()
-                    ->required(),
+                        Forms\Components\TextInput::make('crit')
+                            ->numeric()
+                            ->required(),
 
-                Forms\Components\TextInput::make('spd')
-                    ->numeric()
-                    ->required(),
+                        Forms\Components\TextInput::make('spd')
+                            ->numeric()
+                            ->required(),
+
+                        Forms\Components\TextInput::make('start')
+                            ->numeric()
+                            ->default(1)
+                            ->required(),
+                    ]),
 
                 Forms\Components\TextInput::make('effect_1')
                     ->required(),
@@ -103,11 +113,7 @@ class WeaponResource extends Resource
                     ->image()
                     ->downloadable()
                     ->openable()
-                    ->required(),
-
-                Forms\Components\TextInput::make('start')
-                    ->numeric()
-                    ->default(1)
+                    ->columnSpan('full')
                     ->required(),
             ]);
     }
