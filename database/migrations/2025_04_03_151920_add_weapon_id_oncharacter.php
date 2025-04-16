@@ -20,10 +20,10 @@ return new class extends Migration
             $table->text('effect_2')->nullable()->change();
         });
 
-        Schema::table('imaginations', function (Blueprint $table) {
-            $table->text('character')->nullable();
-            $table->text('image')->nullable();
-        });
+        // Schema::table('imaginations', function (Blueprint $table) {
+        //     $table->text('character')->nullable();
+        //     $table->text('image')->nullable();
+        // });
     }
 
     /**
