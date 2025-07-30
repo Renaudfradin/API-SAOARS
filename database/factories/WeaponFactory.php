@@ -30,6 +30,8 @@ class WeaponFactory extends Factory
             'effect_3' => fake()->text(),
             'characters_id' => Character::class,
             'start' => fake()->randomDigit(),
+            'image' => 'weapon/01K1DCFFJS8DH8VAS0TPDYR1MC.jpg',
+            'image2' => 'weapon/01K1DCFG2PDM78N4PEGSS40H4E.png',
         ];
     }
 }

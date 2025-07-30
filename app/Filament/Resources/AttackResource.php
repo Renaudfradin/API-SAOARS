@@ -18,34 +18,52 @@ class AttackResource extends Resource
 {
     protected static ?string $model = Attack::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Contenu';
 
-    protected static ?string $navigationGroup = 'API';
+    public static function getNavigationLabel(): string
+    {
+        return __('Attaques');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Attaque');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Attaques');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label(__('Nom'))
                     ->maxLength(255)
                     ->required()
                     ->live(onBlur: true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
 
                 Forms\Components\TextInput::make('slug')
+                    ->label(__('Slug'))
                     ->translateLabel()
                     ->maxLength(255)
                     ->required(),
 
                 Forms\Components\Textarea::make('description')
+                    ->label(__('Description'))
                     ->maxLength(255)
                     ->required(),
 
                 Forms\Components\TextInput::make('mp_cost')
+                    ->label(__('Coût en MP'))
                     ->numeric()
                     ->required(),
 
                 Forms\Components\Select::make('type_atk')
+                    ->label(__('Type d\'attaque'))
                     ->options(AttackType::class)
                     ->required(),
             ]);
@@ -56,21 +74,19 @@ class AttackResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->translateLabel()
-                    ->sortable()
-                    ->searchable(),
-
-                Tables\Columns\TextColumn::make('description')
+                    ->label(__('Nom'))
                     ->translateLabel()
                     ->sortable()
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('mp_cost')
+                    ->label(__('Coût en MP'))
                     ->translateLabel()
                     ->sortable()
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('type_atk')
+                    ->label(__('Type d\'attaque'))
                     ->translateLabel()
                     ->sortable()
                     ->searchable(),

@@ -10,7 +10,10 @@ class BannerDetailResource extends JsonResource
 {
     public function getcharacters($characterId)
     {
-        return Character::whereIn('id', $characterId)->get();
+        return Character::whereIn('id', $characterId)
+            ->select('id', 'name', 'slug', 'element', 'image')
+            ->get()
+            ->toArray();
     }
 
     public function toArray($request)

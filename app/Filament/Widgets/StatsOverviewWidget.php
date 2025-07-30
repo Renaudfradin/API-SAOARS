@@ -17,13 +17,13 @@ class StatsOverviewWidget extends BaseWidget
     protected function getStats(): array
     {
         return [
-            Stat::make('Total Characters', Character::count()),
-            Stat::make('Total Weapons', Weapon::count()),
-            Stat::make('Total Attacks', Attack::count()),
-            Stat::make('Total Banners', Banner::count()),
-            Stat::make('Total Equipments', Equipment::count()),
-            Stat::make('Total Imaginations', Imagination::count()),
-            Stat::make('Total Abilities', Ability::count()),
+            Stat::make('Personnages', Character::count()),
+            Stat::make('Armes', Weapon::count()),
+            Stat::make('Attaques', Attack::count()),
+            Stat::make('Bannières', Banner::count()),
+            Stat::make('Équipements', Equipment::count()),
+            Stat::make('Imagination', Imagination::count()),
+            Stat::make('Abilités', Ability::count()),
         ];
     }
 }

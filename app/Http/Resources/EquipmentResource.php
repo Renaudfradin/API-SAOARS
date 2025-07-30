@@ -17,6 +17,7 @@ class EquipmentResource extends JsonResource
             'type_equipment' => $this->type_equipment,
             'start' => $this->start,
             'image' => Storage::disk('scaleway')->url($this->image),
+            'image2' => Storage::disk('scaleway')->url($this->image2),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

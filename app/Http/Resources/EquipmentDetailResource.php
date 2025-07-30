@@ -26,6 +26,7 @@ class EquipmentDetailResource extends JsonResource
             'effect_1' => $this->effect_1,
             'effect_2' => $this->effect_2,
             'image' => Storage::disk('scaleway')->url($this->image),
+            'image2' => Storage::disk('scaleway')->url($this->image2),
             'start' => $this->start,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

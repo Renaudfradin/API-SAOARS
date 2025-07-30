@@ -27,6 +27,8 @@ class Equipment extends Model
         'effect_1',
         'effect_2',
         'start',
+        'image',
+        'image2',
     ];
 
     protected $casts = [
