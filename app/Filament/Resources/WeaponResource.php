@@ -7,7 +7,6 @@ use App\Enums\WeaponType;
 use App\Filament\Resources\WeaponResource\Pages;
 use App\Models\Weapon;
 use Filament\Forms;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
@@ -20,34 +19,51 @@ class WeaponResource extends Resource
 {
     protected static ?string $model = Weapon::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
-    protected static ?string $navigationGroup = 'API';
+    protected static ?string $navigationGroup = 'Contenu';
 
     protected static ?string $recordTitleAttribute = 'name';
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Armes');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Arme');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Armes');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label(__('Nom'))
                     ->maxLength(255)
                     ->required()
                     ->live(onBlur: true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
 
                 Forms\Components\TextInput::make('slug')
+                    ->label(__('Slug'))
                     ->translateLabel()
                     ->maxLength(255)
                     ->required(),
 
                 Forms\Components\Select::make('type')
+                    ->label(__('Type'))
                     ->options(WeaponType::class)
                     ->native(false)
                     ->searchable()
                     ->required(),
 
                 Forms\Components\Select::make('element_weapons')
+                    ->label(__('Element'))
                     ->options(Element::class)
                     ->native(false)
                     ->required(),
@@ -56,64 +72,85 @@ class WeaponResource extends Resource
                     ->columns(3)
                     ->schema([
                         Forms\Components\TextInput::make('hp')
+                            ->label(__('HP'))
                             ->numeric()
                             ->required(),
 
                         Forms\Components\TextInput::make('mp')
+                            ->label(__('MP'))
                             ->numeric()
                             ->required(),
 
                         Forms\Components\TextInput::make('atk')
+                            ->label(__('ATK'))
                             ->numeric()
                             ->required(),
 
                         Forms\Components\TextInput::make('matk')
+                            ->label(__('MATK'))
                             ->numeric()
                             ->required(),
 
                         Forms\Components\TextInput::make('def')
+                            ->label(__('DEF'))
                             ->numeric()
                             ->required(),
 
                         Forms\Components\TextInput::make('mdef')
+                            ->label(__('MDEF'))
                             ->numeric()
                             ->required(),
 
                         Forms\Components\TextInput::make('crit')
+                            ->label(__('CRIT'))
                             ->numeric()
                             ->required(),
 
                         Forms\Components\TextInput::make('spd')
+                            ->label(__('SPD'))
                             ->numeric()
                             ->required(),
 
                         Forms\Components\TextInput::make('start')
+                            ->label(__('Start'))
                             ->numeric()
                             ->default(1)
                             ->required(),
                     ]),
 
                 Forms\Components\TextInput::make('effect_1')
+                    ->label(__('Effect 1'))
                     ->required(),
 
-                Forms\Components\TextInput::make('effect_2'),
+                Forms\Components\TextInput::make('effect_2')
+                    ->label(__('Effect 2')),
 
-                Forms\Components\TextInput::make('effect_3'),
+                Forms\Components\TextInput::make('effect_3')
+                    ->label(__('Effect 3')),
 
                 Forms\Components\Select::make('characters_id')
-                    ->label('Character main')
+                    ->label(__('Character main'))
                     ->relationship('character', 'name')
                     ->native(false)
                     ->searchable()
                     ->preload(),
 
                 Forms\Components\FileUpload::make('image')
+                    ->label(__('Image'))
                     ->disk('scaleway')
                     ->directory('weapon')
                     ->image()
                     ->downloadable()
                     ->openable()
-                    ->columnSpan('full')
+                    ->required(),
+
+                Forms\Components\FileUpload::make('image2')
+                    ->label(__('Image 2'))
+                    ->disk('scaleway')
+                    ->directory('weapon')
+                    ->image()
+                    ->downloadable()
+                    ->openable()
                     ->required(),
             ]);
     }
@@ -123,22 +160,22 @@ class WeaponResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->translateLabel()
+                    ->label(__('Nom'))
                     ->sortable()
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('element_weapons')
-                    ->translateLabel()
+                    ->label(__('Element'))
                     ->sortable()
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('type')
-                    ->translateLabel()
+                    ->label(__('Type'))
                     ->sortable()
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('start')
-                    ->translateLabel()
+                    ->label(__('Start'))
                     ->sortable()
                     ->searchable(),
             ])

@@ -2,17 +2,18 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Role;
 use App\Models\Ability;
 use App\Models\Attack;
 use App\Models\Banner;
 use App\Models\Character;
 use App\Models\Equipment;
-use App\Models\Imagination;
 use App\Models\User;
 use App\Models\Weapon;
 use Closure;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use Symfony\Component\Console\Helper\ProgressBar;
 
 class DatabaseSeeder extends Seeder
@@ -21,8 +22,10 @@ class DatabaseSeeder extends Seeder
     {
         $this->withProgressBar(1, fn () => User::factory(1)
             ->create([
-                'name' => 'Test User',
-                'email' => 'test@gmail.com',
+                'name' => 'Renaud',
+                'email' => 'renaudfradin@gmail.com',
+                'password' => Hash::make('renaudfradin@gmail.comrenaudfradin@gmail.com'),
+                'role' => Role::Admin->value,
             ])
         );
         $this->command->info('Admin user created.');
@@ -54,7 +57,7 @@ class DatabaseSeeder extends Seeder
 
         Banner::factory(120)
             ->create([
-                'characters' => $character,
+                'characters' => [1, 2, 3, 4, 5],
             ]);
 
         Attack::factory(80)->create();

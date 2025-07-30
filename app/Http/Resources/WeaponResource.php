@@ -16,7 +16,7 @@ class WeaponResource extends JsonResource
             'type' => $this->type,
             'element_weapons' => $this->element_weapons,
             'start' => $this->start,
-            'image' => Storage::disk('scaleway')->url($this->image),
+            'image2' => Storage::disk('scaleway')->url($this->image2),
             'created_at' => $this->created_at,
         ];
     }

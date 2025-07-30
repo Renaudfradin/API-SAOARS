@@ -48,6 +48,7 @@ class CharacterDetailResource extends JsonResource
             'cost' => $this->cost,
             'special_partner' => $this->getSpecialPartner($this->special_partner),
             'image' => Storage::disk('scaleway')->url($this->image),
+            'image2' => Storage::disk('scaleway')->url($this->image2),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

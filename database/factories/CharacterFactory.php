@@ -37,7 +37,8 @@ class CharacterFactory extends Factory
             'start' => fake()->randomDigit(),
             'cost' => fake()->randomDigit(),
             'special_partner' => Character::class,
-            'image' => fake()->imageUrl(640, 480, 'animals', true),
+            'image' => 'character/01K1DGKE5PS9B0Q3556JBBPKDB.png',
+            'image2' => 'character/01K1DGKEP6YXJ0YPMEX0GFCZ0B.png',
         ];
     }
 }

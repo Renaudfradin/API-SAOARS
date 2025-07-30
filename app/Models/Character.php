@@ -37,6 +37,7 @@ class Character extends Model
         'start',
         'cost',
         'image',
+        'image2',
         'special_partner',
     ];
 

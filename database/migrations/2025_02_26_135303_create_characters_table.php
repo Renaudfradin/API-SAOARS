@@ -38,6 +38,7 @@ return new class extends Migration
             $table->integer('cost');
             $table->integer('special_partner')->nullable();
             $table->text('image');
+            $table->text('image2');
             $table->timestamps();
         });
     }

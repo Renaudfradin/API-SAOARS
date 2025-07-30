@@ -16,31 +16,48 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
     protected static ?string $recordTitleAttribute = 'email';
 
-    protected static ?string $navigationGroup = 'Users';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Utilisateurs');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Utilisateur');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Utilisateurs');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label(__('Nom'))
                     ->required()
                     ->maxLength(255),
 
                 Forms\Components\TextInput::make('email')
+                    ->label(__('Email'))
                     ->required()
                     ->email()
                     ->maxLength(255),
 
                 Forms\Components\Select::make('role')
+                    ->label(__('Role'))
                     ->options(Role::class)
                     ->native(false)
                     ->required(),
 
                 Forms\Components\TextInput::make('password')
+                    ->label(__('Password'))
                     ->password()
                     ->revealable()
                     ->dehydrateStateUsing(fn (string $state) => Hash::make($state))
@@ -51,6 +68,7 @@ class UserResource extends Resource
                     ->minLength(6),
 
                 Forms\Components\TextInput::make('password_confirmation')
+                    ->label(__('Password confirmation'))
                     ->password()
                     ->revealable()
                     ->minLength(6),
@@ -62,17 +80,17 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->translateLabel()
+                    ->label(__('Nom'))
                     ->sortable()
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('email')
-                    ->translateLabel()
+                    ->label(__('Email'))
                     ->sortable()
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('role')
-                    ->translateLabel()
+                    ->label(__('Role'))
                     ->sortable()
                     ->searchable(),
             ])

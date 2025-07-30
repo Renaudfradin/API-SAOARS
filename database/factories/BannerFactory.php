@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Character;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -15,8 +14,8 @@ class BannerFactory extends Factory
             'slug' => Str::slug(fake()->name()),
             'from' => '2025-03-08 00:00:00',
             'to' => '2025-03-08 00:00:00',
-            'characters' => Character::class,
-            'img' => fake()->imageUrl(640, 480, 'animals', true),
+            'characters' => [1, 2, 3, 4, 5],
+            'img' => 'banner/01K1D9Y9RGT9R6R5NSS9J17C3C.jpg',
         ];
     }
 }

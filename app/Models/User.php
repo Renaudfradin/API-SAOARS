@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Role;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -35,12 +36,12 @@ class User extends Authenticatable implements FilamentUser
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'role' => 'boolean',
+            'role' => 'string',
         ];
     }
 
     public function isAdmin(): bool
     {
-        return $this->role === true;
+        return $this->role === Role::Admin->value;
     }
 }
