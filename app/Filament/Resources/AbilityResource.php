@@ -16,34 +16,52 @@ class AbilityResource extends Resource
 {
     protected static ?string $model = Ability::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Contenu';
 
-    protected static ?string $navigationGroup = 'API';
+    public static function getNavigationLabel(): string
+    {
+        return __('Abilités');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Abilité');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Abilités');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label(__('Nom'))
                     ->maxLength(255)
                     ->required()
                     ->live(onBlur: true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
 
                 Forms\Components\TextInput::make('slug')
+                    ->label(__('Slug'))
                     ->translateLabel()
                     ->maxLength(255)
                     ->required(),
 
                 Forms\Components\TextInput::make('descripton')
+                    ->label(__('Description'))
                     ->maxLength(255)
                     ->required(),
 
                 Forms\Components\TextInput::make('type')
+                    ->label(__('Type'))
                     ->maxLength(255)
                     ->required(),
 
                 Forms\Components\TextInput::make('start')
+                    ->label(__('Début'))
                     ->numeric()
                     ->required(),
             ]);
@@ -54,16 +72,13 @@ class AbilityResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('Nom'))
                     ->translateLabel()
                     ->sortable()
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('type')
-                    ->translateLabel()
-                    ->sortable()
-                    ->searchable(),
-
-                Tables\Columns\TextColumn::make('descripton')
+                    ->label(__('Type'))
                     ->translateLabel()
                     ->sortable()
                     ->searchable(),

@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::table('weapons', function (Blueprint $table) {
             $table->string('image')->nullable();
+            $table->string('image2')->nullable();
         });
 
         Schema::table('equipment', function (Blueprint $table) {
             $table->string('image')->nullable();
+            $table->string('image2')->nullable();
         });
     }
 
@@ -27,10 +29,12 @@ return new class extends Migration
     {
         Schema::table('weapons', function (Blueprint $table) {
             $table->dropColumn('image');
+            $table->dropColumn('image2');
         });
 
         Schema::table('equipment', function (Blueprint $table) {
             $table->dropColumn('image');
+            $table->dropColumn('image2');
         });
     }
 };

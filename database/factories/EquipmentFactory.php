@@ -27,6 +27,8 @@ class EquipmentFactory extends Factory
             'effect_1' => fake()->text(),
             'effect_2' => fake()->text(),
             'start' => fake()->randomDigit(),
+            'image' => 'equipment/01K1DFB627KZM762V6HM9HT6ET.jpg',
+            'image2' => 'equipment/01K1DFB6RKRQH2FDQ4P30A0KJ2.png',
         ];
     }
 }

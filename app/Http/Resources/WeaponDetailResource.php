@@ -10,7 +10,7 @@ class WeaponDetailResource extends JsonResource
 {
     public function getCharacter($characterId)
     {
-        return Character::find($characterId);
+        return Character::find($characterId)->toArray();
     }
 
     public function toArray($request)
@@ -34,6 +34,7 @@ class WeaponDetailResource extends JsonResource
             'effect_3' => $this->effect_3,
             'characters_id' => $this->getCharacter($this->characters_id),
             'image' => Storage::disk('scaleway')->url($this->image),
+            'image2' => Storage::disk('scaleway')->url($this->image2),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

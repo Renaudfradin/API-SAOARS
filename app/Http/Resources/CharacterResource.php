@@ -26,6 +26,7 @@ class CharacterResource extends JsonResource
             'atk3' => $this->getAttack($this->atk3)->type_atk,
             'start' => $this->start,
             'image' => Storage::disk('scaleway')->url($this->image),
+            'image2' => Storage::disk('scaleway')->url($this->image2),
             'created_at' => $this->created_at,
         ];
     }

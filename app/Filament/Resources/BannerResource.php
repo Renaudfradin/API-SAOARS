@@ -15,36 +15,55 @@ use Illuminate\Support\Str;
 
 class BannerResource extends Resource
 {
+    protected static ?string $recordTitleAttribute = 'name';
+
     protected static ?string $model = Banner::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Contenu';
 
-    protected static ?string $navigationGroup = 'API';
+    public static function getNavigationLabel(): string
+    {
+        return __('Bannières');
+    }
 
-    protected static ?string $recordTitleAttribute = 'name';
+    public static function getModelLabel(): string
+    {
+        return __('Bannière');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Bannières');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->translateLabel()
+                    ->label(__('Nom'))
                     ->maxLength(255)
                     ->required()
                     ->live(onBlur: true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
 
                 Forms\Components\TextInput::make('slug')
+                    ->label(__('Slug'))
                     ->translateLabel()
                     ->maxLength(255)
                     ->required(),
 
                 Forms\Components\DatePicker::make('from')
+                    ->label(__('De'))
                     ->required(),
 
                 Forms\Components\DatePicker::make('to')
+                    ->label(__('Au'))
                     ->required(),
 
                 Forms\Components\Select::make('characters')
+                    ->label(__('Personnages'))
                     ->multiple()
                     ->options(Character::all()->pluck('name', 'id'))
                     ->searchable()
@@ -54,6 +73,7 @@ class BannerResource extends Resource
                     ->required(),
 
                 Forms\Components\FileUpload::make('img')
+                    ->label(__('Image'))
                     ->disk('scaleway')
                     ->directory('banner')
                     ->image()
@@ -69,16 +89,19 @@ class BannerResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('Nom'))
                     ->translateLabel()
                     ->sortable()
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('from')
+                    ->label(__('De'))
                     ->translateLabel()
                     ->sortable()
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('to')
+                    ->label(__('Au'))
                     ->translateLabel()
                     ->sortable()
                     ->searchable(),
