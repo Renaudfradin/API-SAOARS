@@ -22,7 +22,7 @@ class AbilityController extends Controller
      */
     public function index()
     {
-        return AbilityResource::collection(Ability::paginate(20));
+        return AbilityResource::collection(Ability::orderBy('id', 'desc')->paginate(20));
     }
 
     /**

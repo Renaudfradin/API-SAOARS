@@ -22,7 +22,7 @@ class BannerController extends Controller
      */
     public function index()
     {
-        return BannerResource::collection(Banner::paginate(20));
+        return BannerResource::collection(Banner::orderBy('id', 'desc')->paginate(20));
     }
 
     /**

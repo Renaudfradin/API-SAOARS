@@ -30,7 +30,7 @@ class CharacterController extends Controller
         $cacheDuration = 2;
 
         return Cache::store('redis')->remember($cacheKey, $cacheDuration, function () {
-            return CharacterResource::collection(Character::paginate(21));
+            return CharacterResource::collection(Character::orderBy('id', 'desc')->paginate(21));
         });
     }
 

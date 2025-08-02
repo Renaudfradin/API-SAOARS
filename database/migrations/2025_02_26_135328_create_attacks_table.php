@@ -18,6 +18,7 @@ return new class extends Migration
             $table->longText('description');
             $table->integer('mp_cost');
             $table->string('type_atk');
+            $table->string('character_id')->nullable();
             $table->timestamps();
         });
     }
