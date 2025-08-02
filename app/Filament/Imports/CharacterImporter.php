@@ -15,109 +15,136 @@ class CharacterImporter extends Importer
     {
         return [
             ImportColumn::make('name')
-                ->requiredMapping()
-                ->rules(['required', 'max:255']),
+                ->label('Nom')
+                ->requiredMapping(),
+
             ImportColumn::make('slug')
-                ->requiredMapping()
-                ->rules(['required', 'max:255']),
+                ->label('Slug')
+                ->requiredMapping(),
+
             ImportColumn::make('description')
-                ->requiredMapping()
-                ->rules(['required']),
+                ->label('Description')
+                ->requiredMapping(),
+
             ImportColumn::make('profile')
-                ->requiredMapping()
-                ->rules(['required']),
+                ->label('Profil')
+                ->requiredMapping(),
+
             ImportColumn::make('element')
-                ->requiredMapping()
-                ->rules(['required', 'max:255']),
+                ->label('Élément')
+                ->requiredMapping(),
+
+            ImportColumn::make('weapon_type')
+                ->label('Type d\'arme')
+                ->requiredMapping(),
+
             ImportColumn::make('atk1')
+                ->label('Attaque 1')
                 ->requiredMapping()
-                ->numeric()
-                ->rules(['required', 'integer']),
+                ->numeric(),
+
             ImportColumn::make('atk2')
-                ->numeric()
-                ->rules(['integer']),
+                ->label('Attaque 2')
+                ->numeric(),
+
             ImportColumn::make('atk3')
-                ->numeric()
-                ->rules(['integer']),
+                ->label('Attaque 3')
+                ->numeric(),
+
             ImportColumn::make('hp')
+                ->label('Points de vie')
                 ->requiredMapping()
-                ->numeric()
-                ->rules(['required', 'integer']),
+                ->numeric(),
+
             ImportColumn::make('mp')
+                ->label('Points de magie')
                 ->requiredMapping()
-                ->numeric()
-                ->rules(['required', 'integer']),
+                ->numeric(),
+
             ImportColumn::make('atk')
+                ->label('Attaque')
                 ->requiredMapping()
-                ->numeric()
-                ->rules(['required', 'integer']),
+                ->numeric(),
+
             ImportColumn::make('matk')
+                ->label('Attaque magique')
                 ->requiredMapping()
-                ->numeric()
-                ->rules(['required', 'integer']),
+                ->numeric(),
+
             ImportColumn::make('def')
+                ->label('Défense')
                 ->requiredMapping()
-                ->numeric()
-                ->rules(['required', 'integer']),
+                ->numeric(),
+
             ImportColumn::make('mdef')
+                ->label('Défense magique')
                 ->requiredMapping()
-                ->numeric()
-                ->rules(['required', 'integer']),
+                ->numeric(),
+
             ImportColumn::make('crit')
+                ->label('Critique')
                 ->requiredMapping()
-                ->numeric()
-                ->rules(['required', 'integer']),
+                ->numeric(),
+
             ImportColumn::make('spd')
+                ->label('Vitesse')
                 ->requiredMapping()
-                ->numeric()
-                ->rules(['required', 'integer']),
+                ->numeric(),
+
             ImportColumn::make('ultime')
-                ->requiredMapping()
-                ->rules(['required', 'max:255']),
+                ->label('Ultime')
+                ->requiredMapping(),
+
             ImportColumn::make('ultime_description')
-                ->requiredMapping()
-                ->rules(['required', 'max:255']),
+                ->label('Description ultime')
+                ->requiredMapping(),
+
             ImportColumn::make('enhance')
-                ->rules(['max:255']),
+                ->label('Amélioration'),
+
             ImportColumn::make('enhance_atk')
-                ->numeric()
-                ->rules(['integer']),
+                ->label('Amélioration attaque')
+                ->numeric(),
+
             ImportColumn::make('enhance_atk2')
-                ->numeric()
-                ->rules(['integer']),
+                ->label('Amélioration attaque 2')
+                ->numeric(),
+
             ImportColumn::make('start')
+                ->label('Étoiles')
                 ->requiredMapping()
-                ->numeric()
-                ->rules(['required', 'integer']),
+                ->numeric(),
+
             ImportColumn::make('cost')
+                ->label('Coût')
                 ->requiredMapping()
-                ->numeric()
-                ->rules(['required', 'integer']),
+                ->numeric(),
+
             ImportColumn::make('special_partner')
-                ->numeric()
-                ->rules(['integer']),
+                ->label('Partenaire spécial')
+                ->requiredMapping(),
+
             ImportColumn::make('image')
-                ->requiredMapping()
-                ->rules(['required']),
+                ->label('Image')
+                ->requiredMapping(),
+
+            ImportColumn::make('image2')
+                ->label('Image 2')
+                ->requiredMapping(),
         ];
     }
 
     public function resolveRecord(): ?Character
     {
-        // return Character::firstOrNew([
-        //     // Update existing records, matching them by `$this->data['column_name']`
-        //     'email' => $this->data['email'],
-        // ]);
-
         return new Character;
     }
 
     public static function getCompletedNotificationBody(Import $import): string
     {
-        $body = 'Your character import has completed and '.number_format($import->successful_rows).' '.str('row')->plural($import->successful_rows).' imported.';
+        $body = 'L\'import des personnages est terminé et '.number_format($import->successful_rows).' '.str('ligne')->plural($import->successful_rows).' importée(s).';
 
         if ($failedRowsCount = $import->getFailedRowsCount()) {
-            $body .= ' '.number_format($failedRowsCount).' '.str('row')->plural($failedRowsCount).' failed to import.';
+            $body .= ' '.number_format($failedRowsCount).' '.str('ligne')->plural($failedRowsCount).' n\'ont pas pu être importée(s).';
         }
 
         return $body;

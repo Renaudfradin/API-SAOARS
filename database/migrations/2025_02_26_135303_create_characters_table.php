@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('characters', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('slug');
+            $table->text('name');
+            $table->text('slug');
             $table->text('description');
             $table->text('profile');
             $table->string('element');
+            $table->string('weapon_type');
             $table->integer('atk1');
             $table->integer('atk2')->nullable();
             $table->integer('atk3')->nullable();
@@ -29,14 +30,14 @@ return new class extends Migration
             $table->integer('mdef');
             $table->integer('crit');
             $table->integer('spd');
-            $table->string('ultime');
-            $table->string('ultime_description');
-            $table->string('enhance')->nullable();
+            $table->text('ultime');
+            $table->text('ultime_description');
+            $table->text('enhance')->nullable();
             $table->integer('enhance_atk')->nullable();
             $table->integer('enhance_atk2')->nullable();
             $table->integer('start');
             $table->integer('cost');
-            $table->integer('special_partner')->nullable();
+            $table->string('special_partner')->nullable();
             $table->text('image');
             $table->text('image2');
             $table->timestamps();

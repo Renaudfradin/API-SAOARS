@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Enums\Element;
+use App\Enums\WeaponType;
 use App\Filament\Resources\CharacterResource\Pages;
 use App\Models\Character;
 use Filament\Forms;
@@ -61,7 +62,6 @@ class CharacterResource extends Resource
 
                 Forms\Components\Select::make('special_partner')
                     ->label('Partenaire')
-                    ->relationship('specialPartner', 'name')
                     ->native(false),
 
                 Forms\Components\Textarea::make('profile')
@@ -77,21 +77,38 @@ class CharacterResource extends Resource
                     ->searchable()
                     ->required(),
 
-                Forms\Components\Select::make('atk1')
-                    ->label(__('Attaque 1'))
-                    ->relationship('attack', 'name')
+                Forms\Components\Select::make('weapon_type')
+                    ->label(__('Type d\'arme'))
+                    ->options(WeaponType::class)
                     ->native(false)
+                    ->searchable()
                     ->required(),
 
-                Forms\Components\Select::make('atk2')
-                    ->label(__('Attaque 2'))
-                    ->relationship('attack', 'name')
-                    ->native(false),
+                Forms\Components\Section::make()
+                    ->columns(3)
+                    ->schema([
+                        Forms\Components\Select::make('atk1')
+                            ->label(__('Attaque 1'))
+                            ->relationship('attack', 'name')
+                            ->native(false)
+                            ->preload(false)
+                            ->searchable()
+                            ->required(),
 
-                Forms\Components\Select::make('atk3')
-                    ->label(__('Attaque 3'))
-                    ->relationship('attack', 'name')
-                    ->native(false),
+                        Forms\Components\Select::make('atk2')
+                            ->label(__('Attaque 2'))
+                            ->relationship('attack', 'name')
+                            ->preload(false)
+                            ->native(false)
+                            ->searchable(),
+
+                        Forms\Components\Select::make('atk3')
+                            ->label(__('Attaque 3'))
+                            ->relationship('attack', 'name')
+                            ->preload(false)
+                            ->native(false)
+                            ->searchable(),
+                    ]),
 
                 Forms\Components\Section::make()
                     ->columns(3)
@@ -157,12 +174,16 @@ class CharacterResource extends Resource
                 Forms\Components\Select::make('enhance_atk')
                     ->label(__('Enhance atk'))
                     ->relationship('attack', 'name')
-                    ->native(false),
+                    ->native(false)
+                    ->preload(false)
+                    ->searchable(),
 
                 Forms\Components\Select::make('enhance_atk2')
                     ->label(__('Enhance atk2'))
                     ->relationship('attack', 'name')
-                    ->native(false),
+                    ->native(false)
+                    ->preload(false)
+                    ->searchable(),
 
                 Forms\Components\TextInput::make('cost')
                     ->label(__('Cost'))
@@ -192,6 +213,7 @@ class CharacterResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('id', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label(__('Nom'))
@@ -211,15 +233,27 @@ class CharacterResource extends Resource
                     ->sortable()
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('start')
-                    ->label(__('Start'))
+                Tables\Columns\TextColumn::make('weapon_type')
+                    ->label(__('Type d\'arme'))
                     ->translateLabel()
                     ->sortable()
                     ->searchable(),
+
+                Tables\Columns\TextColumn::make('start')
+                    ->label(__('Etoiles'))
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable()
+                    ->formatStateUsing(fn ($state) => $state.' étoiles'),
             ])
             ->filters([
                 SelectFilter::make('element')
                     ->options(Element::class)
+                    ->searchable()
+                    ->native(false),
+
+                SelectFilter::make('weapon_type')
+                    ->options(WeaponType::class)
                     ->searchable()
                     ->native(false),
 

@@ -22,7 +22,7 @@ class EquipmentController extends Controller
      */
     public function index()
     {
-        return EquipmentResource::collection(Equipment::paginate(20));
+        return EquipmentResource::collection(Equipment::orderBy('id', 'desc')->paginate(20));
     }
 
     /**

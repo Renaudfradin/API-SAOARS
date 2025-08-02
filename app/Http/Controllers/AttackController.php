@@ -22,7 +22,7 @@ class AttackController extends Controller
      */
     public function index()
     {
-        return AttackResource::collection(Attack::paginate(20));
+        return AttackResource::collection(Attack::orderBy('id', 'desc')->paginate(20));
 
     }
 

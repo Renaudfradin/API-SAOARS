@@ -22,7 +22,7 @@ class WeaponController extends Controller
      */
     public function index()
     {
-        return WeaponResource::collection(Weapon::paginate(20));
+        return WeaponResource::collection(Weapon::orderBy('id', 'desc')->paginate(20));
     }
 
     /**

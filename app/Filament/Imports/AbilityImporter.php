@@ -17,15 +17,19 @@ class AbilityImporter extends Importer
             ImportColumn::make('name')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
+
             ImportColumn::make('slug')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
+
             ImportColumn::make('descripton')
                 ->requiredMapping()
                 ->rules(['required']),
+
             ImportColumn::make('type')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
+
             ImportColumn::make('start')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
