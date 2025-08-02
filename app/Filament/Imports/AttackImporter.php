@@ -17,16 +17,20 @@ class AttackImporter extends Importer
             ImportColumn::make('name')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
+
             ImportColumn::make('slug')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
+
             ImportColumn::make('description')
                 ->requiredMapping()
                 ->rules(['required']),
+
             ImportColumn::make('mp_cost')
                 ->requiredMapping()
                 ->numeric()
                 ->rules(['required', 'integer']),
+
             ImportColumn::make('type_atk')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
@@ -35,11 +39,6 @@ class AttackImporter extends Importer
 
     public function resolveRecord(): ?Attack
     {
-        // return Attack::firstOrNew([
-        //     // Update existing records, matching them by `$this->data['column_name']`
-        //     'email' => $this->data['email'],
-        // ]);
-
         return new Attack;
     }
 

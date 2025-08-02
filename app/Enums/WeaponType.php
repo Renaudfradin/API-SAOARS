@@ -4,12 +4,12 @@ namespace App\Enums;
 
 enum WeaponType: string
 {
-    case Sword = 'sword';
-    case Rapier = 'rapier';
-    case Dagger = 'dagger';
-    case Bow = 'bow';
-    case DualSwords = 'dual swords';
-    case Gauntlet = 'gauntlet';
-    case Rifle = 'rifle';
-    case Mace = 'mace';
+    case Épée = 'sword';
+    case Rapière = 'rapier';
+    case Dague = 'dagger';
+    case Arc = 'bow';
+    case DoubleÉpée = 'dual swords';
+    case Gant = 'gauntlet';
+    case Fusil = 'rifle';
+    case Masse = 'mace';
 }

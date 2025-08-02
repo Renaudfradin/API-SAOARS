@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Element;
+use App\Enums\WeaponType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,6 +19,7 @@ class Character extends Model
         'description',
         'profile',
         'element',
+        'weapon_type',
         'atk1',
         'atk2',
         'atk3',
@@ -43,6 +45,7 @@ class Character extends Model
 
     protected $casts = [
         'element' => Element::class,
+        'weapon_type' => WeaponType::class,
     ];
 
     public function attack(): HasOne

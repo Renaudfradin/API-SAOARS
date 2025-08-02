@@ -17,29 +17,29 @@ class BannerImporter extends Importer
             ImportColumn::make('name')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
+
             ImportColumn::make('slug')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
+
             ImportColumn::make('from')
                 ->requiredMapping()
-                ->rules(['required', 'datetime']),
+                ->rules(['required']),
+
             ImportColumn::make('to')
                 ->requiredMapping()
-                ->rules(['required', 'datetime']),
+                ->rules(['required']),
+
             ImportColumn::make('characters')
                 ->requiredMapping()
                 ->rules(['required']),
+
             ImportColumn::make('img'),
         ];
     }
 
     public function resolveRecord(): ?Banner
     {
-        // return Banner::firstOrNew([
-        //     // Update existing records, matching them by `$this->data['column_name']`
-        //     'email' => $this->data['email'],
-        // ]);
-
         return new Banner;
     }
 

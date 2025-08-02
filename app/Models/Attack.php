@@ -23,8 +23,8 @@ class Attack extends Model
         'type_atk' => AttackType::class,
     ];
 
-    public function character(): BelongsTo
-    {
-        return $this->belongsTo(Character::class);
-    }
+    // public function character(): BelongsTo
+    // {
+    //     return $this->belongsTo(Character::class, 'character_id');
+    // }
 }
