@@ -22,12 +22,12 @@ class BannerDetailResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
-            'characters' => $this->getcharacters($this->characters),
-            'from' => $this->from,
-            'to' => $this->to,
+            'characters' => $this->getcharacters($this->character_ids),
+            'from' => $this->from?->format('Y-m-d'),
+            'to' => $this->to?->format('Y-m-d'),
             'image' => Storage::disk('scaleway')->url($this->img),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_at?->format('Y-m-d'),
+            'updated_at' => $this->updated_at?->format('Y-m-d'),
         ];
     }
 }

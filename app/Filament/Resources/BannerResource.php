@@ -7,7 +7,6 @@ use App\Filament\Resources\BannerResource\Pages\EditBanner;
 use App\Filament\Resources\BannerResource\Pages\ListBanners;
 use App\Filament\Resources\BannerResource\Pages\ViewBanner;
 use App\Models\Banner;
-use App\Models\Character;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -73,15 +72,15 @@ class BannerResource extends Resource
                     ->label(__('Au'))
                     ->required(),
 
-                Select::make('characters')
+                Select::make('character_ids')
                     ->label(__('Personnages'))
                     ->multiple()
-                    ->options(Character::all()->pluck('name', 'id'))
+                    ->relationship('characters', 'name')
+                    ->getOptionLabelFromRecordUsing(fn ($record) => $record->name.' - '.$record->description)
                     ->searchable()
                     ->preload()
                     ->native(false)
-                    ->columnSpanFull()
-                    ->required(),
+                    ->columnSpanFull(),
 
                 FileUpload::make('img')
                     ->label(__('Image'))

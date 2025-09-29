@@ -14,7 +14,7 @@ class BannerResource extends JsonResource
             'name' => $this->name,
             'slug' => $this->slug,
             'image' => Storage::disk('scaleway')->url($this->img),
-            'created_at' => $this->created_at,
+            'created_at' => $this->created_at?->format('Y-m-d'),
         ];
     }
 }

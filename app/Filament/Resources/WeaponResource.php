@@ -81,6 +81,7 @@ class WeaponResource extends Resource
 
                 Section::make()
                     ->columns(3)
+                    ->columnSpanFull()
                     ->schema([
                         TextInput::make('hp')
                             ->label(__('HP'))

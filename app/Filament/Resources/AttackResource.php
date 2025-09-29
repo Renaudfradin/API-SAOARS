@@ -107,6 +107,7 @@ class AttackResource extends Resource
                     ->options(AttackType::class)
                     ->searchable()
                     ->native(false),
+
             ])
             ->recordActions([
                 ViewAction::make(),

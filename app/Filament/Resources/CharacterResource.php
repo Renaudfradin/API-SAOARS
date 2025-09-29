@@ -98,6 +98,7 @@ class CharacterResource extends Resource
 
                 Section::make()
                     ->columns(3)
+                    ->columnSpanFull()
                     ->schema([
                         Select::make('atk1')
                             ->label(__('Attaque 1'))
@@ -124,6 +125,7 @@ class CharacterResource extends Resource
 
                 Section::make()
                     ->columns(3)
+                    ->columnSpanFull()
                     ->schema([
                         TextInput::make('hp')
                             ->label(__('HP'))
@@ -233,7 +235,13 @@ class CharacterResource extends Resource
                     ->sortable()
                     ->searchable(),
 
-                TextColumn::make('banner_id')
+                TextColumn::make('description')
+                    ->label(__('Description'))
+                    ->translateLabel()
+                    ->sortable()
+                    ->searchable(),
+
+                TextColumn::make('banner.name')
                     ->label(__('Banner'))
                     ->translateLabel()
                     ->sortable()

@@ -15,18 +15,18 @@ class Banner extends Model
         'slug',
         'from',
         'to',
-        'characters',
         'img',
+        'character_ids',
     ];
 
     protected $casts = [
         'from' => 'datetime',
         'to' => 'datetime',
-        'characters' => 'array',
+        'character_ids' => 'array',
     ];
 
-    public function character(): HasMany
+    public function characters(): HasMany
     {
-        return $this->hasMany(Character::class);
+        return $this->hasMany(Character::class, 'banner_id');
     }
 }
