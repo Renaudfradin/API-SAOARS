@@ -5,7 +5,7 @@ namespace App\Filament\Resources\ImaginationResource\Pages;
 use App\Filament\Imports\ImaginationImporter;
 use App\Filament\Resources\ImaginationResource;
 use App\Jobs\ImportCsv;
-use Filament\Actions;
+use Filament\Actions\CreateAction;
 use Filament\Actions\ImportAction;
 use Filament\Resources\Pages\ListRecords;
 
@@ -20,7 +20,7 @@ class ListImaginations extends ListRecords
                 ->importer(ImaginationImporter::class)
                 ->job(ImportCsv::class),
 
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

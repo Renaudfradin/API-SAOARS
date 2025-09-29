@@ -2,13 +2,21 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\AbilityResource\Pages;
+use App\Filament\Resources\AbilityResource\Pages\CreateAbility;
+use App\Filament\Resources\AbilityResource\Pages\EditAbility;
+use App\Filament\Resources\AbilityResource\Pages\ListAbilities;
+use App\Filament\Resources\AbilityResource\Pages\ViewAbility;
 use App\Models\Ability;
-use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Forms\Set;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 
@@ -16,7 +24,7 @@ class AbilityResource extends Resource
 {
     protected static ?string $model = Ability::class;
 
-    protected static ?string $navigationGroup = 'Contenu';
+    protected static string|\UnitEnum|null $navigationGroup = 'Contenu';
 
     public static function getNavigationLabel(): string
     {
@@ -33,34 +41,34 @@ class AbilityResource extends Resource
         return __('Abilités');
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
+        return $schema
+            ->components([
+                TextInput::make('name')
                     ->label(__('Nom'))
                     ->maxLength(255)
                     ->required()
                     ->live(onBlur: true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
 
-                Forms\Components\TextInput::make('slug')
+                TextInput::make('slug')
                     ->label(__('Slug'))
                     ->translateLabel()
                     ->maxLength(255)
                     ->required(),
 
-                Forms\Components\TextInput::make('descripton')
+                TextInput::make('descripton')
                     ->label(__('Description'))
                     ->maxLength(255)
                     ->required(),
 
-                Forms\Components\TextInput::make('type')
+                TextInput::make('type')
                     ->label(__('Type'))
                     ->maxLength(255)
                     ->required(),
 
-                Forms\Components\TextInput::make('start')
+                TextInput::make('start')
                     ->label(__('Début'))
                     ->numeric()
                     ->required(),
@@ -72,13 +80,13 @@ class AbilityResource extends Resource
         return $table
             ->defaultSort('id', 'desc')
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->label(__('Nom'))
                     ->translateLabel()
                     ->sortable()
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('type')
+                TextColumn::make('type')
                     ->label(__('Type'))
                     ->translateLabel()
                     ->sortable()
@@ -87,14 +95,14 @@ class AbilityResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                ViewAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -109,10 +117,10 @@ class AbilityResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAbilities::route('/'),
-            'create' => Pages\CreateAbility::route('/create'),
-            'edit' => Pages\EditAbility::route('/{record}/edit'),
-            'view' => Pages\ViewAbility::route('/{record}'),
+            'index' => ListAbilities::route('/'),
+            'create' => CreateAbility::route('/create'),
+            'edit' => EditAbility::route('/{record}/edit'),
+            'view' => ViewAbility::route('/{record}'),
         ];
     }
 }

@@ -3,7 +3,8 @@
 namespace App\Filament\Resources\BannerResource\Pages;
 
 use App\Filament\Resources\BannerResource;
-use Filament\Actions;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
 
 class EditBanner extends EditRecord
@@ -13,8 +14,8 @@ class EditBanner extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\ViewAction::make(),
-            Actions\DeleteAction::make(),
+            ViewAction::make(),
+            DeleteAction::make(),
         ];
     }
 }

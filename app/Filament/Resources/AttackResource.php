@@ -3,13 +3,23 @@
 namespace App\Filament\Resources;
 
 use App\Enums\AttackType;
-use App\Filament\Resources\AttackResource\Pages;
+use App\Filament\Resources\AttackResource\Pages\CreateAttack;
+use App\Filament\Resources\AttackResource\Pages\EditAttack;
+use App\Filament\Resources\AttackResource\Pages\ListAttacks;
+use App\Filament\Resources\AttackResource\Pages\ViewAttack;
 use App\Models\Attack;
-use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Forms\Set;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
@@ -18,7 +28,7 @@ class AttackResource extends Resource
 {
     protected static ?string $model = Attack::class;
 
-    protected static ?string $navigationGroup = 'Contenu';
+    protected static string|\UnitEnum|null $navigationGroup = 'Contenu';
 
     public static function getNavigationLabel(): string
     {
@@ -35,34 +45,34 @@ class AttackResource extends Resource
         return __('Attaques');
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
+        return $schema
+            ->components([
+                TextInput::make('name')
                     ->label(__('Nom'))
                     ->maxLength(255)
                     ->required()
                     ->live(onBlur: true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
 
-                Forms\Components\TextInput::make('slug')
+                TextInput::make('slug')
                     ->label(__('Slug'))
                     ->translateLabel()
                     ->maxLength(255)
                     ->required(),
 
-                Forms\Components\Textarea::make('description')
+                Textarea::make('description')
                     ->label(__('Description'))
                     ->maxLength(255)
                     ->required(),
 
-                Forms\Components\TextInput::make('mp_cost')
+                TextInput::make('mp_cost')
                     ->label(__('Coût en MP'))
                     ->numeric()
                     ->required(),
 
-                Forms\Components\Select::make('type_atk')
+                Select::make('type_atk')
                     ->label(__('Type d\'attaque'))
                     ->options(AttackType::class)
                     ->required(),
@@ -74,19 +84,19 @@ class AttackResource extends Resource
         return $table
             ->defaultSort('id', 'desc')
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->label(__('Nom'))
                     ->translateLabel()
                     ->sortable()
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('mp_cost')
+                TextColumn::make('mp_cost')
                     ->label(__('Coût en MP'))
                     ->translateLabel()
                     ->sortable()
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('type_atk')
+                TextColumn::make('type_atk')
                     ->label(__('Type d\'attaque'))
                     ->translateLabel()
                     ->sortable()
@@ -98,14 +108,14 @@ class AttackResource extends Resource
                     ->searchable()
                     ->native(false),
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                ViewAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -113,10 +123,10 @@ class AttackResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAttacks::route('/'),
-            'create' => Pages\CreateAttack::route('/create'),
-            'edit' => Pages\EditAttack::route('/{record}/edit'),
-            'view' => Pages\ViewAttack::route('/{record}'),
+            'index' => ListAttacks::route('/'),
+            'create' => CreateAttack::route('/create'),
+            'edit' => EditAttack::route('/{record}/edit'),
+            'view' => ViewAttack::route('/{record}'),
         ];
     }
 }
