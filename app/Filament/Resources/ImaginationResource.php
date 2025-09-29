@@ -3,13 +3,22 @@
 namespace App\Filament\Resources;
 
 use App\Enums\Element;
-use App\Filament\Resources\ImaginationResource\Pages;
+use App\Filament\Resources\ImaginationResource\Pages\CreateImagination;
+use App\Filament\Resources\ImaginationResource\Pages\EditImagination;
+use App\Filament\Resources\ImaginationResource\Pages\ListImaginations;
+use App\Filament\Resources\ImaginationResource\Pages\ViewImagination;
 use App\Models\Imagination;
-use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Forms\Set;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
@@ -18,7 +27,7 @@ class ImaginationResource extends Resource
 {
     protected static ?string $model = Imagination::class;
 
-    protected static ?string $navigationGroup = 'Contenu';
+    protected static string|\UnitEnum|null $navigationGroup = 'Contenu';
 
     public static function getNavigationLabel(): string
     {
@@ -35,40 +44,40 @@ class ImaginationResource extends Resource
         return __('Imaginations');
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
+        return $schema
+            ->components([
+                TextInput::make('name')
                     ->label(__('Nom'))
                     ->maxLength(255)
                     ->required()
                     ->live(onBlur: true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
 
-                Forms\Components\TextInput::make('slug')
+                TextInput::make('slug')
                     ->label(__('Slug'))
                     ->translateLabel()
                     ->maxLength(255)
                     ->required(),
 
-                Forms\Components\TextInput::make('description')
+                TextInput::make('description')
                     ->label(__('Description'))
                     ->maxLength(255)
                     ->required(),
 
-                Forms\Components\Select::make('element')
+                Select::make('element')
                     ->label(__('Element'))
                     ->options(Element::class)
                     ->native(false)
                     ->required(),
 
-                Forms\Components\TextInput::make('character')
+                TextInput::make('character')
                     ->label(__('Character'))
                     ->maxLength(255)
                     ->required(),
 
-                Forms\Components\TextInput::make('image')
+                TextInput::make('image')
                     ->label(__('Image'))
                     ->maxLength(255)
                     ->required(),
@@ -79,18 +88,18 @@ class ImaginationResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->label(__('Nom'))
                     ->translateLabel()
                     ->sortable()
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('element')
+                TextColumn::make('element')
                     ->label(__('Element'))
                     ->sortable()
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('character')
+                TextColumn::make('character')
                     ->label(__('Character'))
                     ->sortable()
                     ->searchable(),
@@ -101,14 +110,14 @@ class ImaginationResource extends Resource
                     ->searchable()
                     ->native(false),
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                ViewAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -116,10 +125,10 @@ class ImaginationResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListImaginations::route('/'),
-            'create' => Pages\CreateImagination::route('/create'),
-            'edit' => Pages\EditImagination::route('/{record}/edit'),
-            'view' => Pages\ViewImagination::route('/{record}'),
+            'index' => ListImaginations::route('/'),
+            'create' => CreateImagination::route('/create'),
+            'edit' => EditImagination::route('/{record}/edit'),
+            'view' => ViewImagination::route('/{record}'),
         ];
     }
 }

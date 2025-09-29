@@ -28,8 +28,8 @@ class EquipmentDetailResource extends JsonResource
             'image' => Storage::disk('scaleway')->url($this->image),
             'image2' => Storage::disk('scaleway')->url($this->image2),
             'start' => $this->start,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_at?->format('Y-m-d'),
+            'updated_at' => $this->updated_at?->format('Y-m-d'),
         ];
     }
 }

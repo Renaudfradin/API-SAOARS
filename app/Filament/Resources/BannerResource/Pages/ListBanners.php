@@ -5,7 +5,7 @@ namespace App\Filament\Resources\BannerResource\Pages;
 use App\Filament\Imports\BannerImporter;
 use App\Filament\Resources\BannerResource;
 use App\Jobs\ImportCsv;
-use Filament\Actions;
+use Filament\Actions\CreateAction;
 use Filament\Actions\ImportAction;
 use Filament\Resources\Pages\ListRecords;
 
@@ -20,7 +20,7 @@ class ListBanners extends ListRecords
                 ->importer(BannerImporter::class)
                 ->job(ImportCsv::class),
 
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

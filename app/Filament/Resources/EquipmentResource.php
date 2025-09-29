@@ -4,13 +4,24 @@ namespace App\Filament\Resources;
 
 use App\Enums\Element;
 use App\Enums\EquipmentType;
-use App\Filament\Resources\EquipmentResource\Pages;
+use App\Filament\Resources\EquipmentResource\Pages\CreateEquipment;
+use App\Filament\Resources\EquipmentResource\Pages\EditEquipment;
+use App\Filament\Resources\EquipmentResource\Pages\ListEquipment;
+use App\Filament\Resources\EquipmentResource\Pages\ViewEquipment;
 use App\Models\Equipment;
-use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Forms\Set;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
@@ -19,7 +30,7 @@ class EquipmentResource extends Resource
 {
     protected static ?string $model = Equipment::class;
 
-    protected static ?string $navigationGroup = 'Contenu';
+    protected static string|\UnitEnum|null $navigationGroup = 'Contenu';
 
     public static function getNavigationLabel(): string
     {
@@ -36,94 +47,95 @@ class EquipmentResource extends Resource
         return __('Equipements');
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
+        return $schema
+            ->components([
+                TextInput::make('name')
                     ->label(__('Nom'))
                     ->maxLength(255)
                     ->required()
                     ->live(onBlur: true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
 
-                Forms\Components\TextInput::make('slug')
+                TextInput::make('slug')
                     ->label(__('Slug'))
                     ->translateLabel()
                     ->maxLength(255)
                     ->required(),
 
-                Forms\Components\Select::make('type')
+                Select::make('type')
                     ->label(__('Type'))
                     ->options(EquipmentType::class)
                     ->native(false)
                     ->searchable()
                     ->required(),
 
-                Forms\Components\Select::make('type_equipment')
+                Select::make('type_equipment')
                     ->label(__('Type d\'equipement'))
                     ->options(Element::class)
                     ->native(false)
                     ->searchable()
                     ->required(),
 
-                Forms\Components\Section::make()
+                Section::make()
                     ->columns(3)
+                    ->columnSpanFull()
                     ->schema([
-                        Forms\Components\TextInput::make('hp')
+                        TextInput::make('hp')
                             ->label(__('HP'))
                             ->numeric()
                             ->required(),
 
-                        Forms\Components\TextInput::make('mp')
+                        TextInput::make('mp')
                             ->label(__('MP'))
                             ->numeric()
                             ->required(),
 
-                        Forms\Components\TextInput::make('atk')
+                        TextInput::make('atk')
                             ->label(__('Atk'))
                             ->numeric()
                             ->required(),
 
-                        Forms\Components\TextInput::make('matk')
+                        TextInput::make('matk')
                             ->label(__('Matk'))
                             ->numeric()
                             ->required(),
 
-                        Forms\Components\TextInput::make('def')
+                        TextInput::make('def')
                             ->label(__('Def'))
                             ->numeric()
                             ->required(),
 
-                        Forms\Components\TextInput::make('mdef')
+                        TextInput::make('mdef')
                             ->label(__('Mdef'))
                             ->numeric()
                             ->required(),
 
-                        Forms\Components\TextInput::make('crit')
+                        TextInput::make('crit')
                             ->label(__('Crit'))
                             ->numeric()
                             ->required(),
 
-                        Forms\Components\TextInput::make('spd')
+                        TextInput::make('spd')
                             ->label(__('Spd'))
                             ->numeric()
                             ->required(),
 
-                        Forms\Components\TextInput::make('start')
+                        TextInput::make('start')
                             ->label(__('Start'))
                             ->numeric()
                             ->default(1)
                             ->required(),
                     ]),
 
-                Forms\Components\TextInput::make('effect_1')
+                TextInput::make('effect_1')
                     ->label(__('Effet 1')),
 
-                Forms\Components\TextInput::make('effect_2')
+                TextInput::make('effect_2')
                     ->label(__('Effet 2')),
 
-                Forms\Components\FileUpload::make('image')
+                FileUpload::make('image')
                     ->label(__('Image'))
                     ->disk('scaleway')
                     ->directory('equipment')
@@ -132,7 +144,7 @@ class EquipmentResource extends Resource
                     ->openable()
                     ->required(),
 
-                Forms\Components\FileUpload::make('image2')
+                FileUpload::make('image2')
                     ->label(__('Image 2'))
                     ->disk('scaleway')
                     ->directory('equipment')
@@ -149,25 +161,25 @@ class EquipmentResource extends Resource
         return $table
             ->defaultSort('id', 'desc')
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->label(__('Nom'))
                     ->translateLabel()
                     ->sortable()
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('type')
+                TextColumn::make('type')
                     ->label(__('Type'))
                     ->translateLabel()
                     ->sortable()
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('type_equipment')
+                TextColumn::make('type_equipment')
                     ->label(__('Type d\'equipement'))
                     ->translateLabel()
                     ->sortable()
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('start')
+                TextColumn::make('start')
                     ->label(__('Start'))
                     ->translateLabel()
                     ->sortable()
@@ -190,14 +202,14 @@ class EquipmentResource extends Resource
                         '4' => '4',
                     ]),
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                ViewAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -205,10 +217,10 @@ class EquipmentResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListEquipment::route('/'),
-            'create' => Pages\CreateEquipment::route('/create'),
-            'edit' => Pages\EditEquipment::route('/{record}/edit'),
-            'view' => Pages\ViewEquipment::route('/{record}'),
+            'index' => ListEquipment::route('/'),
+            'create' => CreateEquipment::route('/create'),
+            'edit' => EditEquipment::route('/{record}/edit'),
+            'view' => ViewEquipment::route('/{record}'),
         ];
     }
 }

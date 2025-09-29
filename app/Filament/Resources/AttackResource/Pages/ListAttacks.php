@@ -5,7 +5,7 @@ namespace App\Filament\Resources\AttackResource\Pages;
 use App\Filament\Imports\AttackImporter;
 use App\Filament\Resources\AttackResource;
 use App\Jobs\ImportCsv;
-use Filament\Actions;
+use Filament\Actions\CreateAction;
 use Filament\Actions\ImportAction;
 use Filament\Resources\Pages\ListRecords;
 
@@ -20,7 +20,7 @@ class ListAttacks extends ListRecords
                 ->importer(AttackImporter::class)
                 ->job(ImportCsv::class),
 
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

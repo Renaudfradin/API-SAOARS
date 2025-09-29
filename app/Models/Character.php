@@ -41,6 +41,7 @@ class Character extends Model
         'image',
         'image2',
         'special_partner',
+        'banner_id',
     ];
 
     protected $casts = [
