@@ -15,8 +15,8 @@ class AttackDetailResource extends JsonResource
             'description' => $this->description,
             'mp_cost' => $this->mp_cost,
             'type_atk' => $this->type_atk,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_at?->format('Y-m-d'),
+            'updated_at' => $this->updated_at?->format('Y-m-d'),
         ];
     }
 }

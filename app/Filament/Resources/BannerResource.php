@@ -2,14 +2,24 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\BannerResource\Pages;
+use App\Filament\Resources\BannerResource\Pages\CreateBanner;
+use App\Filament\Resources\BannerResource\Pages\EditBanner;
+use App\Filament\Resources\BannerResource\Pages\ListBanners;
+use App\Filament\Resources\BannerResource\Pages\ViewBanner;
 use App\Models\Banner;
-use App\Models\Character;
-use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Forms\Set;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 
@@ -19,7 +29,7 @@ class BannerResource extends Resource
 
     protected static ?string $model = Banner::class;
 
-    protected static ?string $navigationGroup = 'Contenu';
+    protected static string|\UnitEnum|null $navigationGroup = 'Contenu';
 
     public static function getNavigationLabel(): string
     {
@@ -36,11 +46,11 @@ class BannerResource extends Resource
         return __('Bannières');
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
+        return $schema
+            ->components([
+                TextInput::make('name')
                     ->translateLabel()
                     ->label(__('Nom'))
                     ->maxLength(255)
@@ -48,31 +58,31 @@ class BannerResource extends Resource
                     ->live(onBlur: true)
                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
 
-                Forms\Components\TextInput::make('slug')
+                TextInput::make('slug')
                     ->label(__('Slug'))
                     ->translateLabel()
                     ->maxLength(255)
                     ->required(),
 
-                Forms\Components\DatePicker::make('from')
+                DatePicker::make('from')
                     ->label(__('De'))
                     ->required(),
 
-                Forms\Components\DatePicker::make('to')
+                DatePicker::make('to')
                     ->label(__('Au'))
                     ->required(),
 
-                Forms\Components\Select::make('characters')
+                Select::make('character_ids')
                     ->label(__('Personnages'))
                     ->multiple()
-                    ->options(Character::all()->pluck('name', 'id'))
+                    ->relationship('characters', 'name')
+                    ->getOptionLabelFromRecordUsing(fn ($record) => $record->name.' - '.$record->description)
                     ->searchable()
                     ->preload()
                     ->native(false)
-                    ->columnSpanFull()
-                    ->required(),
+                    ->columnSpanFull(),
 
-                Forms\Components\FileUpload::make('img')
+                FileUpload::make('img')
                     ->label(__('Image'))
                     ->disk('scaleway')
                     ->directory('banner')
@@ -89,32 +99,32 @@ class BannerResource extends Resource
         return $table
             ->defaultSort('id', 'desc')
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->label(__('Nom'))
                     ->translateLabel()
                     ->sortable()
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('from')
+                TextColumn::make('from')
                     ->label(__('De'))
                     ->translateLabel()
                     ->sortable()
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('to')
+                TextColumn::make('to')
                     ->label(__('Au'))
                     ->translateLabel()
                     ->sortable()
                     ->searchable(),
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                ViewAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -122,10 +132,10 @@ class BannerResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListBanners::route('/'),
-            'create' => Pages\CreateBanner::route('/create'),
-            'edit' => Pages\EditBanner::route('/{record}/edit'),
-            'view' => Pages\ViewBanner::route('/{record}'),
+            'index' => ListBanners::route('/'),
+            'create' => CreateBanner::route('/create'),
+            'edit' => EditBanner::route('/{record}/edit'),
+            'view' => ViewBanner::route('/{record}'),
         ];
     }
 }

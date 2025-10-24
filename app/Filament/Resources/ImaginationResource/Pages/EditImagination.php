@@ -3,7 +3,8 @@
 namespace App\Filament\Resources\ImaginationResource\Pages;
 
 use App\Filament\Resources\ImaginationResource;
-use Filament\Actions;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
 
 class EditImagination extends EditRecord
@@ -13,8 +14,8 @@ class EditImagination extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\ViewAction::make(),
-            Actions\DeleteAction::make(),
+            ViewAction::make(),
+            DeleteAction::make(),
         ];
     }
 }

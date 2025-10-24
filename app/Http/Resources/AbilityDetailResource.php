@@ -15,8 +15,8 @@ class AbilityDetailResource extends JsonResource
             'descripton' => $this->descripton,
             'type' => $this->type,
             'start' => $this->start,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_at?->format('Y-m-d'),
+            'updated_at' => $this->updated_at?->format('Y-m-d'),
         ];
     }
 }
