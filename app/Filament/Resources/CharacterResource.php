@@ -73,8 +73,11 @@ class CharacterResource extends Resource
                     ->required(),
 
                 Select::make('special_partner')
+                    ->relationship('specialPartner', 'name')
+                    ->getOptionLabelFromRecordUsing(fn ($record) => $record->name.' - '.$record->description)
                     ->label('Partenaire')
-                    ->native(false),
+                    ->native(false)
+                    ->searchable(),
 
                 Textarea::make('profile')
                     ->label(__('Profil'))

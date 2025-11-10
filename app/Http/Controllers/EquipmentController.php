@@ -27,7 +27,7 @@ class EquipmentController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/equipments/{equipment}",
+     *     path="/api/equipment/{equipment}",
      *     summary="Get a equipment by slug",
      *     tags={"Equipment"},
      *

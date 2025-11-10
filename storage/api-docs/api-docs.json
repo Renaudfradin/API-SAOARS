@@ -316,13 +316,13 @@
                 }
             }
         },
-        "/api/equipments/{equipment}": {
+        "/api/equipment/{equipment}": {
             "get": {
                 "tags": [
                     "Equipment"
                 ],
                 "summary": "Get a equipment by slug",
-                "operationId": "13e8839631921360d244c97e41952c59",
+                "operationId": "a318bb2a3789a128632f69c7c5b7a471",
                 "parameters": [
                     {
                         "name": "equipment",

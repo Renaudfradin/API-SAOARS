@@ -11,8 +11,17 @@ class BannerDetailResource extends JsonResource
     public function getcharacters($characterId)
     {
         return Character::whereIn('id', $characterId)
-            ->select('id', 'name', 'slug', 'element', 'image')
+            ->select('id', 'name', 'slug', 'element', 'image2')
             ->get()
+            ->map(function ($character) {
+                return [
+                    'id' => $character->id,
+                    'name' => $character->name,
+                    'slug' => $character->slug,
+                    'element' => $character->element,
+                    'image2' => Storage::disk('scaleway')->url($character->image2),
+                ];
+            })
             ->toArray();
     }
 
