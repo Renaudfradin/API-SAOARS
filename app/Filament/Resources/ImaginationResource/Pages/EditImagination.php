@@ -4,6 +4,7 @@ namespace App\Filament\Resources\ImaginationResource\Pages;
 
 use App\Filament\Actions\CatalogLocaleSwitcher;
 use App\Filament\Concerns\SelectsCatalogLocale;
+use App\Filament\Concerns\TranslatesCatalogRecord;
 use App\Filament\Resources\ImaginationResource;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
@@ -12,6 +13,12 @@ use Filament\Resources\Pages\EditRecord;
 class EditImagination extends EditRecord
 {
     use SelectsCatalogLocale;
+    use TranslatesCatalogRecord {
+        TranslatesCatalogRecord::fillForm insteadof SelectsCatalogLocale;
+        TranslatesCatalogRecord::handleRecordCreation insteadof SelectsCatalogLocale;
+        TranslatesCatalogRecord::handleRecordUpdate insteadof SelectsCatalogLocale;
+        TranslatesCatalogRecord::updatedActiveLocale insteadof SelectsCatalogLocale;
+    }
 
     protected static string $resource = ImaginationResource::class;
 
@@ -19,6 +26,7 @@ class EditImagination extends EditRecord
     {
         return [
             CatalogLocaleSwitcher::make(),
+            $this->translateCatalogAction(),
             ViewAction::make(),
             DeleteAction::make(),
         ];

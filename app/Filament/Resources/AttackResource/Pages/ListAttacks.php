@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\AttackResource\Pages;
 
+use App\Filament\Concerns\SelectsCatalogLocale;
 use App\Filament\Imports\AttackImporter;
 use App\Filament\Resources\AttackResource;
 use App\Jobs\ImportCsv;
@@ -11,6 +12,8 @@ use Filament\Resources\Pages\ListRecords;
 
 class ListAttacks extends ListRecords
 {
+    use SelectsCatalogLocale;
+
     protected static string $resource = AttackResource::class;
 
     protected function getHeaderActions(): array

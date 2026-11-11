@@ -17,7 +17,7 @@ class RecentCharactersTable extends TableWidget
 
     protected static bool $isLazy = false;
 
-    protected int|string|array $columnSpan = 1;
+    protected int|string|array $columnSpan = 'full';
 
     public function table(Table $table): Table
     {

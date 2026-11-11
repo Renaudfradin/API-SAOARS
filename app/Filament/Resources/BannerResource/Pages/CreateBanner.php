@@ -4,6 +4,7 @@ namespace App\Filament\Resources\BannerResource\Pages;
 
 use App\Filament\Actions\CatalogLocaleSwitcher;
 use App\Filament\Concerns\SelectsCatalogLocale;
+use App\Filament\Concerns\TranslatesCatalogRecord;
 use App\Filament\Resources\BannerResource;
 use App\Models\Character;
 use Filament\Resources\Pages\CreateRecord;
@@ -11,6 +12,12 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateBanner extends CreateRecord
 {
     use SelectsCatalogLocale;
+    use TranslatesCatalogRecord {
+        TranslatesCatalogRecord::fillForm insteadof SelectsCatalogLocale;
+        TranslatesCatalogRecord::handleRecordCreation insteadof SelectsCatalogLocale;
+        TranslatesCatalogRecord::handleRecordUpdate insteadof SelectsCatalogLocale;
+        TranslatesCatalogRecord::updatedActiveLocale insteadof SelectsCatalogLocale;
+    }
 
     protected static string $resource = BannerResource::class;
 
@@ -18,6 +25,7 @@ class CreateBanner extends CreateRecord
     {
         return [
             CatalogLocaleSwitcher::make(),
+            $this->translateCatalogAction(),
         ];
     }
 

@@ -7,6 +7,7 @@ use App\Filament\Resources\ImaginationResource\Pages\CreateImagination;
 use App\Filament\Resources\ImaginationResource\Pages\EditImagination;
 use App\Filament\Resources\ImaginationResource\Pages\ListImaginations;
 use App\Filament\Resources\ImaginationResource\Pages\ViewImagination;
+use App\Filament\Schemas\CatalogTranslation;
 use App\Models\Imagination;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -16,12 +17,10 @@ use Filament\Actions\ViewAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
-use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Illuminate\Support\Str;
 
 class ImaginationResource extends Resource
 {
@@ -48,12 +47,13 @@ class ImaginationResource extends Resource
     {
         return $schema
             ->components([
+                CatalogTranslation::notice(),
                 TextInput::make('name')
                     ->label(__('Nom'))
                     ->maxLength(255)
                     ->required()
                     ->live(onBlur: true)
-                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
+                    ->afterStateUpdated(CatalogTranslation::slugFromFrenchName()),
 
                 TextInput::make('slug')
                     ->label(__('Slug'))

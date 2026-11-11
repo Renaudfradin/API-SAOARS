@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\BannerResource\Pages;
 
+use App\Filament\Concerns\SelectsCatalogLocale;
 use App\Filament\Imports\BannerImporter;
 use App\Filament\Resources\BannerResource;
 use App\Jobs\ImportCsv;
@@ -11,6 +12,8 @@ use Filament\Resources\Pages\ListRecords;
 
 class ListBanners extends ListRecords
 {
+    use SelectsCatalogLocale;
+
     protected static string $resource = BannerResource::class;
 
     protected function getHeaderActions(): array

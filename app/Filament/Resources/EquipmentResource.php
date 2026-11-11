@@ -8,6 +8,7 @@ use App\Filament\Resources\EquipmentResource\Pages\CreateEquipment;
 use App\Filament\Resources\EquipmentResource\Pages\EditEquipment;
 use App\Filament\Resources\EquipmentResource\Pages\ListEquipment;
 use App\Filament\Resources\EquipmentResource\Pages\ViewEquipment;
+use App\Filament\Schemas\CatalogTranslation;
 use App\Filament\Schemas\StatStageRepeater;
 use App\Models\Equipment;
 use Filament\Actions\BulkActionGroup;
@@ -20,12 +21,10 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Illuminate\Support\Str;
 
 class EquipmentResource extends Resource
 {
@@ -52,12 +51,13 @@ class EquipmentResource extends Resource
     {
         return $schema
             ->components([
+                CatalogTranslation::notice(),
                 TextInput::make('name')
                     ->label(__('Nom'))
                     ->maxLength(255)
                     ->required()
                     ->live(onBlur: true)
-                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
+                    ->afterStateUpdated(CatalogTranslation::slugFromFrenchName()),
 
                 TextInput::make('slug')
                     ->label(__('Slug'))

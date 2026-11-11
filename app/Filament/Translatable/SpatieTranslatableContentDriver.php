@@ -42,11 +42,7 @@ class SpatieTranslatableContentDriver implements TranslatableContentDriver
 
         $record->fill(Arr::except($data, $translatableAttributes));
 
-        if (method_exists($record, 'setTranslation')) {
-            foreach (Arr::only($data, $translatableAttributes) as $key => $value) {
-                $record->setTranslation($key, $this->activeLocale, $value);
-            }
-        }
+        $this->setTranslations($record, Arr::only($data, $translatableAttributes));
 
         return $record;
     }
@@ -75,11 +71,7 @@ class SpatieTranslatableContentDriver implements TranslatableContentDriver
 
         $record->fill(Arr::except($data, $translatableAttributes));
 
-        if (method_exists($record, 'setTranslation')) {
-            foreach (Arr::only($data, $translatableAttributes) as $key => $value) {
-                $record->setTranslation($key, $this->activeLocale, $value);
-            }
-        }
+        $this->setTranslations($record, Arr::only($data, $translatableAttributes));
 
         $record->save();
 
@@ -98,10 +90,43 @@ class SpatieTranslatableContentDriver implements TranslatableContentDriver
         }
 
         foreach ($record->getTranslatableAttributes() as $attribute) {
-            $attributes[$attribute] = $record->getTranslation($attribute, $this->activeLocale, useFallbackLocale: false);
+            $attributes[$attribute] = $this->translationForForm(
+                $record->getTranslation($attribute, $this->activeLocale, useFallbackLocale: false),
+            );
         }
 
         return $attributes;
+    }
+
+    /**
+     * @param  array<string, mixed>  $translations
+     */
+    protected function setTranslations(Model $record, array $translations): void
+    {
+        if (! method_exists($record, 'setTranslation')) {
+            return;
+        }
+
+        foreach ($translations as $key => $value) {
+            if (is_array($value)) {
+                continue;
+            }
+
+            $record->setTranslation($key, $this->activeLocale, $value ?? '');
+        }
+    }
+
+    protected function translationForForm(mixed $value): mixed
+    {
+        if (is_string($value) || $value === null) {
+            return $value;
+        }
+
+        if (is_scalar($value)) {
+            return (string) $value;
+        }
+
+        return '';
     }
 
     public function applySearchConstraintToQuery(Builder $query, string $column, string $search, string $whereClause, ?bool $isSearchForcedCaseInsensitive = null): Builder

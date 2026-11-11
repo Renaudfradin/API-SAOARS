@@ -4,6 +4,7 @@ namespace App\Filament\Resources\BannerResource\Pages;
 
 use App\Filament\Actions\CatalogLocaleSwitcher;
 use App\Filament\Concerns\SelectsCatalogLocale;
+use App\Filament\Concerns\TranslatesCatalogRecord;
 use App\Filament\Resources\BannerResource;
 use App\Models\Character;
 use Filament\Actions\DeleteAction;
@@ -14,6 +15,12 @@ use Illuminate\Support\Facades\DB;
 class EditBanner extends EditRecord
 {
     use SelectsCatalogLocale;
+    use TranslatesCatalogRecord {
+        TranslatesCatalogRecord::fillForm insteadof SelectsCatalogLocale;
+        TranslatesCatalogRecord::handleRecordCreation insteadof SelectsCatalogLocale;
+        TranslatesCatalogRecord::handleRecordUpdate insteadof SelectsCatalogLocale;
+        TranslatesCatalogRecord::updatedActiveLocale insteadof SelectsCatalogLocale;
+    }
 
     protected static string $resource = BannerResource::class;
 
@@ -21,6 +28,7 @@ class EditBanner extends EditRecord
     {
         return [
             CatalogLocaleSwitcher::make(),
+            $this->translateCatalogAction(),
             ViewAction::make(),
             DeleteAction::make(),
         ];
