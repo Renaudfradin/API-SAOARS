@@ -2,19 +2,24 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\Concerns\PresentsTranslations;
+use App\Support\Media;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Storage;
 
 class BannerResource extends JsonResource
 {
-    public function toArray($request)
+    use PresentsTranslations;
+
+    public function toArray(Request $request): array
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
+            'name' => $this->text('name'),
             'slug' => $this->slug,
-            'image' => Storage::disk('scaleway')->url($this->img),
+            'image' => Media::url($this->img),
             'created_at' => $this->created_at?->format('Y-m-d'),
+            ...$this->translationMeta(),
         ];
     }
 }

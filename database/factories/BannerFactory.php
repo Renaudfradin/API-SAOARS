@@ -14,7 +14,7 @@ class BannerFactory extends Factory
             'slug' => Str::slug(fake()->name()),
             'from' => '2025-03-08 00:00:00',
             'to' => '2025-03-08 00:00:00',
-            'characters' => [1, 2, 3, 4, 5],
+            'character_ids' => [1, 2, 3, 4, 5],
             'img' => 'banner/01K1D9Y9RGT9R6R5NSS9J17C3C.jpg',
         ];
     }

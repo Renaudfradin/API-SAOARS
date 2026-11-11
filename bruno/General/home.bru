@@ -1,0 +1,21 @@
+meta {
+  name: Home
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/
+  body: none
+  auth: none
+}
+
+tests {
+  test("status is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("response has welcome message", function() {
+    expect(res.getBody()).to.have.property("message");
+  });
+}

@@ -6,88 +6,64 @@ use App\Http\Resources\CharacterDetailResource;
 use App\Http\Resources\CharacterResource;
 use App\Http\Resources\StatsResource;
 use App\Models\Character;
+use App\Support\Locales;
 use Illuminate\Support\Facades\Cache;
+use OpenApi\Attributes as OA;
 
 class CharacterController extends Controller
 {
-    /**
-     * @OA\Get(
-     *     path="/api/characters",
-     *     summary="Get all characters",
-     *     tags={"Character"},
-     *
-     *     @OA\Response(
-     *         response=200,
-     *         description="Get all characters"
-     *     )
-     * )
-     */
+    #[OA\Get(
+        path: '/api/characters',
+        summary: 'Get all characters',
+        tags: ['Character'],
+        parameters: [
+            new OA\Parameter(name: 'lang', in: 'query', required: false, description: 'Locale: fr, en, zh, ko, ja, de, es. Defaults to fr.', schema: new OA\Schema(type: 'string')),
+            new OA\Parameter(name: 'page', in: 'query', required: false, schema: new OA\Schema(type: 'integer')),
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'Get all characters'),
+        ],
+    )]
     public function index()
     {
         $page = request()->get('page', 1);
-        $cacheKey = 'characters_page_'.$page;
+        $locale = Locales::resolve(request()->query('lang'));
+        $cacheKey = 'characters_page_'.$page.'_'.$locale;
 
-        $cacheDuration = 2;
-
-        return Cache::store('redis')->remember($cacheKey, $cacheDuration, function () {
+        return Cache::remember($cacheKey, 2, function () {
             return CharacterResource::collection(Character::orderBy('id', 'desc')->paginate(21));
         });
     }
 
-    /**
-     * @OA\Get(
-     *     path="/api/character/{character}",
-     *     summary="Get a character by slug",
-     *     tags={"Character"},
-     *
-     *     @OA\Parameter(
-     *         name="character",
-     *         in="path",
-     *         required=true,
-     *         description="Character slug",
-     *
-     *         @OA\Schema(
-     *             type="string"
-     *         )
-     *     ),
-     *
-     *     @OA\Response(
-     *         response=200,
-     *         description="Get a character by slug",
-     *
-     *         @OA\JsonContent(
-     *             type="object",
-     *
-     *             @OA\Property(property="id", type="integer", example=1),
-     *             @OA\Property(property="name", type="string", example="Character Name"),
-     *             @OA\Property(property="slug", type="string", example="character-name"),
-     *             @OA\Property(property="description", type="string", example="Character description")
-     *         )
-     *     ),
-     *
-     *     @OA\Response(
-     *         response=404,
-     *         description="Character not found"
-     *     )
-     * )
-     */
+    #[OA\Get(
+        path: '/api/character/{character}',
+        summary: 'Get a character by slug',
+        tags: ['Character'],
+        parameters: [
+            new OA\Parameter(name: 'character', in: 'path', required: true, description: 'Character slug', schema: new OA\Schema(type: 'string')),
+            new OA\Parameter(name: 'lang', in: 'query', required: false, description: 'Locale: fr, en, zh, ko, ja, de, es. Defaults to fr.', schema: new OA\Schema(type: 'string')),
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'Get a character by slug'),
+            new OA\Response(response: 404, description: 'Character not found'),
+        ],
+    )]
     public function show(Character $character)
     {
+        $character->load('statStages');
+
         return CharacterDetailResource::make($character);
     }
 
-    /**
-     * @OA\Get(
-     *     path="/api/character/random",
-     *     summary="Get a random character",
-     *     tags={"Character"},
-     *
-     *     @OA\Response(
-     *         response=200,
-     *         description="Get a random character"
-     *     )
-     * )
-     */
+    #[OA\Get(
+        path: '/api/character/random',
+        summary: 'Get a random character',
+        tags: ['Character'],
+        responses: [
+            new OA\Response(response: 200, description: 'Get a random character'),
+            new OA\Response(response: 404, description: 'Character not found'),
+        ],
+    )]
     public function random()
     {
         $character = Character::inRandomOrder()->first();
@@ -99,18 +75,14 @@ class CharacterController extends Controller
         return CharacterResource::make($character);
     }
 
-    /**
-     * @OA\Get(
-     *     path="/api/stats",
-     *     summary="Get stats",
-     *     tags={"Home"},
-     *
-     *     @OA\Response(
-     *         response=200,
-     *         description="Get stats"
-     *     )
-     * )
-     */
+    #[OA\Get(
+        path: '/api/stats',
+        summary: 'Get stats',
+        tags: ['Home'],
+        responses: [
+            new OA\Response(response: 200, description: 'Get stats'),
+        ],
+    )]
     public function stats()
     {
         return StatsResource::make([]);

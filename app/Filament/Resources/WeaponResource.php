@@ -8,6 +8,7 @@ use App\Filament\Resources\WeaponResource\Pages\CreateWeapon;
 use App\Filament\Resources\WeaponResource\Pages\EditWeapon;
 use App\Filament\Resources\WeaponResource\Pages\ListWeapons;
 use App\Filament\Resources\WeaponResource\Pages\ViewWeapon;
+use App\Filament\Schemas\StatStageRepeater;
 use App\Models\Weapon;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -146,6 +147,8 @@ class WeaponResource extends Resource
                     ->native(false)
                     ->searchable()
                     ->preload(),
+
+                StatStageRepeater::make(),
 
                 FileUpload::make('image')
                     ->label(__('Image'))

@@ -8,6 +8,7 @@ use App\Filament\Resources\CharacterResource\Pages\CreateCharacter;
 use App\Filament\Resources\CharacterResource\Pages\EditCharacter;
 use App\Filament\Resources\CharacterResource\Pages\ListCharacters;
 use App\Filament\Resources\CharacterResource\Pages\ViewCharacter;
+use App\Filament\Schemas\StatStageRepeater;
 use App\Models\Character;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -203,6 +204,8 @@ class CharacterResource extends Resource
                     ->label(__('Cost'))
                     ->numeric()
                     ->required(),
+
+                StatStageRepeater::make(),
 
                 FileUpload::make('image')
                     ->label(__('Image'))

@@ -8,6 +8,7 @@ use App\Filament\Resources\EquipmentResource\Pages\CreateEquipment;
 use App\Filament\Resources\EquipmentResource\Pages\EditEquipment;
 use App\Filament\Resources\EquipmentResource\Pages\ListEquipment;
 use App\Filament\Resources\EquipmentResource\Pages\ViewEquipment;
+use App\Filament\Schemas\StatStageRepeater;
 use App\Models\Equipment;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -134,6 +135,8 @@ class EquipmentResource extends Resource
 
                 TextInput::make('effect_2')
                     ->label(__('Effet 2')),
+
+                StatStageRepeater::make(),
 
                 FileUpload::make('image')
                     ->label(__('Image'))

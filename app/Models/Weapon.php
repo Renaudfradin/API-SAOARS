@@ -4,13 +4,22 @@ namespace App\Models;
 
 use App\Enums\Element;
 use App\Enums\WeaponType;
+use App\Models\Concerns\HasCatalogTranslations;
+use App\Models\Concerns\HasStatStages;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Weapon extends Model
 {
+    use HasCatalogTranslations;
     use HasFactory;
+    use HasStatStages;
+
+    /**
+     * @var list<string>
+     */
+    public array $translatable = ['name', 'effect_1', 'effect_2', 'effect_3'];
 
     protected $fillable = [
         'name',
@@ -32,13 +41,18 @@ class Weapon extends Model
         'image',
         'image2',
         'start',
+        'fanadata_id',
     ];
 
-    protected $casts = [
-        'type' => WeaponType::class,
-        'element_weapons' => Element::class,
-        'characters_id' => 'integer',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'type' => WeaponType::class,
+            'element_weapons' => Element::class,
+            'characters_id' => 'integer',
+            'fanadata_id' => 'integer',
+        ];
+    }
 
     public function character(): HasOne
     {

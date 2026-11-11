@@ -4,12 +4,21 @@ namespace App\Models;
 
 use App\Enums\Element;
 use App\Enums\EquipmentType;
+use App\Models\Concerns\HasCatalogTranslations;
+use App\Models\Concerns\HasStatStages;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Equipment extends Model
 {
+    use HasCatalogTranslations;
     use HasFactory;
+    use HasStatStages;
+
+    /**
+     * @var list<string>
+     */
+    public array $translatable = ['name', 'effect_1', 'effect_2'];
 
     protected $fillable = [
         'name',
@@ -29,10 +38,15 @@ class Equipment extends Model
         'start',
         'image',
         'image2',
+        'fanadata_id',
     ];
 
-    protected $casts = [
-        'type' => EquipmentType::class,
-        'type_equipment' => Element::class,
-    ];
+    protected function casts(): array
+    {
+        return [
+            'type' => EquipmentType::class,
+            'type_equipment' => Element::class,
+            'fanadata_id' => 'integer',
+        ];
+    }
 }

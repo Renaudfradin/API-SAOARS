@@ -2,22 +2,23 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\Concerns\PresentsTranslations;
 use App\Models\Character;
+use App\Support\Media;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Storage;
 
 class WeaponDetailResource extends JsonResource
 {
-    public function getCharacter($characterId)
-    {
-        return Character::find($characterId)->toArray();
-    }
+    use PresentsTranslations;
 
-    public function toArray($request)
+    public function toArray(Request $request): array
     {
+        $character = $this->characters_id ? Character::find($this->characters_id) : null;
+
         return [
             'id' => $this->id,
-            'name' => $this->name,
+            'name' => $this->text('name'),
             'slug' => $this->slug,
             'type' => $this->type,
             'element_weapons' => $this->element_weapons,
@@ -29,14 +30,16 @@ class WeaponDetailResource extends JsonResource
             'mdef' => $this->mdef,
             'crit' => $this->crit,
             'spd' => $this->spd,
-            'effect_1' => $this->effect_1,
-            'effect_2' => $this->effect_2,
-            'effect_3' => $this->effect_3,
-            'characters_id' => $this->getCharacter($this->characters_id),
-            'image' => Storage::disk('scaleway')->url($this->image),
-            'image2' => Storage::disk('scaleway')->url($this->image2),
+            'stats' => $this->statPayload(),
+            'effect_1' => $this->text('effect_1'),
+            'effect_2' => $this->text('effect_2'),
+            'effect_3' => $this->text('effect_3'),
+            'characters_id' => $character?->toArray(),
+            'image' => Media::url($this->image),
+            'image2' => Media::url($this->image2),
             'created_at' => $this->created_at?->format('Y-m-d'),
             'updated_at' => $this->updated_at?->format('Y-m-d'),
+            ...$this->translationMeta(),
         ];
     }
 }

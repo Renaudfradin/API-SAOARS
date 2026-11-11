@@ -2,24 +2,29 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\Concerns\PresentsTranslations;
+use App\Support\Media;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Storage;
 
 class EquipmentResource extends JsonResource
 {
-    public function toArray($request)
+    use PresentsTranslations;
+
+    public function toArray(Request $request): array
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
+            'name' => $this->text('name'),
             'slug' => $this->slug,
             'type' => $this->type,
             'type_equipment' => $this->type_equipment,
             'start' => $this->start,
-            'image' => Storage::disk('scaleway')->url($this->image),
-            'image2' => Storage::disk('scaleway')->url($this->image2),
+            'image' => Media::url($this->image),
+            'image2' => Media::url($this->image2),
             'created_at' => $this->created_at?->format('Y-m-d'),
             'updated_at' => $this->updated_at?->format('Y-m-d'),
+            ...$this->translationMeta(),
         ];
     }
 }

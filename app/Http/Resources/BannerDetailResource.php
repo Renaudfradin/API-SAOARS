@@ -2,32 +2,31 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\Concerns\PresentsTranslations;
 use App\Models\Character;
+use App\Support\Media;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Storage;
 
 class BannerDetailResource extends JsonResource
 {
-    public function getcharacters($characterId)
-    {
-        return Character::whereIn('id', $characterId)
-            ->select('id', 'name', 'slug', 'element', 'image')
-            ->get()
-            ->toArray();
-    }
+    use PresentsTranslations;
 
-    public function toArray($request)
+    public function toArray(Request $request): array
     {
+        $ids = is_array($this->character_ids) ? $this->character_ids : [];
+
         return [
             'id' => $this->id,
-            'name' => $this->name,
+            'name' => $this->text('name'),
             'slug' => $this->slug,
-            'characters' => $this->getcharacters($this->character_ids),
+            'characters' => $ids === [] ? [] : Character::query()->whereIn('id', $ids)->get()->toArray(),
             'from' => $this->from?->format('Y-m-d'),
             'to' => $this->to?->format('Y-m-d'),
-            'image' => Storage::disk('scaleway')->url($this->img),
+            'image' => Media::url($this->img),
             'created_at' => $this->created_at?->format('Y-m-d'),
             'updated_at' => $this->updated_at?->format('Y-m-d'),
+            ...$this->translationMeta(),
         ];
     }
 }

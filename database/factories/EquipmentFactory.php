@@ -15,7 +15,7 @@ class EquipmentFactory extends Factory
             'name' => fake()->name(),
             'slug' => Str::slug(fake()->name()),
             'type' => EquipmentType::Armour,
-            'type_equipment' => Element::Earth,
+            'type_equipment' => Element::Terre,
             'hp' => fake()->randomDigit(),
             'mp' => fake()->randomDigit(),
             'atk' => fake()->randomDigit(),
