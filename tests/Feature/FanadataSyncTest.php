@@ -28,7 +28,9 @@ it('merges a fanadata weapon onto the french record and stores five stages', fun
         ->and($weapon->statStages)->toHaveCount(5)
         ->and($weapon->fresh()->atk)->toBe(1253)
         ->and($weapon->statStages->firstWhere('stage', 1)->atk)->toBe(872)
-        ->and($weapon->statStages->firstWhere('stage', 5)->atk)->toBe(1253);
+        ->and($weapon->statStages->firstWhere('stage', 5)->atk)->toBe(1253)
+        ->and($weapon->skills)->toHaveCount(1)
+        ->and($weapon->skills[0]['lines'][0]['text']['fr'])->toBe('Augmente ATK et CRIT de 15%');
 });
 
 function weaponPayload(): array

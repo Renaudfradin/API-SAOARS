@@ -17,9 +17,11 @@ class CharacterResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->text('name'),
+            'description' => $this->text('description'),
             'slug' => $this->slug,
             'profile' => $this->text('profile'),
-            'element' => $this->element,
+            'element' => $this->element instanceof \BackedEnum ? $this->element->value : $this->element,
+            'weapon_type' => $this->weapon_type instanceof \BackedEnum ? $this->weapon_type->value : $this->weapon_type,
             'atk1' => $this->attackType($this->atk1),
             'atk2' => $this->attackType($this->atk2),
             'atk3' => $this->attackType($this->atk3),
@@ -37,6 +39,8 @@ class CharacterResource extends JsonResource
             return null;
         }
 
-        return Attack::find($attackId)?->type_atk;
+        $type = Attack::find($attackId)?->type_atk;
+
+        return $type instanceof \BackedEnum ? $type->value : $type;
     }
 }

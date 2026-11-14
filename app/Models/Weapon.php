@@ -37,6 +37,7 @@ class Weapon extends Model
         'effect_1',
         'effect_2',
         'effect_3',
+        'skills',
         'characters_id',
         'image',
         'image2',
@@ -51,6 +52,7 @@ class Weapon extends Model
             'element_weapons' => Element::class,
             'characters_id' => 'integer',
             'fanadata_id' => 'integer',
+            'skills' => 'array',
         ];
     }
 

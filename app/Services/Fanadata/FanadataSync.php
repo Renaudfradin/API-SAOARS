@@ -75,6 +75,12 @@ class FanadataSync
             'abilities' => 0,
         ];
 
+        if ($type === 'weapon-skills') {
+            $counts['weapons'] = $this->storeWeaponSkills();
+
+            return $counts;
+        }
+
         if ($this->wants($type, 'weapons')) {
             $counts['weapons'] = $this->syncWeapons($id);
         }
@@ -141,6 +147,7 @@ class FanadataSync
             $weapon->spd = 0;
         }
 
+        $weapon->skills = $this->skillGroups($payload['battle_skills'] ?? []);
         $effects = $this->effects($payload['battle_skills'] ?? []);
 
         foreach ([1 => 'effect_1', 2 => 'effect_2', 3 => 'effect_3'] as $slot => $attribute) {
@@ -245,6 +252,12 @@ class FanadataSync
             if ($creating && $banner->from === null) {
                 $banner->from = now();
                 $banner->to = now();
+            }
+
+            $linked = $this->localCharacterIds($this->bannerCharacters($payload));
+
+            if ($linked !== []) {
+                $banner->character_ids = $linked;
             }
 
             $banner->save();
@@ -425,6 +438,62 @@ class FanadataSync
     }
 
     /**
+     * The list payload omits the featured characters, which only the detail route returns.
+     *
+     * @param  array<string, mixed>  $payload
+     * @return array<int, mixed>
+     */
+    private function bannerCharacters(array $payload): array
+    {
+        if (isset($payload['characters']) && is_array($payload['characters'])) {
+            return $payload['characters'];
+        }
+
+        $id = $payload['id'] ?? null;
+
+        if (! is_numeric($id)) {
+            return [];
+        }
+
+        $detail = $this->client->get('banners/'.$id);
+        $characters = $detail['characters'] ?? [];
+
+        return is_array($characters) ? $characters : [];
+    }
+
+    /**
+     * @param  array<int, mixed>  $characters
+     * @return list<int>
+     */
+    private function localCharacterIds(array $characters): array
+    {
+        $fanadataIds = [];
+
+        foreach ($characters as $character) {
+            if (is_array($character) && isset($character['id'])) {
+                $fanadataIds[] = (int) $character['id'];
+            }
+        }
+
+        if ($fanadataIds === []) {
+            return [];
+        }
+
+        $local = Character::query()->whereIn('fanadata_id', $fanadataIds)->pluck('id', 'fanadata_id');
+        $ids = [];
+
+        foreach ($fanadataIds as $fanadataId) {
+            $id = $local[$fanadataId] ?? null;
+
+            if ($id) {
+                $ids[] = (int) $id;
+            }
+        }
+
+        return $ids;
+    }
+
+    /**
      * @return Generator<int, array<string, mixed>>
      */
     private function details(string $path, ?int $id): Generator
@@ -497,6 +566,58 @@ class FanadataSync
         });
 
         return $matched ?? new Character;
+    }
+
+    public function storeWeaponSkills(): int
+    {
+        $count = 0;
+
+        Weapon::query()->whereNotNull('fanadata_id')->orderBy('id')->each(function (Weapon $weapon) use (&$count): void {
+            $payload = $this->client->get('weapons/'.$weapon->fanadata_id);
+            $weapon->skills = $this->skillGroups($payload['battle_skills'] ?? []);
+            $weapon->save();
+            $count++;
+        });
+
+        return $count;
+    }
+
+    /**
+     * @param  array<int, mixed>  $skills
+     * @return list<array{slot: int, lines: list<array{lb: int, name: array<string, string>, text: array<string, string>}>}>
+     */
+    private function skillGroups(array $skills): array
+    {
+        $grouped = [];
+
+        foreach ($skills as $row) {
+            if (! is_array($row)) {
+                continue;
+            }
+
+            $slot = (int) ($row['slot_order'] ?? 0);
+            $skill = $row['battle_skill'] ?? null;
+
+            if ($slot < 1 || ! is_array($skill)) {
+                continue;
+            }
+
+            $grouped[$slot][] = [
+                'lb' => (int) ($row['lb'] ?? 0),
+                'name' => FanadataText::translations($skill, 'name'),
+                'text' => FanadataText::translations($skill, 'text', true),
+            ];
+        }
+
+        ksort($grouped);
+        $groups = [];
+
+        foreach ($grouped as $slot => $lines) {
+            usort($lines, fn (array $left, array $right): int => $left['lb'] <=> $right['lb']);
+            $groups[] = ['slot' => $slot, 'lines' => array_values($lines)];
+        }
+
+        return $groups;
     }
 
     /**

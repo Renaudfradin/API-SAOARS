@@ -50,7 +50,7 @@ class CharacterController extends Controller
     )]
     public function show(Character $character)
     {
-        $character->load('statStages');
+        $character->load(['statStages', 'weapon', 'banner']);
 
         return CharacterDetailResource::make($character);
     }

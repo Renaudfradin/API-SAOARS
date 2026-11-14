@@ -18,7 +18,7 @@ class AttackResource extends JsonResource
             'slug' => $this->slug,
             'description' => $this->text('description'),
             'mp_cost' => $this->mp_cost,
-            'type_atk' => $this->type_atk,
+            'type_atk' => $this->type_atk instanceof \BackedEnum ? $this->type_atk->value : $this->type_atk,
             'created_at' => $this->created_at?->format('Y-m-d'),
             'updated_at' => $this->updated_at?->format('Y-m-d'),
             ...$this->translationMeta(),
