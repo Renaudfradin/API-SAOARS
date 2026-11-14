@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\CharacterResource\Pages;
 
+use App\Filament\Concerns\SelectsCatalogLocale;
 use App\Filament\Imports\CharacterImporter;
 use App\Filament\Resources\CharacterResource;
 use App\Jobs\ImportCsv;
@@ -11,6 +12,8 @@ use Filament\Resources\Pages\ListRecords;
 
 class ListCharacters extends ListRecords
 {
+    use SelectsCatalogLocale;
+
     protected static string $resource = CharacterResource::class;
 
     protected function getHeaderActions(): array

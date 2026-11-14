@@ -2,22 +2,27 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\Concerns\PresentsTranslations;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ImaginationDetailResource extends JsonResource
 {
-    public function toArray($request)
+    use PresentsTranslations;
+
+    public function toArray(Request $request): array
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
+            'name' => $this->text('name'),
             'slug' => $this->slug,
-            'description' => $this->description,
+            'description' => $this->text('description'),
             'element' => $this->element,
             'character' => $this->character,
             'image' => $this->image,
             'created_at' => $this->created_at?->format('Y-m-d'),
             'updated_at' => $this->updated_at?->format('Y-m-d'),
+            ...$this->translationMeta(),
         ];
     }
 }

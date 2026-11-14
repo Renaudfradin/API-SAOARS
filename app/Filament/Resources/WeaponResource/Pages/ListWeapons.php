@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\WeaponResource\Pages;
 
+use App\Filament\Concerns\SelectsCatalogLocale;
 use App\Filament\Imports\WeaponImporter;
 use App\Filament\Resources\WeaponResource;
 use App\Jobs\ImportCsv;
@@ -11,6 +12,8 @@ use Filament\Resources\Pages\ListRecords;
 
 class ListWeapons extends ListRecords
 {
+    use SelectsCatalogLocale;
+
     protected static string $resource = WeaponResource::class;
 
     protected function getHeaderActions(): array

@@ -6,6 +6,7 @@ use App\Filament\Resources\BannerResource\Pages\CreateBanner;
 use App\Filament\Resources\BannerResource\Pages\EditBanner;
 use App\Filament\Resources\BannerResource\Pages\ListBanners;
 use App\Filament\Resources\BannerResource\Pages\ViewBanner;
+use App\Filament\Schemas\CatalogTranslation;
 use App\Models\Banner;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -17,11 +18,9 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
-use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Support\Str;
 
 class BannerResource extends Resource
 {
@@ -50,13 +49,14 @@ class BannerResource extends Resource
     {
         return $schema
             ->components([
+                CatalogTranslation::notice(),
                 TextInput::make('name')
                     ->translateLabel()
                     ->label(__('Nom'))
                     ->maxLength(255)
                     ->required()
                     ->live(onBlur: true)
-                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
+                    ->afterStateUpdated(CatalogTranslation::slugFromFrenchName()),
 
                 TextInput::make('slug')
                     ->label(__('Slug'))

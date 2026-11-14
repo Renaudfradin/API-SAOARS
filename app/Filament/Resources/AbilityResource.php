@@ -6,6 +6,7 @@ use App\Filament\Resources\AbilityResource\Pages\CreateAbility;
 use App\Filament\Resources\AbilityResource\Pages\EditAbility;
 use App\Filament\Resources\AbilityResource\Pages\ListAbilities;
 use App\Filament\Resources\AbilityResource\Pages\ViewAbility;
+use App\Filament\Schemas\CatalogTranslation;
 use App\Models\Ability;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -14,11 +15,9 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
-use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Support\Str;
 
 class AbilityResource extends Resource
 {
@@ -45,12 +44,13 @@ class AbilityResource extends Resource
     {
         return $schema
             ->components([
+                CatalogTranslation::notice(),
                 TextInput::make('name')
                     ->label(__('Nom'))
                     ->maxLength(255)
                     ->required()
                     ->live(onBlur: true)
-                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
+                    ->afterStateUpdated(CatalogTranslation::slugFromFrenchName()),
 
                 TextInput::make('slug')
                     ->label(__('Slug'))

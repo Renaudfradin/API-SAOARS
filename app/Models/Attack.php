@@ -3,13 +3,19 @@
 namespace App\Models;
 
 use App\Enums\AttackType;
+use App\Models\Concerns\HasCatalogTranslations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Attack extends Model
 {
+    use HasCatalogTranslations;
     use HasFactory;
+
+    /**
+     * @var list<string>
+     */
+    public array $translatable = ['name', 'description'];
 
     protected $fillable = [
         'name',
@@ -17,14 +23,15 @@ class Attack extends Model
         'description',
         'mp_cost',
         'type_atk',
+        'character_id',
+        'fanadata_id',
     ];
 
-    protected $casts = [
-        'type_atk' => AttackType::class,
-    ];
-
-    // public function character(): BelongsTo
-    // {
-    //     return $this->belongsTo(Character::class, 'character_id');
-    // }
+    protected function casts(): array
+    {
+        return [
+            'type_atk' => AttackType::class,
+            'fanadata_id' => 'integer',
+        ];
+    }
 }

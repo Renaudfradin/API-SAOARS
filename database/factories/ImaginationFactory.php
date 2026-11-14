@@ -13,8 +13,8 @@ class ImaginationFactory extends Factory
         return [
             'name' => fake()->name(),
             'slug' => Str::slug(fake()->name()),
-            'description' => fake()->test(),
-            'element' => Element::Neutral,
+            'description' => fake()->text(),
+            'element' => Element::Neutre,
         ];
     }
 }
