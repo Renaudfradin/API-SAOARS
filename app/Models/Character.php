@@ -68,8 +68,24 @@ class Character extends Model
         return [
             'element' => Element::class,
             'weapon_type' => WeaponType::class,
+            'banner_id' => 'integer',
             'fanadata_id' => 'integer',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::saved(function (Character $character): void {
+            if (! $character->wasRecentlyCreated && ! $character->wasChanged('banner_id')) {
+                return;
+            }
+
+            if ($character->wasRecentlyCreated && $character->banner_id === null) {
+                return;
+            }
+
+            $character->syncBannerMembership();
+        });
     }
 
     public function attack(): HasOne
@@ -91,6 +107,58 @@ class Character extends Model
     public function banner(): BelongsTo
     {
         return $this->belongsTo(Banner::class);
+    }
+
+    /**
+     * A character belongs to one banner. Keep banners.character_ids aligned
+     * with banner_id when the link is changed from the character side.
+     */
+    public function syncBannerMembership(): void
+    {
+        $id = (int) $this->id;
+        $bannerId = $this->banner_id ? (int) $this->banner_id : null;
+
+        Banner::query()->orderBy('id')->each(function (Banner $banner) use ($id, $bannerId): void {
+            $ids = self::bannerMemberIds($banner->character_ids);
+            $contains = in_array($id, $ids, true);
+            $shouldContain = $bannerId !== null && $banner->id === $bannerId;
+
+            if ($contains === $shouldContain) {
+                return;
+            }
+
+            $banner->character_ids = $shouldContain
+                ? [...$ids, $id]
+                : array_values(array_filter($ids, fn (int $existing): bool => $existing !== $id));
+            $banner->saveQuietly();
+        });
+    }
+
+    /**
+     * @return list<int>
+     */
+    public static function bannerMemberIds(mixed $value): array
+    {
+        if (is_string($value)) {
+            $decoded = json_decode($value, true);
+            $value = is_array($decoded) ? $decoded : [];
+        }
+
+        if (! is_array($value)) {
+            return [];
+        }
+
+        $ids = [];
+
+        foreach ($value as $memberId) {
+            if (! is_numeric($memberId)) {
+                continue;
+            }
+
+            $ids[] = (int) $memberId;
+        }
+
+        return array_values(array_unique($ids));
     }
 
     public function weapon(): BelongsTo

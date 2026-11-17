@@ -10,6 +10,7 @@ use App\Filament\Resources\CharacterResource\Pages\ListCharacters;
 use App\Filament\Resources\CharacterResource\Pages\ViewCharacter;
 use App\Filament\Schemas\CatalogTranslation;
 use App\Filament\Schemas\StatStageRepeater;
+use App\Models\Banner;
 use App\Models\Character;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
@@ -73,6 +74,14 @@ class CharacterResource extends Resource
                     ->label(__('Description'))
                     ->maxLength(255)
                     ->required(),
+
+                Select::make('banner_id')
+                    ->label(__('Bannière'))
+                    ->relationship('banner', 'name')
+                    ->getOptionLabelFromRecordUsing(fn (Banner $record): string => (string) $record->name)
+                    ->searchable()
+                    ->preload()
+                    ->native(false),
 
                 Select::make('special_partner')
                     ->label('Partenaire')
@@ -247,7 +256,7 @@ class CharacterResource extends Resource
 
                 TextColumn::make('banner.name')
                     ->label(__('Bannière'))
-                    ->translateLabel()
+                    ->placeholder('—')
                     ->sortable()
                     ->searchable(),
 
@@ -271,6 +280,16 @@ class CharacterResource extends Resource
                     ->formatStateUsing(fn ($state) => $state.' étoiles'),
             ])
             ->filters([
+                SelectFilter::make('banner_id')
+                    ->label('Bannière')
+                    ->options(fn (): array => Banner::query()
+                        ->get()
+                        ->sortBy(fn (Banner $banner): string => (string) $banner->name)
+                        ->mapWithKeys(fn (Banner $banner): array => [$banner->id => (string) $banner->name])
+                        ->all())
+                    ->searchable()
+                    ->native(false),
+
                 SelectFilter::make('element')
                     ->label('Élément')
                     ->options(Element::class)

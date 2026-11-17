@@ -6,11 +6,13 @@ use App\Filament\Resources\AttackResource\Pages\CreateAttack;
 use App\Filament\Resources\AttackResource\Pages\EditAttack;
 use App\Filament\Resources\AttackResource\Pages\ListAttacks;
 use App\Filament\Resources\BannerResource\Pages\ListBanners;
+use App\Filament\Resources\CharacterResource\Pages\ListCharacters;
 use App\Models\Attack;
 use App\Models\Banner;
 use App\Models\Character;
 use App\Models\User;
 use Filament\Facades\Filament;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Livewire;
@@ -57,7 +59,7 @@ it('filters banners by date and character', function () {
         'from' => '2025-04-01 00:00:00',
         'to' => '2025-04-30 00:00:00',
     ]);
-    $character->update(['banner_id' => $linked->id]);
+    DB::table('characters')->where('id', $character->id)->update(['banner_id' => $linked->id]);
     $other = Banner::factory()->create([
         'character_ids' => [],
         'from' => '2024-01-01 00:00:00',
@@ -102,6 +104,34 @@ it('links synced banner characters and clears the ones that left', function () {
     expect($kept->fresh()->banner_id)->toBe($banner->id)
         ->and($removed->fresh()->banner_id)->toBeNull()
         ->and($banner->fresh()->character_ids)->toBe([$kept->id]);
+});
+
+it('shows the banner a character is attached to', function () {
+    $this->actingAs(User::factory()->create([
+        'email' => 'admin@gmail.com',
+        'role' => Role::Admin->value,
+        'email_verified_at' => now(),
+    ]));
+    Filament::setCurrentPanel(Filament::getPanel('admin'));
+
+    $character = Character::factory()->create();
+    $from = Banner::factory()->create([
+        'name' => ['fr' => 'Ancienne bannière', 'en' => 'Old banner'],
+        'character_ids' => [$character->id],
+    ]);
+    $to = Banner::factory()->create([
+        'name' => ['fr' => 'Bannière visible', 'en' => 'Bannière visible'],
+        'character_ids' => [],
+    ]);
+    $character->update(['banner_id' => $from->id]);
+    $character->update(['banner_id' => $to->id]);
+
+    expect($from->fresh()->character_ids)->not->toContain($character->id)
+        ->and($to->fresh()->character_ids)->toContain($character->id);
+
+    Livewire::test(ListCharacters::class)
+        ->assertCanSeeTableRecords([$character])
+        ->assertSee('Bannière visible');
 });
 
 it('stops filament login after the configured attempt limit', function () {
