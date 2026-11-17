@@ -11,6 +11,7 @@ use App\Filament\Resources\CharacterResource\Pages\ViewCharacter;
 use App\Filament\Schemas\CatalogTranslation;
 use App\Filament\Schemas\StatStageRepeater;
 use App\Models\Character;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -245,7 +246,7 @@ class CharacterResource extends Resource
                     ->searchable(),
 
                 TextColumn::make('banner.name')
-                    ->label(__('Banner'))
+                    ->label(__('Bannière'))
                     ->translateLabel()
                     ->sortable()
                     ->searchable(),
@@ -271,26 +272,35 @@ class CharacterResource extends Resource
             ])
             ->filters([
                 SelectFilter::make('element')
+                    ->label('Élément')
                     ->options(Element::class)
                     ->searchable()
                     ->native(false),
 
                 SelectFilter::make('weapon_type')
+                    ->label('Type d\'arme')
                     ->options(WeaponType::class)
                     ->searchable()
                     ->native(false),
 
                 SelectFilter::make('start')
+                    ->label('Étoiles')
                     ->options([
-                        '2' => '2',
-                        '3' => '3',
-                        '4' => '4',
-                    ]),
+                        '2' => '2 étoiles',
+                        '3' => '3 étoiles',
+                        '4' => '4 étoiles',
+                    ])
+                    ->searchable()
+                    ->native(false),
             ])
             ->recordActions([
-                ViewAction::make(),
-                EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    ViewAction::make(),
+                    EditAction::make(),
+                    DeleteAction::make(),
+                ])
+                    ->iconButton()
+                    ->color('gray'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

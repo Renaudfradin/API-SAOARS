@@ -261,6 +261,11 @@ class FanadataSync
             }
 
             $banner->save();
+
+            if ($linked !== []) {
+                $this->linkBannerCharacters($banner, $linked);
+            }
+
             $count++;
         }
 
@@ -491,6 +496,21 @@ class FanadataSync
         }
 
         return $ids;
+    }
+
+    /**
+     * @param  list<int>  $characterIds
+     */
+    private function linkBannerCharacters(Banner $banner, array $characterIds): void
+    {
+        Character::query()
+            ->where('banner_id', $banner->id)
+            ->whereNotIn('id', $characterIds)
+            ->update(['banner_id' => null]);
+
+        Character::query()
+            ->whereIn('id', $characterIds)
+            ->update(['banner_id' => $banner->id]);
     }
 
     /**

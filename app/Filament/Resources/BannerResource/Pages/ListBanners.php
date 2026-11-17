@@ -21,7 +21,8 @@ class ListBanners extends ListRecords
         return [
             ImportAction::make()
                 ->importer(BannerImporter::class)
-                ->job(ImportCsv::class),
+                ->job(ImportCsv::class)
+                ->visible(fn (): bool => static::getResource()::canCreate()),
 
             CreateAction::make(),
         ];

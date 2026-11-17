@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Auth\Login;
 use App\Filament\Pages\Dashboard;
 use Filament\FontProviders\BunnyFontProvider;
 use Filament\Http\Middleware\Authenticate;
@@ -27,7 +28,7 @@ class AdminPanelProvider extends PanelProvider
             ->spa()
             ->id('admin')
             ->path('admin')
-            ->login()
+            ->login(Login::class)
             ->topbar(false)
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->font('Albert Sans', provider: BunnyFontProvider::class)

@@ -9,6 +9,7 @@ use App\Filament\Resources\AttackResource\Pages\ListAttacks;
 use App\Filament\Resources\AttackResource\Pages\ViewAttack;
 use App\Filament\Schemas\CatalogTranslation;
 use App\Models\Attack;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -104,15 +105,20 @@ class AttackResource extends Resource
             ])
             ->filters([
                 SelectFilter::make('type_atk')
+                    ->label('Type d\'attaque')
                     ->options(AttackType::class)
                     ->searchable()
                     ->native(false),
 
             ])
             ->recordActions([
-                ViewAction::make(),
-                EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    ViewAction::make(),
+                    EditAction::make(),
+                    DeleteAction::make(),
+                ])
+                    ->iconButton()
+                    ->color('gray'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

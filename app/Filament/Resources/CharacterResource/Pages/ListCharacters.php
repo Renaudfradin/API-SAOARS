@@ -21,7 +21,8 @@ class ListCharacters extends ListRecords
         return [
             ImportAction::make()
                 ->importer(CharacterImporter::class)
-                ->job(ImportCsv::class),
+                ->job(ImportCsv::class)
+                ->visible(fn (): bool => static::getResource()::canCreate()),
 
             CreateAction::make(),
         ];

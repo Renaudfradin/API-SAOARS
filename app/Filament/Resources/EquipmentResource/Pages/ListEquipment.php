@@ -21,7 +21,8 @@ class ListEquipment extends ListRecords
         return [
             ImportAction::make()
                 ->importer(EquipmentImporter::class)
-                ->job(ImportCsv::class),
+                ->job(ImportCsv::class)
+                ->visible(fn (): bool => static::getResource()::canCreate()),
 
             CreateAction::make(),
         ];

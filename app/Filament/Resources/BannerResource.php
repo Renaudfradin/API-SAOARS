@@ -8,6 +8,8 @@ use App\Filament\Resources\BannerResource\Pages\ListBanners;
 use App\Filament\Resources\BannerResource\Pages\ViewBanner;
 use App\Filament\Schemas\CatalogTranslation;
 use App\Models\Banner;
+use App\Models\Character;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -20,7 +22,11 @@ use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\Indicator;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class BannerResource extends Resource
 {
@@ -108,19 +114,74 @@ class BannerResource extends Resource
                 TextColumn::make('from')
                     ->label(__('De'))
                     ->translateLabel()
+                    ->date('d/m/Y')
                     ->sortable()
                     ->searchable(),
 
                 TextColumn::make('to')
                     ->label(__('Au'))
                     ->translateLabel()
+                    ->date('d/m/Y')
                     ->sortable()
                     ->searchable(),
             ])
+            ->filters([
+                Filter::make('date')
+                    ->label('Date')
+                    ->form([
+                        DatePicker::make('date')
+                            ->label('Date')
+                            ->native(false),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query->when(
+                            $data['date'] ?? null,
+                            fn (Builder $query, string $date): Builder => $query
+                                ->whereDate('from', '<=', $date)
+                                ->whereDate('to', '>=', $date),
+                        );
+                    })
+                    ->indicateUsing(function (array $state): array {
+                        if (blank($state['date'] ?? null)) {
+                            return [];
+                        }
+
+                        return [Indicator::make('Date : '.$state['date'])];
+                    }),
+
+                SelectFilter::make('character')
+                    ->label('Personnage')
+                    ->options(fn (): array => Character::query()
+                        ->get()
+                        ->sortBy(fn (Character $character): string => (string) $character->name)
+                        ->mapWithKeys(fn (Character $character): array => [$character->id => (string) $character->name])
+                        ->all())
+                    ->searchable()
+                    ->native(false)
+                    ->query(function (Builder $query, array $data): Builder {
+                        $id = $data['value'] ?? null;
+
+                        if (blank($id)) {
+                            return $query;
+                        }
+
+                        $id = (int) $id;
+
+                        return $query->where(function (Builder $query) use ($id): void {
+                            $query->whereJsonContains('character_ids', $id)
+                                ->orWhereJsonContains('character_ids', (string) $id)
+                                ->orWhereHas('characters', fn (Builder $query): Builder => $query->whereKey($id));
+                        });
+                    }),
+            ])
             ->recordActions([
-                ViewAction::make(),
-                EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    ViewAction::make(),
+                    EditAction::make(),
+                    DeleteAction::make(),
+                ])
+                    ->iconButton()
+                    ->color('gray'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

@@ -21,7 +21,8 @@ class ListAttacks extends ListRecords
         return [
             ImportAction::make()
                 ->importer(AttackImporter::class)
-                ->job(ImportCsv::class),
+                ->job(ImportCsv::class)
+                ->visible(fn (): bool => static::getResource()::canCreate()),
 
             CreateAction::make(),
         ];

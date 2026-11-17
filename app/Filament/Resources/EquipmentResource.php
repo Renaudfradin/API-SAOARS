@@ -11,6 +11,7 @@ use App\Filament\Resources\EquipmentResource\Pages\ViewEquipment;
 use App\Filament\Schemas\CatalogTranslation;
 use App\Filament\Schemas\StatStageRepeater;
 use App\Models\Equipment;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -190,25 +191,33 @@ class EquipmentResource extends Resource
             ])
             ->filters([
                 SelectFilter::make('type')
+                    ->label('Type')
                     ->options(EquipmentType::class)
                     ->native(false),
 
                 SelectFilter::make('type_equipment')
+                    ->label('Type d\'équipement')
                     ->options(Element::class)
                     ->searchable()
                     ->native(false),
 
                 SelectFilter::make('start')
+                    ->label('Étoiles')
                     ->options([
-                        '2' => '2',
-                        '3' => '3',
-                        '4' => '4',
-                    ]),
+                        '2' => '2 étoiles',
+                        '3' => '3 étoiles',
+                        '4' => '4 étoiles',
+                    ])
+                    ->native(false),
             ])
             ->recordActions([
-                ViewAction::make(),
-                EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    ViewAction::make(),
+                    EditAction::make(),
+                    DeleteAction::make(),
+                ])
+                    ->iconButton()
+                    ->color('gray'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

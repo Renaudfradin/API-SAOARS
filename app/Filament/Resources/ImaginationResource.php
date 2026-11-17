@@ -9,6 +9,7 @@ use App\Filament\Resources\ImaginationResource\Pages\ListImaginations;
 use App\Filament\Resources\ImaginationResource\Pages\ViewImagination;
 use App\Filament\Schemas\CatalogTranslation;
 use App\Models\Imagination;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -106,14 +107,19 @@ class ImaginationResource extends Resource
             ])
             ->filters([
                 SelectFilter::make('element')
+                    ->label('Élément')
                     ->options(Element::class)
                     ->searchable()
                     ->native(false),
             ])
             ->recordActions([
-                ViewAction::make(),
-                EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    ViewAction::make(),
+                    EditAction::make(),
+                    DeleteAction::make(),
+                ])
+                    ->iconButton()
+                    ->color('gray'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

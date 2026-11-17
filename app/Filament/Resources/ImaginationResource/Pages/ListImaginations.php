@@ -21,7 +21,8 @@ class ListImaginations extends ListRecords
         return [
             ImportAction::make()
                 ->importer(ImaginationImporter::class)
-                ->job(ImportCsv::class),
+                ->job(ImportCsv::class)
+                ->visible(fn (): bool => static::getResource()::canCreate()),
 
             CreateAction::make(),
         ];
