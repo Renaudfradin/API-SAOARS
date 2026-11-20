@@ -8,7 +8,10 @@ use App\Filament\Resources\WeaponResource\Pages\CreateWeapon;
 use App\Filament\Resources\WeaponResource\Pages\EditWeapon;
 use App\Filament\Resources\WeaponResource\Pages\ListWeapons;
 use App\Filament\Resources\WeaponResource\Pages\ViewWeapon;
+use App\Filament\Schemas\CatalogTranslation;
+use App\Filament\Schemas\StatStageRepeater;
 use App\Models\Weapon;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -19,12 +22,10 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Illuminate\Support\Str;
 
 class WeaponResource extends Resource
 {
@@ -53,12 +54,13 @@ class WeaponResource extends Resource
     {
         return $schema
             ->components([
+                CatalogTranslation::notice(),
                 TextInput::make('name')
                     ->label(__('Nom'))
                     ->maxLength(255)
                     ->required()
                     ->live(onBlur: true)
-                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
+                    ->afterStateUpdated(CatalogTranslation::slugFromFrenchName()),
 
                 TextInput::make('slug')
                     ->label(__('Slug'))
@@ -147,6 +149,8 @@ class WeaponResource extends Resource
                     ->searchable()
                     ->preload(),
 
+                StatStageRepeater::make(),
+
                 FileUpload::make('image')
                     ->label(__('Image'))
                     ->disk('scaleway')
@@ -194,26 +198,35 @@ class WeaponResource extends Resource
             ])
             ->filters([
                 SelectFilter::make('element_weapons')
+                    ->label('Élément')
                     ->options(Element::class)
                     ->searchable()
                     ->native(false),
 
                 SelectFilter::make('type')
+                    ->label('Type')
                     ->options(WeaponType::class)
                     ->searchable()
                     ->native(false),
 
                 SelectFilter::make('start')
+                    ->label('Étoiles')
                     ->options([
-                        '2' => '2',
-                        '3' => '3',
-                        '4' => '4',
-                    ]),
+                        '2' => '2 étoiles',
+                        '3' => '3 étoiles',
+                        '4' => '4 étoiles',
+                    ])
+                    ->searchable()
+                    ->native(false),
             ])
             ->recordActions([
-                ViewAction::make(),
-                EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    ViewAction::make(),
+                    EditAction::make(),
+                    DeleteAction::make(),
+                ])
+                    ->iconButton()
+                    ->color('gray'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

@@ -30,6 +30,17 @@ class DatabaseSeeder extends Seeder
         );
         $this->command->info('Admin user created.');
 
+        $demo = User::query()->updateOrCreate(
+            ['email' => 'demo@gmail.com'],
+            [
+                'name' => 'Démo',
+                'password' => Hash::make('demo@gmail.comdemo@gmail.com'),
+                'role' => Role::Demo->value,
+            ],
+        );
+        $demo->forceFill(['email_verified_at' => now()])->save();
+        $this->command->info('Demo user created.');
+
         $attack = Attack::factory()->create()->id;
         $character = Character::factory()->create([
             'atk1' => $attack,

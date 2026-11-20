@@ -15,8 +15,8 @@ class WeaponFactory extends Factory
         return [
             'name' => fake()->name(),
             'slug' => Str::slug(fake()->name()),
-            'type' => WeaponType::Gauntlet,
-            'element_weapons' => Element::Water,
+            'type' => WeaponType::Gant,
+            'element_weapons' => Element::Eau,
             'hp' => fake()->randomDigit(),
             'mp' => fake()->randomDigit(),
             'atk' => fake()->randomDigit(),

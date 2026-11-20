@@ -1,0 +1,21 @@
+meta {
+  name: Random character
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/character/random
+  body: none
+  auth: none
+}
+
+tests {
+  test("status is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("response has data", function() {
+    expect(res.getBody()).to.have.property("data");
+  });
+}

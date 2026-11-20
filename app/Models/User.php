@@ -28,7 +28,9 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return str_ends_with($this->email, '@gmail.com') && $this->hasVerifiedEmail() && $this->isAdmin();
+        return str_ends_with($this->email, '@gmail.com')
+            && $this->hasVerifiedEmail()
+            && ($this->isAdmin() || $this->isDemo());
     }
 
     protected function casts(): array
@@ -43,5 +45,10 @@ class User extends Authenticatable implements FilamentUser
     public function isAdmin(): bool
     {
         return $this->role === Role::Admin->value;
+    }
+
+    public function isDemo(): bool
+    {
+        return $this->role === Role::Demo->value;
     }
 }

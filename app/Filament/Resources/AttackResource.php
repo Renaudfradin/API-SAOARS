@@ -7,7 +7,9 @@ use App\Filament\Resources\AttackResource\Pages\CreateAttack;
 use App\Filament\Resources\AttackResource\Pages\EditAttack;
 use App\Filament\Resources\AttackResource\Pages\ListAttacks;
 use App\Filament\Resources\AttackResource\Pages\ViewAttack;
+use App\Filament\Schemas\CatalogTranslation;
 use App\Models\Attack;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -17,12 +19,10 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
-use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Illuminate\Support\Str;
 
 class AttackResource extends Resource
 {
@@ -49,12 +49,13 @@ class AttackResource extends Resource
     {
         return $schema
             ->components([
+                CatalogTranslation::notice(),
                 TextInput::make('name')
                     ->label(__('Nom'))
                     ->maxLength(255)
                     ->required()
                     ->live(onBlur: true)
-                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
+                    ->afterStateUpdated(CatalogTranslation::slugFromFrenchName()),
 
                 TextInput::make('slug')
                     ->label(__('Slug'))
@@ -104,15 +105,20 @@ class AttackResource extends Resource
             ])
             ->filters([
                 SelectFilter::make('type_atk')
+                    ->label('Type d\'attaque')
                     ->options(AttackType::class)
                     ->searchable()
                     ->native(false),
 
             ])
             ->recordActions([
-                ViewAction::make(),
-                EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    ViewAction::make(),
+                    EditAction::make(),
+                    DeleteAction::make(),
+                ])
+                    ->iconButton()
+                    ->color('gray'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

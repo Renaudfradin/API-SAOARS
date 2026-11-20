@@ -3,10 +3,13 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "bruno:run": "cd bruno && bru run --env Local",
+        "bruno:run:ci": "mkdir -p reports && cd bruno && bru run --env CI --reporter-junit ../reports/bruno-junit.xml"
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.0.0",
+        "@usebruno/cli": "^2.0.0",
         "axios": "^1.7.4",
         "concurrently": "^9.0.1",
         "laravel-vite-plugin": "^1.2.0",

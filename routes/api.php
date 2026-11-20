@@ -5,12 +5,16 @@ use App\Http\Controllers\AttackController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CharacterController;
 use App\Http\Controllers\EquipmentController;
+use App\Http\Controllers\HealthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImaginationController;
 use App\Http\Controllers\WeaponController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index']);
+
+Route::get('/health', HealthController::class)
+    ->withoutMiddleware('throttle:api');
 
 Route::get('/stats', [CharacterController::class, 'stats']);
 

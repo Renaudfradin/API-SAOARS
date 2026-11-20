@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\AbilityResource\Pages;
 
+use App\Filament\Concerns\SelectsCatalogLocale;
 use App\Filament\Imports\AbilityImporter;
 use App\Filament\Resources\AbilityResource;
 use App\Jobs\ImportCsv;
@@ -11,6 +12,8 @@ use Filament\Resources\Pages\ListRecords;
 
 class ListAbilities extends ListRecords
 {
+    use SelectsCatalogLocale;
+
     protected static string $resource = AbilityResource::class;
 
     protected function getHeaderActions(): array
@@ -18,7 +21,8 @@ class ListAbilities extends ListRecords
         return [
             ImportAction::make()
                 ->importer(AbilityImporter::class)
-                ->job(ImportCsv::class),
+                ->job(ImportCsv::class)
+                ->visible(fn (): bool => static::getResource()::canCreate()),
 
             CreateAction::make(),
         ];

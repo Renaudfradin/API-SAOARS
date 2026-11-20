@@ -5,63 +5,39 @@ namespace App\Http\Controllers;
 use App\Http\Resources\ImaginationDetailResource;
 use App\Http\Resources\ImaginationResource;
 use App\Models\Imagination;
+use OpenApi\Attributes as OA;
 
 class ImaginationController extends Controller
 {
-    /**
-     * @OA\Get(
-     *     path="/api/imaginations",
-     *     summary="Get all imaginations",
-     *     tags={"Imagination"},
-     *
-     *     @OA\Response(
-     *         response=200,
-     *         description="Get all imaginations"
-     *     )
-     * )
-     */
+    #[OA\Get(
+        path: '/api/imaginations',
+        summary: 'Get all imaginations',
+        tags: ['Imagination'],
+        parameters: [
+            new OA\Parameter(name: 'lang', in: 'query', required: false, description: 'Locale: fr, en, zh, ko, ja, de, es. Defaults to fr.', schema: new OA\Schema(type: 'string')),
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'Get all imaginations'),
+        ],
+    )]
     public function index()
     {
-        return ImaginationResource::collection(Imagination::paginate(20));
+        return ImaginationResource::collection(Imagination::orderBy('id', 'desc')->paginate(20));
     }
 
-    /**
-     * @OA\Get(
-     *     path="/api/imaginations/{imagination}",
-     *     summary="Get a imagination by slug",
-     *     tags={"Imagination"},
-     *
-     *     @OA\Parameter(
-     *         name="imagination",
-     *         in="path",
-     *         required=true,
-     *         description="Imagination slug",
-     *
-     *         @OA\Schema(
-     *             type="string"
-     *         )
-     *     ),
-     *
-     *     @OA\Response(
-     *         response=200,
-     *         description="Get a imagination by slug",
-     *
-     *         @OA\JsonContent(
-     *             type="object",
-     *
-     *             @OA\Property(property="id", type="integer", example=1),
-     *             @OA\Property(property="name", type="string", example="Imagination Name"),
-     *             @OA\Property(property="slug", type="string", example="imagination-name"),
-     *             @OA\Property(property="description", type="string", example="Imagination description")
-     *         )
-     *     ),
-     *
-     *     @OA\Response(
-     *         response=404,
-     *         description="Imagination not found"
-     *     )
-     * )
-     */
+    #[OA\Get(
+        path: '/api/imagination/{imagination}',
+        summary: 'Get an imagination by slug',
+        tags: ['Imagination'],
+        parameters: [
+            new OA\Parameter(name: 'imagination', in: 'path', required: true, description: 'Imagination slug', schema: new OA\Schema(type: 'string')),
+            new OA\Parameter(name: 'lang', in: 'query', required: false, description: 'Locale: fr, en, zh, ko, ja, de, es. Defaults to fr.', schema: new OA\Schema(type: 'string')),
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'Get an imagination by slug'),
+            new OA\Response(response: 404, description: 'Imagination not found'),
+        ],
+    )]
     public function show(Imagination $imagination)
     {
         return ImaginationDetailResource::make($imagination);

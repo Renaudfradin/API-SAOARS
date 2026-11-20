@@ -1,0 +1,25 @@
+meta {
+  name: Show characters
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/character/{{characterSlug}}?lang=fr
+  body: none
+  auth: none
+}
+
+tests {
+  test("status is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("response has data", function() {
+    expect(res.getBody()).to.have.property("data");
+  });
+
+  test("locale is present", function() {
+    expect(res.getBody().data).to.have.property("lang");
+  });
+}

@@ -6,24 +6,28 @@
     "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
-        "darkaonline/l5-swagger": "^9.0",
-        "filament/filament": "^4.0",
-        "laravel/framework": "^12.0",
-        "laravel/horizon": "^5.31",
+        "php": "^8.5",
+        "darkaonline/l5-swagger": "^11.0",
+        "filament/filament": "^5.0",
+        "laravel/framework": "^13.0",
+        "laravel/horizon": "^5.33",
         "laravel/sanctum": "^4.0",
-        "laravel/tinker": "^2.10.1",
-        "league/flysystem-aws-s3-v3": "^3.29",
-        "predis/predis": "^2.3"
+        "laravel/tinker": "^3.0",
+        "league/flysystem-aws-s3-v3": "^3.30",
+        "predis/predis": "^3.0",
+        "spatie/laravel-translatable": "^6.15",
+        "zircote/swagger-php": "^6.12"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
-        "filament/upgrade": "^4.0",
+        "filament/upgrade": "^5.0",
         "laravel/pail": "^1.2.2",
-        "laravel/pint": "^1.21",
-        "laravel/sail": "^1.41",
+        "laravel/pint": "^1.26",
+        "laravel/sail": "^1.51",
         "mockery/mockery": "^1.6",
-        "nunomaduro/collision": "^8.6"
+        "nunomaduro/collision": "^8.6",
+        "pestphp/pest": "^4.2",
+        "pestphp/pest-plugin-laravel": "^4.0"
     },
     "autoload": {
         "psr-4": {
@@ -57,6 +61,10 @@
         "dev": [
             "Composer\\Config::disableProcessTimeout",
             "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
+        ],
+        "test": [
+            "@php artisan config:clear --ansi",
+            "@php artisan test"
         ]
     },
     "extra": {

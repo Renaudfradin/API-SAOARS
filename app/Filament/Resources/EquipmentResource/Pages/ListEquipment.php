@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\EquipmentResource\Pages;
 
+use App\Filament\Concerns\SelectsCatalogLocale;
 use App\Filament\Imports\EquipmentImporter;
 use App\Filament\Resources\EquipmentResource;
 use App\Jobs\ImportCsv;
@@ -11,6 +12,8 @@ use Filament\Resources\Pages\ListRecords;
 
 class ListEquipment extends ListRecords
 {
+    use SelectsCatalogLocale;
+
     protected static string $resource = EquipmentResource::class;
 
     protected function getHeaderActions(): array
@@ -18,7 +21,8 @@ class ListEquipment extends ListRecords
         return [
             ImportAction::make()
                 ->importer(EquipmentImporter::class)
-                ->job(ImportCsv::class),
+                ->job(ImportCsv::class)
+                ->visible(fn (): bool => static::getResource()::canCreate()),
 
             CreateAction::make(),
         ];
