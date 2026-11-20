@@ -4,6 +4,7 @@ namespace App\Filament\Auth;
 
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 use Filament\Auth\Pages\Login as BaseLogin;
+use Filament\Schemas\Components\Component;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\RateLimiter;
@@ -46,5 +47,17 @@ class Login extends BaseLogin
         foreach ($limits as $limit) {
             RateLimiter::hit(md5('login'.$limit->key), $limit->decaySeconds);
         }
+    }
+
+    protected function getEmailFormComponent(): Component
+    {
+        return parent::getEmailFormComponent()
+            ->default('demo@gmail.com');
+    }
+
+    protected function getPasswordFormComponent(): Component
+    {
+        return parent::getPasswordFormComponent()
+            ->default('demo@gmail.comdemo@gmail.com');
     }
 }

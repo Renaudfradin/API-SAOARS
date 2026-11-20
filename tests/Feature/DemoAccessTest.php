@@ -134,6 +134,16 @@ it('shows the banner a character is attached to', function () {
         ->assertSee('Bannière visible');
 });
 
+it('prefills the demo account on the filament login', function () {
+    Filament::setCurrentPanel(Filament::getPanel('admin'));
+
+    Livewire::test(Login::class)
+        ->assertSchemaStateSet([
+            'email' => 'demo@gmail.com',
+            'password' => 'demo@gmail.comdemo@gmail.com',
+        ]);
+});
+
 it('stops filament login after the configured attempt limit', function () {
     config(['rate_limiting.login.limit' => 2]);
     RateLimiter::clear(md5('login127.0.0.1'));
