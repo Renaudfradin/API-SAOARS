@@ -16,7 +16,8 @@ class BannerResource extends JsonResource
             'id' => $this->id,
             'name' => $this->text('name'),
             'slug' => $this->slug,
-            'image' => $this->artworkUrl($this->requestedLocale()),
+            'image' => $image = $this->artworkUrl($this->requestedLocale()),
+            'image_fallback' => ($fallback = $this->artworkFallbackUrl()) !== $image ? $fallback : null,
             'created_at' => $this->created_at?->format('Y-m-d'),
             ...$this->translationMeta(),
         ];

@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\HomeBackground;
+use App\Models\HomeCharacter;
 use App\Models\Weapon;
 use Illuminate\Support\Facades\Http;
 
@@ -31,6 +33,47 @@ it('merges a fanadata weapon onto the french record and stores five stages', fun
         ->and($weapon->statStages->firstWhere('stage', 5)->atk)->toBe(1253)
         ->and($weapon->skills)->toHaveCount(1)
         ->and($weapon->skills[0]['lines'][0]['text']['fr'])->toBe('Augmente ATK et CRIT de 15%');
+});
+
+it('stores home characters and backgrounds from fanadata pages', function () {
+    Http::fake([
+        'https://api.fanadata.com/saoub/home/characters/' => Http::response([
+            'next' => null,
+            'results' => [[
+                'id' => 205,
+                'type' => 3,
+                'name_en' => 'Those Sleepless Nights',
+                'name_fr' => 'Nuit sans sommeil',
+                'person' => [
+                    'id' => 18,
+                    'name_en' => 'Lisbeth',
+                    'name_fr' => 'Lisbeth',
+                ],
+            ]],
+        ]),
+        'https://api.fanadata.com/saoub/home/backgrounds/' => Http::response([
+            'next' => null,
+            'results' => [[
+                'id' => 150,
+                'world' => 6,
+                'rarity' => 4,
+                'name_en' => 'Other World Bonds',
+                'name_fr' => 'Liaison entre les mondes',
+            ]],
+        ]),
+    ]);
+
+    $this->artisan('fanadata:sync', ['--type' => 'home'])->assertOk();
+
+    $character = HomeCharacter::query()->where('fanadata_id', 205)->first();
+    $background = HomeBackground::query()->where('fanadata_id', 150)->first();
+
+    expect($character)->not->toBeNull()
+        ->and($character->person_key)->toBe('lisbeth')
+        ->and($character->getTranslation('title', 'fr'))->toBe('Nuit sans sommeil')
+        ->and($background)->not->toBeNull()
+        ->and($background->world)->toBe(6)
+        ->and($background->getTranslation('name', 'en'))->toBe('Other World Bonds');
 });
 
 function weaponPayload(): array

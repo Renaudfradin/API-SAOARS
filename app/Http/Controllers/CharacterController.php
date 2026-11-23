@@ -59,6 +59,10 @@ class CharacterController extends Controller
         path: '/api/character/random',
         summary: 'Get a random character',
         tags: ['Character'],
+        parameters: [
+            new OA\Parameter(name: 'lang', in: 'query', required: false, description: 'Locale: fr, en, zh, ko, ja, de, es. Defaults to fr.', schema: new OA\Schema(type: 'string')),
+            new OA\Parameter(name: 'limit', in: 'query', required: false, description: '1 returns one 4-star character. 2 to 12 returns a collection of 4-star characters.', schema: new OA\Schema(type: 'integer')),
+        ],
         responses: [
             new OA\Response(response: 200, description: 'Get a random character'),
             new OA\Response(response: 404, description: 'Character not found'),
@@ -66,13 +70,21 @@ class CharacterController extends Controller
     )]
     public function random()
     {
-        $character = Character::inRandomOrder()->first();
+        $limit = request()->query('limit', 1);
+        $limit = is_numeric($limit) ? (int) $limit : 1;
+        $limit = min(12, max(1, $limit));
 
-        if (! $character) {
+        $characters = Character::query()->where('start', 4)->inRandomOrder()->limit($limit)->get();
+
+        if ($characters->isEmpty()) {
             return response()->json(['message' => 'Aucun personnage trouvé'], 404);
         }
 
-        return CharacterResource::make($character);
+        if ($limit === 1) {
+            return CharacterResource::make($characters->first());
+        }
+
+        return CharacterResource::collection($characters);
     }
 
     #[OA\Get(

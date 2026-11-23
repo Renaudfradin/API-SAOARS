@@ -8,6 +8,8 @@ use App\Models\Attack;
 use App\Models\Banner;
 use App\Models\Character;
 use App\Models\Equipment;
+use App\Models\HomeBackground;
+use App\Models\HomeCharacter;
 use App\Models\Weapon;
 use Generator;
 use Illuminate\Database\Eloquent\Model;
@@ -73,6 +75,8 @@ class FanadataSync
             'banners' => 0,
             'attacks' => 0,
             'abilities' => 0,
+            'home_characters' => 0,
+            'home_backgrounds' => 0,
         ];
 
         if ($type === 'weapon-skills') {
@@ -98,6 +102,11 @@ class FanadataSync
             $counts['characters'] = $characterCounts['characters'];
             $counts['attacks'] = $characterCounts['attacks'];
             $counts['abilities'] = $characterCounts['abilities'];
+        }
+
+        if ($this->wants($type, 'home')) {
+            $counts['home_characters'] = $this->syncHomeCharacters($id);
+            $counts['home_backgrounds'] = $this->syncHomeBackgrounds($id);
         }
 
         return $counts;
@@ -270,6 +279,87 @@ class FanadataSync
         }
 
         return $count;
+    }
+
+    private function syncHomeCharacters(?int $id): int
+    {
+        $count = 0;
+
+        foreach ($this->client->paginate('home/characters') as $payload) {
+            $fanadataId = (int) ($payload['id'] ?? 0);
+
+            if ($fanadataId === 0 || ($id !== null && $fanadataId !== $id)) {
+                continue;
+            }
+
+            $this->storeHomeCharacter($payload);
+            $count++;
+        }
+
+        return $count;
+    }
+
+    private function syncHomeBackgrounds(?int $id): int
+    {
+        $count = 0;
+
+        foreach ($this->client->paginate('home/backgrounds') as $payload) {
+            $fanadataId = (int) ($payload['id'] ?? 0);
+
+            if ($fanadataId === 0 || ($id !== null && $fanadataId !== $id)) {
+                continue;
+            }
+
+            $this->storeHomeBackground($payload);
+            $count++;
+        }
+
+        return $count;
+    }
+
+    /**
+     * @param  array<string, mixed>  $payload
+     */
+    private function storeHomeCharacter(array $payload): void
+    {
+        $person = is_array($payload['person'] ?? null) ? $payload['person'] : [];
+        $personNames = FanadataText::translations($person, 'name');
+        $titles = FanadataText::translations($payload, 'name');
+        $record = HomeCharacter::query()->firstWhere('fanadata_id', (int) $payload['id']) ?? new HomeCharacter;
+
+        $record->fanadata_id = (int) $payload['id'];
+        $record->person_key = FanadataText::key($personNames['en'] ?? $personNames['fr'] ?? '') ?: 'unknown';
+        $record->fillTranslations('person_name', $personNames);
+        $record->fillTranslations('title', $titles);
+        $this->ensureFrench($record, 'person_name', $personNames['en'] ?? $record->person_key);
+        $this->ensureFrench($record, 'title', $titles['en'] ?? '');
+        $record->type = isset($payload['type']) && is_numeric($payload['type']) ? (int) $payload['type'] : null;
+        $record->save();
+    }
+
+    /**
+     * @param  array<string, mixed>  $payload
+     */
+    private function storeHomeBackground(array $payload): void
+    {
+        $names = FanadataText::translations($payload, 'name');
+        $record = HomeBackground::query()->firstWhere('fanadata_id', (int) $payload['id']) ?? new HomeBackground;
+
+        $record->fanadata_id = (int) $payload['id'];
+        $record->fillTranslations('name', $names);
+        $this->ensureFrench($record, 'name', $names['en'] ?? 'fond');
+        $record->world = isset($payload['world']) && is_numeric($payload['world']) ? (int) $payload['world'] : null;
+        $record->rarity = isset($payload['rarity']) && is_numeric($payload['rarity']) ? (int) $payload['rarity'] : null;
+        $record->save();
+    }
+
+    private function ensureFrench(Model $record, string $attribute, string $fallback): void
+    {
+        if (filled($record->getTranslation($attribute, 'fr', false))) {
+            return;
+        }
+
+        $record->setTranslation($attribute, 'fr', $fallback);
     }
 
     /**

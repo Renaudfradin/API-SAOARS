@@ -26,6 +26,27 @@ class BannerController extends Controller
     }
 
     #[OA\Get(
+        path: '/api/banners/random',
+        summary: 'Get random banners',
+        tags: ['Banner'],
+        parameters: [
+            new OA\Parameter(name: 'lang', in: 'query', required: false, description: 'Locale: fr, en, zh, ko, ja, de, es. Defaults to fr.', schema: new OA\Schema(type: 'string')),
+            new OA\Parameter(name: 'limit', in: 'query', required: false, description: 'How many banners to return. Defaults to 12, maximum 24.', schema: new OA\Schema(type: 'integer')),
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'Get random banners'),
+        ],
+    )]
+    public function random()
+    {
+        $limit = request()->query('limit', 12);
+        $limit = is_numeric($limit) ? (int) $limit : 12;
+        $limit = min(24, max(1, $limit));
+
+        return BannerResource::collection(Banner::query()->inRandomOrder()->limit($limit)->get());
+    }
+
+    #[OA\Get(
         path: '/api/banner/{banner}',
         summary: 'Get a banner by slug',
         tags: ['Banner'],
