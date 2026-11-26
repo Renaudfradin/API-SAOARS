@@ -7,14 +7,14 @@ use Illuminate\Console\Command;
 
 class GalleriesImportCommand extends Command
 {
-    protected $signature = 'galleries:import {--type=all : characters, home-characters, home-backgrounds, or all} {--force : Re-upload files that are already stored}';
+    protected $signature = 'galleries:import {--type=all : characters, home-characters, home-backgrounds, banners, equipments, weapons, or all} {--force : Re-upload files that are already stored}';
 
-    protected $description = 'Télécharge les images de galerie FanaData et les dépose sur Scaleway dans galleries/';
+    protected $description = 'Télécharge les images FanaData et les dépose sur Scaleway';
 
     public function handle(GalleryImporter $importer): int
     {
         $type = (string) $this->option('type');
-        $allowed = ['all', 'characters', 'home-characters', 'home-backgrounds'];
+        $allowed = ['all', 'characters', 'home-characters', 'home-backgrounds', 'banners', 'equipments', 'weapons'];
 
         if (! in_array($type, $allowed, true)) {
             $this->error('Type inconnu. Valeurs : '.implode(', ', $allowed));

@@ -46,11 +46,11 @@ class Banner extends Model
 
     public function artworkUrl(?string $locale = null): ?string
     {
-        if (! $this->usesSharedArtwork()) {
-            return Media::url($this->img);
+        if ($this->hasLocalizedArtwork()) {
+            return Media::url($this->localizedArtworkPath($locale));
         }
 
-        if (! $this->fanadata_id) {
+        if (! $this->usesSharedArtwork() || ! $this->fanadata_id) {
             return Media::url($this->img);
         }
 
@@ -61,11 +61,31 @@ class Banner extends Model
 
     public function artworkFallbackUrl(): ?string
     {
-        if (! $this->fanadata_id || ! $this->usesSharedArtwork()) {
+        if (! $this->fanadata_id) {
+            return null;
+        }
+
+        if ($this->hasLocalizedArtwork()) {
+            return Media::url($this->localizedArtworkPath('en'));
+        }
+
+        if (! $this->usesSharedArtwork()) {
             return null;
         }
 
         return 'https://saoub.fanadata.com/assets/banners/en/scout_'.(int) $this->fanadata_id.'.jpg';
+    }
+
+    public function localizedArtworkPath(?string $locale = null): string
+    {
+        $suffix = Locales::FANADATA_SUFFIX[$locale ?? 'en'] ?? 'en';
+
+        return 'banner/'.$suffix.'/scout_'.(int) $this->fanadata_id.'.jpg';
+    }
+
+    private function hasLocalizedArtwork(): bool
+    {
+        return (bool) $this->fanadata_id && str_contains((string) $this->img, '/scout_');
     }
 
     private function usesSharedArtwork(): bool
