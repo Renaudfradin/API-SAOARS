@@ -28,6 +28,11 @@ class CharacterResource extends JsonResource
             'start' => $this->start,
             'image' => Media::url($this->image),
             'image2' => Media::url($this->image2),
+            'artwork' => $this->artworkUrl(),
+            'artwork_thumbnail' => $this->artworkUrl('thumbnail'),
+            'artwork_large' => $this->artworkUrl('large'),
+            'artwork_limit_break' => (int) $this->start === 4 ? $this->artworkUrl('large', '_4') : null,
+            'artwork_limit_break_thumbnail' => (int) $this->start === 4 ? $this->artworkUrl('thumbnail', '_4') : null,
             'created_at' => $this->created_at?->format('Y-m-d'),
             ...$this->translationMeta(),
         ];

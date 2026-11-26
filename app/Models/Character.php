@@ -57,6 +57,11 @@ class Character extends Model
         'cost',
         'image',
         'image2',
+        'artwork',
+        'artwork_thumbnail',
+        'artwork_large',
+        'artwork_limit_break',
+        'artwork_limit_break_thumbnail',
         'special_partner',
         'banner_id',
         'weapon_id',
@@ -102,6 +107,38 @@ class Character extends Model
         }
 
         return Media::url($this->image);
+    }
+
+    public function artworkUrl(string $size = 'card', string $suffix = ''): ?string
+    {
+        $stored = $this->getAttribute($this->artworkColumn($size, $suffix));
+
+        if (filled($stored)) {
+            return Media::url($stored);
+        }
+
+        if (! $this->fanadata_id) {
+            return null;
+        }
+
+        $folder = match ($size) {
+            'thumbnail' => 'thumbnail/',
+            'large' => 'large/',
+            default => '',
+        };
+
+        return 'https://saoub.fanadata.com/assets/characters/artwork/'.$folder.'character_'.(int) $this->fanadata_id.$suffix.'.png';
+    }
+
+    public function artworkColumn(string $size = 'card', string $suffix = ''): string
+    {
+        return match (true) {
+            $size === 'thumbnail' && $suffix === '_4' => 'artwork_limit_break_thumbnail',
+            $size === 'large' && $suffix === '_4' => 'artwork_limit_break',
+            $size === 'thumbnail' => 'artwork_thumbnail',
+            $size === 'large' => 'artwork_large',
+            default => 'artwork',
+        };
     }
 
     public function banner(): BelongsTo

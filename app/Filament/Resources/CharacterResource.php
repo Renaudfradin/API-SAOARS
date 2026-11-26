@@ -234,6 +234,51 @@ class CharacterResource extends Resource
                     ->downloadable()
                     ->openable()
                     ->required(),
+
+                Section::make('Galerie')
+                    ->columns(2)
+                    ->columnSpanFull()
+                    ->schema([
+                        FileUpload::make('artwork')
+                            ->label(__('Artwork'))
+                            ->disk('scaleway')
+                            ->directory('galleries/characters/artwork')
+                            ->image()
+                            ->downloadable()
+                            ->openable(),
+
+                        FileUpload::make('artwork_thumbnail')
+                            ->label(__('Miniature'))
+                            ->disk('scaleway')
+                            ->directory('galleries/characters/artwork/thumbnail')
+                            ->image()
+                            ->downloadable()
+                            ->openable(),
+
+                        FileUpload::make('artwork_large')
+                            ->label(__('Grand format'))
+                            ->disk('scaleway')
+                            ->directory('galleries/characters/artwork/large')
+                            ->image()
+                            ->downloadable()
+                            ->openable(),
+
+                        FileUpload::make('artwork_limit_break')
+                            ->label(__('Limit break'))
+                            ->disk('scaleway')
+                            ->directory('galleries/characters/artwork/large')
+                            ->image()
+                            ->downloadable()
+                            ->openable(),
+
+                        FileUpload::make('artwork_limit_break_thumbnail')
+                            ->label(__('Miniature limit break'))
+                            ->disk('scaleway')
+                            ->directory('galleries/characters/artwork/thumbnail')
+                            ->image()
+                            ->downloadable()
+                            ->openable(),
+                    ]),
             ]);
     }
 

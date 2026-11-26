@@ -6,6 +6,8 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CharacterController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\HealthController;
+use App\Http\Controllers\HomeBackgroundController;
+use App\Http\Controllers\HomeCharacterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImaginationController;
 use App\Http\Controllers\WeaponController;
@@ -23,6 +25,8 @@ Route::get('/characters', [CharacterController::class, 'index']);
 Route::get('/character/random', [CharacterController::class, 'random']);
 
 Route::get('/character/{character:slug}', [CharacterController::class, 'show']);
+
+Route::get('/banners/random', [BannerController::class, 'random']);
 
 Route::get('/banners', [BannerController::class, 'index']);
 
@@ -45,5 +49,9 @@ Route::get('/imaginations', [ImaginationController::class, 'index']);
 Route::get('/imagination/{imagination:slug}', [ImaginationController::class, 'show']);
 
 Route::get('/weapons', [WeaponController::class, 'index']);
+
+Route::get('/home-characters', [HomeCharacterController::class, 'index']);
+
+Route::get('/home-backgrounds', [HomeBackgroundController::class, 'index']);
 
 Route::get('/weapon/{weapon:slug}', [WeaponController::class, 'show']);
