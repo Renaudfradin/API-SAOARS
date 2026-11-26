@@ -60,8 +60,10 @@ it('stores banner, equipment and weapon images without replacing a custom file',
     $weapon->refresh();
 
     expect($banner->img)->toBe('banner/fr/scout_4.jpg')
+        ->and($banner->image_locales)->toBe(['fr', 'en', 'tw', 'ko', 'de', 'es'])
         ->and($banner->artworkUrl('fr'))->toBe(Storage::disk('scaleway')->url('banner/fr/scout_4.jpg'))
         ->and($banner->artworkUrl('en'))->toBe(Storage::disk('scaleway')->url('banner/en/scout_4.jpg'))
+        ->and($banner->artworkUrl('ja'))->toBe(Storage::disk('scaleway')->url('banner/fr/scout_4.jpg'))
         ->and($banner->artworkFallbackUrl())->toBe(Storage::disk('scaleway')->url('banner/en/scout_4.jpg'))
         ->and($custom->fresh()->img)->toBe('banner/custom-art.jpg')
         ->and($equipment->image)->toBe('equipment/stuff_31.jpg')

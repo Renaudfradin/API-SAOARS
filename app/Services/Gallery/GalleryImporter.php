@@ -277,10 +277,22 @@ class GalleryImporter
             }
         }
 
-        $img = $stored['fr'] ?? $stored['en'] ?? null;
+        $suffixes = array_keys($stored);
+        $img = $stored['fr'] ?? $stored['en'] ?? ($suffixes === [] ? null : $stored[$suffixes[0]]);
+        $locales = array_values(array_unique($suffixes));
+        $dirty = false;
 
         if ($img !== null && $banner->img !== $img) {
             $banner->img = $img;
+            $dirty = true;
+        }
+
+        if ($locales !== [] && $banner->image_locales !== $locales) {
+            $banner->image_locales = $locales;
+            $dirty = true;
+        }
+
+        if ($dirty) {
             $banner->save();
         }
     }

@@ -25,6 +25,7 @@ class Banner extends Model
         'from',
         'to',
         'img',
+        'image_locales',
         'character_ids',
         'fanadata_id',
     ];
@@ -34,6 +35,7 @@ class Banner extends Model
         return [
             'from' => 'datetime',
             'to' => 'datetime',
+            'image_locales' => 'array',
             'character_ids' => 'array',
             'fanadata_id' => 'integer',
         ];
@@ -46,8 +48,13 @@ class Banner extends Model
 
     public function artworkUrl(?string $locale = null): ?string
     {
-        if ($this->hasLocalizedArtwork()) {
-            return Media::url($this->localizedArtworkPath($locale));
+        $available = $this->artworkSuffixes();
+
+        if ($available !== [] && $this->fanadata_id) {
+            $suffix = Locales::FANADATA_SUFFIX[$locale ?? 'en'] ?? 'en';
+            $chosen = in_array($suffix, $available, true) ? $suffix : $this->preferredSuffix($available);
+
+            return Media::url($this->localizedArtworkPath($chosen));
         }
 
         if (! $this->usesSharedArtwork() || ! $this->fanadata_id) {
@@ -65,8 +72,12 @@ class Banner extends Model
             return null;
         }
 
-        if ($this->hasLocalizedArtwork()) {
-            return Media::url($this->localizedArtworkPath('en'));
+        $available = $this->artworkSuffixes();
+
+        if ($available !== []) {
+            return in_array('en', $available, true)
+                ? Media::url($this->localizedArtworkPath('en'))
+                : null;
         }
 
         if (! $this->usesSharedArtwork()) {
@@ -76,16 +87,44 @@ class Banner extends Model
         return 'https://saoub.fanadata.com/assets/banners/en/scout_'.(int) $this->fanadata_id.'.jpg';
     }
 
-    public function localizedArtworkPath(?string $locale = null): string
+    public function localizedArtworkPath(string $suffix): string
     {
-        $suffix = Locales::FANADATA_SUFFIX[$locale ?? 'en'] ?? 'en';
-
         return 'banner/'.$suffix.'/scout_'.(int) $this->fanadata_id.'.jpg';
     }
 
-    private function hasLocalizedArtwork(): bool
+    /**
+     * Locales whose file is actually on disk. A path stored in img counts
+     * even before image_locales has been backfilled.
+     *
+     * @return list<string>
+     */
+    private function artworkSuffixes(): array
     {
-        return (bool) $this->fanadata_id && str_contains((string) $this->img, '/scout_');
+        $stored = $this->image_locales;
+
+        if (is_array($stored) && $stored !== []) {
+            return array_values(array_unique(array_map(strval(...), $stored)));
+        }
+
+        if (preg_match('#^banner/([^/]+)/scout_\d+\.jpg$#', (string) $this->img, $matches) === 1) {
+            return [$matches[1]];
+        }
+
+        return [];
+    }
+
+    /**
+     * @param  list<string>  $available
+     */
+    private function preferredSuffix(array $available): string
+    {
+        foreach (['fr', 'en'] as $suffix) {
+            if (in_array($suffix, $available, true)) {
+                return $suffix;
+            }
+        }
+
+        return $available[0];
     }
 
     private function usesSharedArtwork(): bool
